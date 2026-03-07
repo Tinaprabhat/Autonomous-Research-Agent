@@ -1,0 +1,662 @@
+[
+  {
+    "text": "Few-shot Learning with Meta Metric Learners\nYu Cheng1\nMo Yu2\nXiaoxiao Guo2\nBowen Zhou3\n1 Microsoft AI & Research,\n2IBM Research AI,\n3JD AI Research\nyu.cheng@microsoft.com\n{yum,xiaoxiao.guo}@ibm.com\nbowen.zhou@jd.com\nAbstract",
+    "chunk_id": 0,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "bowen.zhou@jd.com\nAbstract\nFew-shot Learning aims to learn classifiers for new classes with only a few training\nexamples per class. Existing meta-learning or metric-learning based few-shot\nlearning approaches are limited in handling diverse domains with various number",
+    "chunk_id": 1,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "of labels. The meta-learning approaches train a meta learner to predict weights\nof homogeneous-structured task-specific networks, requiring a uniform number\nof classes across tasks. The metric-learning approaches learn one task-invariant",
+    "chunk_id": 2,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "metric for all the tasks, and they fail if the tasks diverge. We propose to deal with\nthese limitations with meta metric learning. Our meta metric learning approach\nconsists of task-specific learners, that exploit metric learning to handle flexible",
+    "chunk_id": 3,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "labels, and a meta learner, that discovers good parameters and gradient decent to\nspecify the metrics in task-specific learners. Thus the proposed model is able to\nhandle unbalanced classes as well as to generate task-specific metrics. We test our",
+    "chunk_id": 4,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "approach in the \u2018k-shot N-way\u2019 few-shot learning setting used in previous work\nand new realistic few-shot setting with diverse multi-domain tasks and flexible\nlabel numbers. Experiments show that our approach attains superior performances\nin both settings.\n1\nIntroduction",
+    "chunk_id": 5,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "in both settings.\n1\nIntroduction\nSupervised deep learning methods have been successfully applied to many applications such as\ncomputer vision, speech recognition and natural language processing. In practice, those methods",
+    "chunk_id": 6,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "usually require large amount of labeled data for model training, in order to make the learned model\ngeneralize well. However, collecting sufficient amount of training data for each task needs a lot of\nhuman-labeling work and the process is time-consuming.",
+    "chunk_id": 7,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Few-shot learning [1] was proposed to learn classifiers for new classes with only a few training\nexamples per class. Two key ideas of few-shot learning are data aggregation and knowledge sharing.\nFirst, though each few-shot learning task may lack sufficient training data, the union of all the tasks",
+    "chunk_id": 8,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "will provide significant amount of labeled data for model training. Therefore the model training\nand prediction on a new coming few-shot could benefit from all the learned tasks. Secondly, the\nexperiences of learning model parameters for a large number of tasks in the past will assist the",
+    "chunk_id": 9,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "learning process of the incoming new task. The few-shot learning idea has recently been combined\nwith the deep learning techniques in two main lines of works: (1) learning metric/similarity from\nmultiple few-shot learning tasks with deep networks [2, 3]; and (2) learning a meta-model on multiple",
+    "chunk_id": 10,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "few-shot learning tasks, which could be then used to predict model weights given a new few-shot\nlearning task [4\u20136].\nThe aforementioned deep few-shot learning models usually are applied to the so called \u201ck-shot,",
+    "chunk_id": 11,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "N-way\u201d scenario, in which each few-shot learning task has the same N number of class labels\nand each label has k training instances. However, such \u201cN-way\u201d simplification is not realistic in\nreal-world few-shot learning applications, because different tasks usually do not have the same",
+    "chunk_id": 12,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "number of labels. Existing meta-learning approaches build on the \u201cN-way\u201d simplification to let\nthe meta-learner predict weights of homogeneous-structured task-specific networks. If we allow\n31st Conference on Neural Information Processing Systems (NIPS 2017), Long Beach, CA, USA.",
+    "chunk_id": 13,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "arXiv:1901.09890v1  [cs.LG]  26 Jan 2019\nFigure 1: Computational graph of the forward pass of meta metric learner. Each (xi, yi) is the ith\nbatch sampled from Dtrain and (x, y) are all the samples of Dtrain. Analogously, each (\u02c6xi, \u02c6yi) is the",
+    "chunk_id": 14,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "ith batch sampled from Dtest and (\u02c6x, \u02c6y) are all the samples of Dtest. The dashed arrows indicate\nthat the gradient is not back-propagated though that step when training the meta metric learner. We\nrefer to the matching network learner as M with two encoders named g and f, and M(x, \u02c6x, y; \u03b8T ) is",
+    "chunk_id": 15,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "the output of learner M.\ndifferent tasks work with different number of labels, the task-specific networks will be heterogeneous.\nHeterogeneous-structured task-specific networks complicate the weight prediction of the meta-learner.",
+    "chunk_id": 16,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "To the best of our knowledge, none of the existing meta-learning based few-shot learning approaches\ncould resolve this issue. Although the metric-learning approaches could alleviate the variations on",
+    "chunk_id": 17,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "class labels, they suffer from the limitation of model expressiveness: these methods usually learn a\ntask-invariant metric for all the few-shot learning tasks. However, because of the variety of tasks, the",
+    "chunk_id": 18,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "optimal metric will also vary across tasks. The learned task-invariant metric would fail if the tasks\ndiverge.\nMoreover, in real world applications, the few-shot learning tasks usually come from different domains",
+    "chunk_id": 19,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "or different resources. For example, for sentiment classification of product reviews, we could have\nproducts from different product departments on an e-commerce platform like Amazon. For an\nmachine learning cloud service, there may be different clients submitting training data for their own",
+    "chunk_id": 20,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "business tasks. The tasks from different clients may deal with different problems, such as spam\ndetection or sentiment classification. In such few-shot learning scenario, the two aforementioned\nissues of existing few-shot learning approaches will become more serious: the numbers and meanings",
+    "chunk_id": 21,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "of class labels may vary a lot among different tasks, so it will be hard for a meta-learner to learn how\nto predict weights for heterogeneous neural networks given the few-shot labeled data; and different",
+    "chunk_id": 22,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "tasks are not guaranteed to be even closely related to each other, so there will unlikely exits a uniform\nmetric suitable for all the tasks from different domains or resources.\nWe propose to deal with the limitations of previous work with meta metric learning. The model",
+    "chunk_id": 23,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "consists of two main learning modules (Figure 1). The meta learner that operates across tasks uses\nan LSTM-based architecture to discover good parameters and gradient decent in task-specific base\nlearners. The base learners exploit Matching Networks [3] and parameterize the task metrics using the",
+    "chunk_id": 24,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "weight prediction from the meta-learner. Thus the proposed model is now able to handle unbalanced\nclasses in meta-train and meta-test sets as the usage of Matching Network as well as to generate\ntask-specific metrics leveraging the weight prediction of the meta-learner given task instances.",
+    "chunk_id": 25,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "We make the following contributions: (1) we improve the existing few-shot learning work to handle\nvarious class labels; (2) we further enable the model to learn task specific metrics via training a meta",
+    "chunk_id": 26,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "learner and (3) we are the first to investigate few-shot deep learning methods in the text domains. The\ncontributions (1) and (2) make our approach suit better to the real few-shot learning scenarios where",
+    "chunk_id": 27,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "different tasks have various numbers of class labels and could come from different domains. We test\nour approach in the classic \u201ck-shot N-way\u201d few-shot learning setting following previous work and a\nnew but more realistic few-shot setting with diverse multi-domain tasks and flexible label numbers.",
+    "chunk_id": 28,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Experiments show that our approach attains superior performance on both settings.\n2\n2\nBackgrounds on Few-Shot Learning\nFew-Shot Learning (FSL) [1, 7] aims to learn classifiers for new classes with only a few training",
+    "chunk_id": 29,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "examples per class. Bayesian Program Induction [8] represents concepts as simple programs that\nbest explain observed examples under a Bayesian criterion. Siamese neural networks rank similarity\nbetween inputs [2]. Matching Networks [3] map a small labeled support set and an unlabeled example",
+    "chunk_id": 30,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "to its label, obviating the need for fine-tuning to adapt to new class types. Siamese neural networks\nand Machine Networks essentially learn one metric for all the tasks, but to use only one metric is\nsub-optimal when the tasks are diverse. Recently, an LSTM-based meta-learner [5] learns the exact",
+    "chunk_id": 31,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "optimization algorithm used to train another learner neural network classifier for the few-shot learning\nproblems. However, it requires a uniform number of classes across tasks. Our FSL approach could\nhandle the challenges of diverse tasks with flexible labels.\n2.1\nMatching Network",
+    "chunk_id": 32,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "2.1\nMatching Network\nMatching network [3] is a recent model developed for few-shot learning in computer vision applica-\ntions. We adapt it to handle flexible class numbers in our Meta Metric Learner for both single-task",
+    "chunk_id": 33,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "and multi-task few-shot learning problems. Matching networks consist of two neural network (with\nshared parameters) as embedding functions and an augmented memory. The embedding functions,\nf() and g(), map a review paragraph x \u2208X to a N-length vector, i.e., f, g : X \u2192RN. The",
+    "chunk_id": 34,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "augmented memory stores a support set S = {(xi, yi)}k\ni=1, where xi is the supporting instance and\nyi is its corresponding label in a one-hot format. The matching networks explicitly define a classifier",
+    "chunk_id": 35,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "cS conditioned on the supporting set. For any new data \u02c6x, the matching network predicts its label via\na similarity function \u03b1(., .) between the instance and the support set:\ny = P(.|\u02c6x, S) =\nk\nX\ni=1\n\u03b1(\u02c6x, xi; \u03b8)yi.\n(1)",
+    "chunk_id": 36,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "y = P(.|\u02c6x, S) =\nk\nX\ni=1\n\u03b1(\u02c6x, xi; \u03b8)yi.\n(1)\nSpecifically, we define the similarity function to be a softmax distribution given the inter-product\nbetween the test instance \u02c6x and the supporting instance xi, i.e., \u03b1(\u02c6x, xi; \u03b8) = exp(f(\u02c6x) \u00b7\ng(xi))/ Pk",
+    "chunk_id": 37,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "g(xi))/ Pk\nj=1 exp(f(\u02c6x) \u00b7 g(xj)), where \u03b8 are the parameters of the embedding functions f and\ng. Thus, y is a distribution over the supporting set\u2019s labels {yi}k\ni=1. We choose f to be convolutional\nneural networks following [9, 10].\nTraining Objective",
+    "chunk_id": 38,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Training Objective\nThe original training objective of Matching network is specialized to match\nthe test condition to the training condition for few-shot learning settings. We first sample a few-shot\ndataset D from all available datasets T, D \u223cT. For each class in the sampled dataset D, we sample",
+    "chunk_id": 39,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "k random instances in that class to construct a support set S, and sample a batch of training instances\nB as training examples, i.e., B, S \u223cD. The objective function to optimize the embedding parameters",
+    "chunk_id": 40,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "is to minimize the prediction error of the training samples given the supporting set as the follow:\nE\nD\u223cT\nh\nE\nB,S\u223cD\n\u0002\nX\n(x,y)\u2208B\nlog(P(y|x, S; \u03b8))\n\u0003i\n.\n(2)\nThe parameters of the embedding function, \u03b8, are optimized via stochastic gradient descent methods.\n2.2\nMeta Learning",
+    "chunk_id": 41,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "2.2\nMeta Learning\nMeta-learning (also known as Learning to learn) has a long history [11, 12]. The key idea is framing\nthe learning problem at two levels: the first is the quick acquisition of knowledge from each separate",
+    "chunk_id": 42,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "task presented and the second is accumulating these knowledge to learn the similarities and difference\nacross all tasks. A recent approach to meta-learning [13] casts the hand-designed optimization\nalgorithm as a learning problem, and trains an LSTM-based meta-learner to predict model parameters.",
+    "chunk_id": 43,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "An LSTM-based meta-learner [5] was applied to few-shot learning tasks.\nThe procedure of training a learner with parameters \u03b8 can be expressed as the problem of optimizing\nsome loss function L(\u03b8) over some domain. The standard optimization algorithms are some variant\nof gradient descend:",
+    "chunk_id": 44,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "of gradient descend:\n\u03b8t+1 = \u03b8t \u2212\u03b1t+1\u2207L(\u03b8t)\n(3)\n3\nwhere \u03b8t are the learner parameters after t update steps, \u03b1t+1 is the learning rate at time step\nt + 1, \u2207L(\u03b8t) is the gradient of the loss function with respect to parameters \u03b8t, and \u03b8t+1 are the",
+    "chunk_id": 45,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "updated parameters of the learner. The LSTM-based meta-learner leverages that the update of learner\nparameters resembles the update of the cell state in an LSTM [14]:\nct+1 = ft+1 \u2299ct + it+1 \u2299ect+1\n(4)",
+    "chunk_id": 46,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "ct+1 = ft+1 \u2299ct + it+1 \u2299ect+1\n(4)\nIf we set the cell state of LSTM to be the parameters of the learner, i.e. ct = \u03b8t, the candidate cell\nstate ect+1 = \u2212\u2207L(\u03b8t), the output of forget gate ft+1 = 1, and the output of input gate it+1 = \u03b1t+1,",
+    "chunk_id": 47,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "these two update procedures are completely the same. it+1 and ft+1 determine how the meta-learner\nupdates the parameters of learner. Thus, an LSTM can be trained as a meta-learner to learn an update\nrule for training a learner (such as a neural network).\n3\nMeta Metric Learner for Few-Shot Learning",
+    "chunk_id": 48,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "3\nMeta Metric Learner for Few-Shot Learning\nIn this section, we first describe the meta metric-learner in a single-task setting. After that, we show\nit is easy to generalize the model in a multi-task learning setting, which relates to retrieve auxiliary\nsets from other sources/tasks.\n3.1",
+    "chunk_id": 49,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "sets from other sources/tasks.\n3.1\nMeta Metric Learner\nLet\u2019s consider the meta-learning in few-shot setting, on a data resource R with meta set D, where D\nconsists of three parts: Dmeta\u2212train, Dmeta\u2212validate and Dmeta\u2212test. Generally, in real applications,",
+    "chunk_id": 50,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "the number of classes in Dmeta\u2212train is different from that in Dmeta\u2212test. Although the CNN base\nlearner used in [5] is powerful to model image and text, it lacks an ability to handle unbalanced\nclasses in train and test datasets in a straightforward way. Matching networks, on the other hand, as a",
+    "chunk_id": 51,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "trainable kNN and non-parametric algorithm by nature, can generalize easily to any new datasets,\neven if the number of classes are different. Hence, we apply the LSTM Meta-learner in [5] for\nfew-shot learning tasks, but replace the CNN with Matching Networks as the base learner, so that",
+    "chunk_id": 52,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "it can tackle class-unbalanced few-shot learning problems. Matching networks is a kind of metric\nlearning algorithm, and we train it using an LSTM-based meta-learner, so we call our method Meta\nMetric Learner.",
+    "chunk_id": 53,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Metric Learner.\nSuppose we have a meta metric learner with parameters \u03b8 from the base learner M and \u0398 from meta\nlearner R. We can use the meta-train set Dmeta\u2212train to train the LSTM-based meta-learner. When",
+    "chunk_id": 54,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "using the trained meta-learner and meta-test set Dmeta\u2212test to update the parameters of base learner,\ni.e. a matching networks, it takes as input the loss and its gradient w.r.t parameters of matching\nnetworks. Thus we need labels of both train data and test data to compute them, which means we",
+    "chunk_id": 55,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "need more than one labeled data from meta-test set. This is fine in few-shot learning problems (using\na subset of Dmeta\u2212test), but violates the assumption of one-shot learning. For class-unbalanced\none-shot learning problems, we propose to exploit resource from other tasks to update the parameters",
+    "chunk_id": 56,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "of matching networks. The auxiliary set is named Daux. How to choose appropriate auxiliary dataset\nis described in the next section.\nThe meta metric learning training algorithm is shown in Algorithm 1 and the framework is also shown",
+    "chunk_id": 57,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "in Figure 1. It is notable that even for few shot learning (k \u0338= 1) with multi-tasks resource, we do\nnot necessarily to use the subset Dsub. The auxiliary set Daux can be used to support the training of",
+    "chunk_id": 58,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "base learner. In such situation, the learning algorithm could save resource as well as having a good\ngeneralization power.\n3.2\nAuxiliary Task Retrieval via Task-Level Matching Networks\nIn this section, we discuss how to choose the auxiliary set Daux. The intuition is, in many real world",
+    "chunk_id": 59,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "applications, we could get few-shot learning data from multiple tasks (sources), such as different text\nclassification tasks on dialogues. Such resources from multiple tasks could significantly increase the",
+    "chunk_id": 60,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "training data for our few-shot learning method as well as the previous few-shot learning methods as\ndescribed in Section 2. However there is rarely a guarantee that those different tasks are related to",
+    "chunk_id": 61,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "each other. When the tasks are from unrelated resources, it will be difficult for the existing few-shot\nlearning methods to learn a good metric or a good meta-learner. In this case when adding more",
+    "chunk_id": 62,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "significantly unrelated training resources, the performance may decrease. To overcome this difficulty,\n4\nAlgorithm 1 Meta Metric Learner Training\nInput:\nMeta-train set Dmeta\u2212train, Meta-test set Dmeta\u2212test, auxiliary set Daux or meta-test subset",
+    "chunk_id": 63,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Dsub, Matching networks learner M with parameters \u03b8, Meta-Learner R with parameters \u0398\n1:\n2: ****Meta-training****\n3: \u03980 \u2190random initialization\n4: for d = 1, n do\n5:\nDd\ntrain, Dd\ntest \u2190random sampled dataset from Dmeta\u2212train\n6:\n\u03b80 \u2190c0\n7:\nfor t = 1, T do\n8:\nxt, yt \u2190random batch sampled from Dd\ntrain",
+    "chunk_id": 64,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "8:\nxt, yt \u2190random batch sampled from Dd\ntrain\n9:\n\u02c6xt, \u02c6yt \u2190random batch sampled from Dd\ntest\n10:\nLt \u2190L(M(xt, \u02c6xt, yt; \u03b8t\u22121), \u02c6yt)\n11:\nct \u2190R((\u2207\u03b8t\u22121Lt, Lt)); \u0398d\u22121)\n12:\n\u03b8t \u2190ct\n13:\nend for\n14:\nx, y \u2190all samples from Dd\ntrain\n15:\n\u02c6x, \u02c6y \u2190all samples from Dd\ntest\n16:\nLtest \u2190L(M(x, \u02c6x, y; \u03b8T ), \u02c6y)\n17:",
+    "chunk_id": 65,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "test\n16:\nLtest \u2190L(M(x, \u02c6x, y; \u03b8T ), \u02c6y)\n17:\nUpdating \u0398d using \u2207\u0398d\u22121Ltest\n18: end for\n19:\n20: ****Updating Learner Parameters****\n21: Dtrain, Dtest \u2190random sampled dataset from Daux or Dsub\n22: \u03b80 \u2190c0\n23: for t = 1, T do\n24:\nxt, yt \u2190random batch sampled from Dtrain\n25:",
+    "chunk_id": 66,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "24:\nxt, yt \u2190random batch sampled from Dtrain\n25:\n\u02c6xt, \u02c6yt \u2190random batch sampled from Dtest\n26:\nLt \u2190L(M(xt, \u02c6xt, yt; \u03b8t\u22121), \u02c6yt)\n27:\nct \u2190R((\u2207\u03b8t\u22121Lt, Lt)); \u0398n)\n28:\n\u03b8t \u2190ct\n29: end for\ngiven a target task for few-shot learning, we propose the following approach to select related tasks\nfollowing [15].",
+    "chunk_id": 67,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "following [15].\nSpecifically, consider a list of n tasks (such as a list of domains in sentiment analysis, or a list of\nalphabets in hand-writing recognition) T = {T 1, T 2, ..., T n}. From each task T i we could sample\nfew-shot learning data sets Di\njs. Because the Di",
+    "chunk_id": 68,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "few-shot learning data sets Di\njs. Because the Di\njs are usually too small to reflect any statistical\nrelatedness among them, our approach deal with the problem at the task-level with the following\nsteps: (1) For each data resource T i we merge all the data sets Di\nj together and train a matching",
+    "chunk_id": 69,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "j together and train a matching\nnetwork M i on it1. (2) For the target task T target, on its combined task we apply each model M i to\nget the accuracy acci\u2192k. Note that the accuracy scores are usually low but their relative magnitudes",
+    "chunk_id": 70,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "could reflect the relatedness between different tasks to T target. (3) Finally we select the top s tasks\nT i with the highest scores acci\u2192k as the auxiliary set Daux for the target task T target.\n4\nExperimental Results",
+    "chunk_id": 71,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "4\nExperimental Results\nIn this section, we execute experiment with k-shot learning in multi-task setting. The experiments are\nran on three data sets: two text classification sets and one image classification set, comparing meta",
+    "chunk_id": 72,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "metric-learner model against several strong baselines. We first describe the datasets, experimental\nsettings and baseline models.\n1On each T i, this step works the same as the standard matching network approach under the single-task\nsetting.\n5\nDatasets",
+    "chunk_id": 73,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "setting.\n5\nDatasets\nWe introduce three datasets, which can be used in multi-task setting: 1) Sentence Clas-\nsification Service (SCS): The data set is from an on-line service which trains and serves text",
+    "chunk_id": 74,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "classification models for different clients for their business purposes. The number of total clients is\n12, and the number of classes per clients ranges from 10 to 28. 2) Omniglot: the data comes with a",
+    "chunk_id": 75,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "standard split of 30 training alphabets with 964 classes and 20 evaluation alphabets with 659 classes.\nEach of these was hand drawn by 20 different people. The large number of classes (characters) with",
+    "chunk_id": 76,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "20 data per class; 3) Amazon Reviews: this corresponds a multi-domain sentiment classification data\nset from [16]. The dataset consists of Amazon product reviews for 25 product types. Each review\u2019s\nlabel is a rating based on 1-5 stars2.\nBaseline Models",
+    "chunk_id": 77,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Baseline Models\nThe first baseline we used is Matching Network. We implemented our own\nversion of both the basic and the fully-conditional embedding (FCE) versions. The Second baseline\nis Meta-Learner LSTM. We implemented our own version according to [5], which takes similar",
+    "chunk_id": 78,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "structures, dropping out and batch normalization.\nCNN architectures\nWe exploit two different CNN architecture used in all the methods: 1) for text,\nwe used a simple yet powerful CNN [9] as the embedding function, which consists of a convolution",
+    "chunk_id": 79,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "layer and a max-pooling operation over the entire sentence for each feature map. The model uses\nmultiple filters with varying window sizes h(h = 3, 4, 5). Word embedding are initialized with\n100-dimensional Glove embeddings trained on 6B corpus from [17]; 2) for image, the 2D CNN",
+    "chunk_id": 80,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "architecture in [3] is used, which consists of a stack of modules, a 3 \u00d7 3 convolution with 64 filters\nfollowed by batch normalization, a Relu non-linearity and 2 \u00d7 2 max-pooling.\nHyper-paramters\nThere are several hyper-parameters required for meta-learner, matching network",
+    "chunk_id": 81,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "and CNNs. All of them are tuned in the validation set.\n4.1\nMulti-tasks/domains Setting\nSentence Classification Service (SCS)\nOn SCS, the data of each clients can be viewed as a task.\nFor each set, we randomly sample 50% data into a meta-training set, 20% into a meta-validation set,",
+    "chunk_id": 82,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "and assign the rest data into the meta-test set. For each sample, we did stop-word removal/tokenization\nwith the CMU NLP tool [18] for the preprocessing. Since there are large number of clients on the",
+    "chunk_id": 83,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "service, random sampling auxiliary tasks has low chance to find related tasks. As a result, we use the\nmethod in Section 3.2 to retrieve top 10 related tasks from the 175-task pool. Then we train all the",
+    "chunk_id": 84,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "few-shot learning methods on the sampled tasks together with the meta-training set. The baseline,\nmatching network is trained iteratively with one sampled task data each time. Obvious, meta-learner\nLSTM can not take the additional data and is only trained with the meta-training set.",
+    "chunk_id": 85,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "After that, all the approaches are evaluated on the meta-test set with 5 samples per class. The\nvalidation set is used to adjust the hyper-parameter of the model. Results comparing the baselines to\nour model on SCS are shown in Table 1, for both 1-shot and 5-shot setting. Meta Metric-learners",
+    "chunk_id": 86,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "achieve the best accuracies over all the methods. Even with the help of additional sources, the\nperformance of matching network is not better than meta-learner LSTM.\nTable 1: Comparisons between the models and their baselines on the real-world sentence classification",
+    "chunk_id": 87,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "tasks from multiple resources (SCS).\nModel\nMatching Fn\nAdditional Data\nAverage Acc\n1-shot\n5-shot\nMatching Network\nBasic\nY\n53.59%\n68.73%\nMatching Network\nFCE\nY\n54.24%\n70.28%\nMeta-learner LSTM\n-\nN\n56.98%\n72.54%\nMeta Metric-learner\nBasic\nY\n57.62%\n73.83%\nMeta Metric-learner\nFCE\nY\n58.13%\n74.54%",
+    "chunk_id": 88,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "73.83%\nMeta Metric-learner\nFCE\nY\n58.13%\n74.54%\n2Data from http://www.cs.jhu.edu/ mdredze/datasets/sentiment/. The 3-star samples were re-\nmoved due to their ambiguous nature [16].\n6\nOmniglot\nFor Omniglot, each task corresponds to an alphabet, and the total is number of 50. We",
+    "chunk_id": 89,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "randomly choose 20 tasks in this experiment. Considering multi-task setting for Omniglot has a clear\nmotivation, as cross-alphabet knowledge sharing is likely to be useful. We use a similar strategy",
+    "chunk_id": 90,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "to find related top-s (s is different according to different tasks) tasks and train the metric learner.\nThe following setting is used: splitting each task with 5:2:3 as meta-training, meta-validation and",
+    "chunk_id": 91,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "meta-testing. The validation set is used to tune the hyper-parameters. We use 10 examples per class\nfor evaluation in each test set. Results comparing the baselines to our model on Omniglot are shown",
+    "chunk_id": 92,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "in Table 2. For 1-shot and 5-shot, our model can achieve better classification accuracies than others.\nWith the help of more resources, matching network can beat meta-learner LSTM around 2-3%.\nTable 2: Comparisons between the models and their baselines on Omniglot.\nModel\nMatching Fn\nAdditional Data",
+    "chunk_id": 93,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Model\nMatching Fn\nAdditional Data\nAverage Acc\n1-shot\n5-shot\nMatching Network\nBasic\nY\n94.62%\n98.37%\nMatching Network\nFCE\nY\n95.84%\n98.65%\nMeta-learner LSTM\n-\nN\n93.54%\n97.22%\nMeta Metric-learner\nBasic\nY\n95.32%\n98.56%\nMeta Metric-learner\nFCE\nY\n95.79%\n98.83%\nAmazon Reviews",
+    "chunk_id": 94,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "FCE\nY\n95.79%\n98.83%\nAmazon Reviews\nWe treat each product category as a task and the goal is classify each sample into\none of four categories. We select one domain as the target few-shot learning task. For the rest tasks,",
+    "chunk_id": 95,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "we select 5 tasks from them to train the metric-learner and 1 task used as the meta-validation set to\nsearch over hyper-parameters. At each iteration, data from one task is sampled to train the models.\nUnder such condition, Meta-learner LSTM can take the benefit of using additional samples from",
+    "chunk_id": 96,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "other tasks. We use 5 sentence per class for evaluation in each test set. The results are shown in Table\n3. The meta-learner attains result that are better than the baselines discussed. For 5-shot, we are able",
+    "chunk_id": 97,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "to improved matching network more than 5%, whereas for 1-shot, the results are still competitive and\noutperform the second-best around 2%. It is a little surprising that LSTM meta-learners can not work",
+    "chunk_id": 98,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "well on this dataset, with/without additional data, showing that using sample of different sources to\njointly train meta-learner is not help.\nTable 3: Comparisons between the models and their baselines on Amazon Reviews.\nModel\nMatching Fn\nAdditional Data\nAverage Acc\n1-shot\n5-shot\nMatching Network",
+    "chunk_id": 99,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Average Acc\n1-shot\n5-shot\nMatching Network\nBasic\nY\n44.25%\n51.92%\nMatching Network\nFCE\nY\n47.18%\n54.64%\nMeta-learner LSTM\n-\nN\n42.69%\n51.36%\nMeta-learner LSTM\n-\nY\n43.47%\n52.05%\nMeta Metric-learner\nBasic\nY\n48.25%\n58.44%\nMeta Metric-learner\nFCE\nY\n49.38%\n60.82%\n4.2\nSingle Task Setting",
+    "chunk_id": 100,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "FCE\nY\n49.38%\n60.82%\n4.2\nSingle Task Setting\nTo demonstrate the effectiveness of our meta metric learner, we also execute experiments for single\ntask/resource, on Sentence Classification Service and Omniglot datasets, in which no auxiliary set",
+    "chunk_id": 101,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Daux is available from other tasks. Thus we need to perform k \u22172-shot learning (k = 1, 2), i.e., for\neach class, we split its samples into two parts equally, to update the model and base learner jointly.",
+    "chunk_id": 102,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Two separate splits are used: 1) 50%, 20%, and 30% classes for training, validation and testing, 2)\n30%, 20%, and 50% classes for training, validation and testing. For 1), k\u2212shot,N-way classification\nis performed. 2) is a challenging setting since the number of classes in meta-train is smaller than",
+    "chunk_id": 103,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "meta-test. We use all classes in Dmeta\u2212train and Dmeta\u2212test, which is different from k-shot,N-way\nsetting. For both splits, the validation set is used to adjust the hyper-parameters. To have a fair\ncomparison, all the baselines trained with k \u22172 samples per class according to their own recipes.",
+    "chunk_id": 104,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "For SCS, all 10 tasks are used in the evaluation and the results are shown in Table 4. All the results\nare measured after 10 runs. It is notable that for 3 vs. 5 split, meta-learner LSTM is not able to be\nemployed. In both 2 and 4 shot, our model outperforms the other methods. The performance of\n7",
+    "chunk_id": 105,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "7\nmeta-learner LSTM is slightly better than Matching Network. The classification accuracy of meta\nmetric-learner with FCE is higher than the basic version, which shows that FCE can improve the\nbasic one on SCS. On the other hand, it is obvious to see that the 3 vs. 5 split is a more challenging",
+    "chunk_id": 106,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "task. Comparing the results in both cases, the performance of 3 vs. 5 is around 10% lower than 5 vs.\n3 cases.\nTable 4: Average classification accuracies on SCS of different approaches in single task setting.\nModel\nMatching Fn\n5 vs. 3 split\n3 vs. 5 split\n2-shot\n4-shot\n2-shot\n4-shot\nMatching Network",
+    "chunk_id": 107,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "2-shot\n4-shot\n2-shot\n4-shot\nMatching Network\nBasic\n59.42%\n68.65%\n48.15%\n57.28%\nMatching Network\nFCE\n59.57%\n68.91%\n48.74%\n57.31%\nMeta-learner LSTM\nBasic\n60.15%\n69.06%\n-\n-\nMeta Metric-learner\nBasic\n60.81%\n69.14%\n50.23%\n58.44%\nMeta Metric-learner\nFCE\n61.27%\n69.58%\n50.56%\n59.02%",
+    "chunk_id": 108,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "FCE\n61.27%\n69.58%\n50.56%\n59.02%\nOn Omniglot set, we randomly choose 20 tasks from the whole tasks in the evaluation. Same\nsetting and data split are used as in SCS. The results are reported after 15 runs and described in",
+    "chunk_id": 109,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Table 5. Similar trend is observed: the performance of meta metric-learners are better than others.\nMeta-learner LSTM and matching network achieve almost the same performance for 5 vs. 3 split.\nDifferent from SCS, considering the accuracies of two Meta Metric-learner, FCE function seems",
+    "chunk_id": 110,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "does not help a lot here.\nTable 5: Average classification accuracies on Omniglot of different approaches in single task setting.\nModel\nMatching Fn\n5 vs. 3 split\n3 vs. 5 split\n2-shot\n4-shot\n2-shot\n4-shot\nMatching Network\nBasic\n96.02%\n96.83%\n93.94%\n94.88%\nMatching Network\nFCE\n96.50%\n97.39%\n94.14%",
+    "chunk_id": 111,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "94.88%\nMatching Network\nFCE\n96.50%\n97.39%\n94.14%\n95.26%\nMeta-learner LSTM\n-\n96.54%\n97.45%\n-\n-\nMeta Metric-learner\nBasic\n97.24%\n98.33%\n95.77%\n96.32%\nMeta Metric-learner\nFCE\n97.38%\n98.47%\n95.69%\n96.24%\n5\nConclusion",
+    "chunk_id": 112,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "FCE\n97.38%\n98.47%\n95.69%\n96.24%\n5\nConclusion\nIn this paper, we proposed a meta metric learner for few-shot learning, which is a combination of\nan LSTM meta-learner and a base metric classifier. The proposed method takes several advantages",
+    "chunk_id": 113,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "such as is able to handle unbalanced classes as well as to generate task-specific metrics. Moreover,\nas shown in the results, using the meta-learner to guide gradient optimization in matching network",
+    "chunk_id": 114,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "seems to be a promising direction. We evaluate our model on several datasets, in both single task and\nmulti-tasks settings. The experiments demonstrate that our approach outperforms is very competitive\nto the state-of-the-art approaches for few-shot learning.",
+    "chunk_id": 115,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "There are several directions for future work. First, we will focus on selecting the data from related\ndomains/resources to support the training of meta metric learners. Secondly, it would be interest-\ning to propose an end-to-end framework of the meta-learner to leverage the data from different",
+    "chunk_id": 116,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "domains/sources/tasks for the training, instead of the current two-stages procedure. Finally, we would\nlike to move forward to apply the current framework in other applications, such as language modeling\n[19], machine translation [20] and vision applications [21].\nReferences",
+    "chunk_id": 117,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "References\n[1] Fei-Fei Li, Rob Fergus, and Pietro Perona. One-shot learning of object categories. IEEE\nTransactions on Pattern Analysis and Machine Intelligence, 28(4):594\u2013611, 2006.\n[2] Gregory Koch. Siamese neural networks for one-shot image recognition. 2015.",
+    "chunk_id": 118,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "[3] Oriol Vinyals, Charles Blundell, Tim Lillicrap, Daan Wierstra, et al. Matching networks for one\nshot learning. In Advances in Neural Information Processing Systems, pages 3630\u20133638, 2016.\n8\n[4] \u0141ukasz Kaiser, Ofir Nachum, Aurko Roy, and Samy Bengio. Learning to remember rare events.",
+    "chunk_id": 119,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "arXiv preprint arXiv:1703.03129, 2017.\n[5] Sachin Ravi and Hugo Larochelle. Optimization as a model for few-shot learning. In Interna-\ntional Conference on Learning Representations, volume 1, page 6, 2017.\n[6] Tsendsuren Munkhdalai and Hong Yu. Meta networks. arXiv preprint arXiv:1703.00837, 2017.",
+    "chunk_id": 120,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "[7] Erik G Miller, Nicholas E Matsakis, and Paul A Viola. Learning from one example through\nshared densities on transforms. 1:464\u2013471, 2000.\n[8] Brenden M Lake, Ruslan Salakhutdinov, and Joshua B Tenenbaum. Human-level concept",
+    "chunk_id": 121,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "learning through probabilistic program induction. Science, 350(6266):1332\u20131338, 2015.\n[9] Yoon Kim. Convolutional neural networks for sentence classification. pages 1746\u20131751,\nOctober 2014.\n[10] Rie Johnson and Tong Zhang. Supervised and semi-supervised text categorization using one-hot",
+    "chunk_id": 122,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "lstm for region embeddings. stat, 1050:7, 2016.\n[11] Sebastian Thrun and Lorien Pratt. Learning to learn: Introduction and overview. In Learning to\nlearn, pages 3\u201317. Springer, 1998.\n[12] J\u00fcrgen Schmidhuber, Jieyu Zhao, and Marco Wiering. Shifting inductive bias with success-",
+    "chunk_id": 123,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "story algorithm, adaptive levin search, and incremental self-improvement. Machine Learning,\n28(1):105\u2013130, 1997.\n[13] Marcin Andrychowicz, Misha Denil, Sergio Gomez, Matthew W Hoffman, David Pfau, Tom\nSchaul, and Nando de Freitas. Learning to learn by gradient descent by gradient descent. In",
+    "chunk_id": 124,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Advances in Neural Information Processing Systems, pages 3981\u20133989, 2016.\n[14] Sepp Hochreiter and J\u00fcrgen Schmidhuber. Long short-term memory. Neural computation,\n9(8):1735\u20131780, 1997.\n[15] Mo Yu, Xiaoxiao Guo, Jinfeng Yi, Shiyu Chang, Saloni Potdar, Yu Cheng, Gerald Tesauro,",
+    "chunk_id": 125,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Haoyu Wang, and Bowen Zhou. Diverse few-shot text classification with multiple metrics.\nIn Proceedings of the 2018 Conference of the North American Chapter of the Association for\nComputational Linguistics: Human Language Technologies, Volume 1 (Long Papers), pages\n1206\u20131215, 2018.",
+    "chunk_id": 126,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "1206\u20131215, 2018.\n[16] John Blitzer, Mark Dredze, and Fernando Pereira. Biographies, bollywood, boom-boxes and\nblenders: Domain adaptation for sentiment classification. In ACL, volume 7, pages 440\u2013447,\n2007.",
+    "chunk_id": 127,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "2007.\n[17] Jeffrey Pennington, Richard Socher, and Christopher D Manning. Glove: Global vectors for\nword representation. 14:1532\u20131543, 2014.\n[18] Kevin Gimpel, Nathan Schneider, Brendan O\u2019Connor, Dipanjan Das, Daniel Mills, Jacob",
+    "chunk_id": 128,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Eisenstein, Michael Heilman, Dani Yogatama, Jeffrey Flanigan, and Noah A Smith. Part-of-\nspeech tagging for twitter: Annotation, features, and experiments. In Proc. of ACL, 2011.\n[19] Yann N. Dauphin, Angela Fan, Michael Auli, and David Grangier. Language modeling with",
+    "chunk_id": 129,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "gated convolutional networks. CoRR, abs/1612.08083, 2016.\n[20] Di He, Yingce Xia, Tao Qin, Liwei Wang, Nenghai Yu, Tieyan Liu, and Wei-Ying Ma. Dual\nlearning for machine translation. pages 820\u2013828, 2016.\n[21] Yongxi Lu, Abhishek Kumar, Shuangfei Zhai, Yu Cheng, Tara Javidi, and Rog\u00e9rio Schmidt",
+    "chunk_id": 130,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  },
+  {
+    "text": "Feris. Fully-adaptive feature sharing in multi-task networks with applications in person attribute\nclassification. In 2017 IEEE Conference on Computer Vision and Pattern Recognition, CVPR\n2017, Honolulu, HI, USA, July 21-26, 2017, pages 1131\u20131140, 2017.\n9",
+    "chunk_id": 131,
+    "source": "data\\raw_papers\\Few-shot_Learning_with_Meta_Metric_Learners.pdf"
+  }
+]

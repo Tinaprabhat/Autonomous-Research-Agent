@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Research Agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0d0f0f;
+    --surface:  #131616;
+    --border:   #1f2424;
+    --border2:  #2a3030;
+    --text:     #e8eded;
+    --muted:    #6b7a7a;
+    --accent:   #4fffb0;
+    --accent2:  #ff6b4a;
+    --tag-bg:   #1a2420;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* ── Background grid ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header ── */
+  header {
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid var(--border2);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(13,15,15,0.85);
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.02em;
+    color: var(--text);
+  }
+  .logo span { color: var(--accent); }
+  .status-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    background: var(--tag-bg);
+    border: 1px solid var(--accent);
+    padding: 4px 10px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── Main layout ── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 40px 80px;
+  }
+
+  /* ── Hero / search area ── */
+  .hero {
+    margin-bottom: 52px;
+    animation: fadeUp 0.6s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(16px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 32px;
+    max-width: 480px;
+  }
+
+  /* ── Search box ── */
+  .search-wrap {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border2);
+    background: var(--surface);
+    transition: border-color 0.2s;
+  }
+  .search-wrap:focus-within { border-color: var(--accent); }
+
+  .search-wrap input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 16px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 300;
+  }
+  .search-wrap input::placeholder { color: var(--muted); }
+
+  .search-btn {
+    background: var(--accent);
+    color: #0d0f0f;
+    border: none;
+    padding: 0 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    white-space: nowrap;
+  }
+  .search-btn:hover { background: #6fffbc; }
+  .search-btn:active { transform: scale(0.98); }
+  .search-btn:disabled { background: var(--muted); cursor: not-allowed; }
+
+  /* ── Loading state ── */
+  .loading {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 32px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .loading.active { display: flex; }
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid var(--border2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-steps { display: flex; flex-direction: column; gap: 4px; }
+  .loading-step {
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.3s;
+    font-size: 0.72rem;
+  }
+  .loading-step.show { opacity: 1; transform: translateX(0); }
+
+  /* ── Results container ── */
+  #results { animation: fadeUp 0.5s ease both; }
+
+  /* ── Section label ── */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border2);
+  }
+
+  /* ── Answer card ── */
+  .answer-card {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--accent);
+    padding: 28px 32px;
+    margin-bottom: 36px;
+    position: relative;
+  }
+  .answer-card .answer-text {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--text);
+    font-weight: 300;
+  }
+  .answer-meta {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    display: flex;
+    gap: 20px;
+  }
+  .answer-meta span { color: var(--accent); }
+
+  /* ── Citations ── */
+  .citations-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 36px;
+  }
+  .citation-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+    cursor: default;
+  }
+  .citation-item:hover { border-color: var(--border2); }
+  .cite-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    background: var(--tag-bg);
+    border: 1px solid var(--accent);
+    min-width: 28px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .cite-content { flex: 1; }
+  .cite-title {
+    font-size: 0.88rem;
+    color: var(--text);
+    font-weight: 400;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .cite-authors {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Papers grid ── */
+  .papers-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .paper-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: pointer;
+  }
+  .paper-card:hover {
+    border-color: var(--accent2);
+    transform: translateX(3px);
+  }
+  .paper-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .paper-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text);
+    flex: 1;
+  }
+  .paper-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent2);
+    background: rgba(255,107,74,0.1);
+    border: 1px solid rgba(255,107,74,0.3);
+    padding: 3px 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .paper-authors {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .paper-abstract {
+    font-size: 0.83rem;
+    color: #8a9a9a;
+    line-height: 1.65;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .paper-footer {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.63rem;
+    color: var(--muted);
+    border: 1px solid var(--border2);
+    padding: 3px 8px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Error state ── */
+  .error-box {
+    border: 1px solid var(--accent2);
+    background: rgba(255,107,74,0.05);
+    padding: 16px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent2);
+    display: none;
+  }
+  .error-box.show { display: block; }
+
+  /* ── Empty state ── */
+  .empty-state {
+    text-align: center;
+    padding: 80px 0;
+    color: var(--muted);
+  }
+  .empty-state .big-char {
+    font-family: 'DM Serif Display', serif;
+    font-size: 4rem;
+    color: var(--border2);
+    display: block;
+    margin-bottom: 16px;
+  }
+  .empty-state p {
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+  .empty-state .examples {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .example-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    border: 1px solid var(--tag-bg);
+    background: var(--tag-bg);
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .example-chip:hover { border-color: var(--accent); }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Research<span>.</span>Agent</div>
+  <div class="status-pill">
+    <div class="status-dot"></div>
+    LOCAL · phi3:mini
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero + Search -->
+  <div class="hero">
+    <div class="hero-label">Autonomous Research System</div>
+    <h1>Ask anything.<br><em>Get research.</em></h1>
+    <p>Queries your local vector store, retrieves papers, and generates cited answers.</p>
+
+    <div class="search-wrap">
+      <input type="text" id="queryInput"
+             placeholder="e.g. What are the main approaches to meta-learning?"
+             autocomplete="off"/>
+      <button class="search-btn" id="searchBtn" onclick="handleSearch()">
+        RUN QUERY
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div class="loading-steps">
+      <div class="loading-step" id="step1">→ Embedding query...</div>
+      <div class="loading-step" id="step2">→ Retrieving relevant chunks...</div>
+      <div class="loading-step" id="step3">→ Reranking results...</div>
+      <div class="loading-step" id="step4">→ Generating answer...</div>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div class="error-box" id="errorBox"></div>
+
+  <!-- Results -->
+  <div id="results">
+
+    <!-- Empty state -->
+    <div class="empty-state" id="emptyState">
+      <span class="big-char">∂</span>
+      <p>Enter a research question above.<br>Results include answer, citations, and source papers.</p>
+      <div class="examples">
+        <div class="example-chip" onclick="fillExample(this)">meta-learning algorithms</div>
+        <div class="example-chip" onclick="fillExample(this)">few-shot learning approaches</div>
+        <div class="example-chip" onclick="fillExample(this)">transformer self-attention</div>
+        <div class="example-chip" onclick="fillExample(this)">gradient descent optimization</div>
+      </div>
+    </div>
+
+    <!-- Answer -->
+    <div id="answerSection" style="display:none">
+      <div class="section-label">Answer</div>
+      <div class="answer-card">
+        <div class="answer-text" id="answerText"></div>
+        <div class="answer-meta">
+          Model: <span id="answerModel">phi3:mini</span>
+          &nbsp;·&nbsp; Sources: <span id="answerSources">—</span>
+          &nbsp;·&nbsp; Latency: <span id="answerLatency">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Citations -->
+    <div id="citationsSection" style="display:none">
+      <div class="section-label">Citations</div>
+      <div class="citations-grid" id="citationsGrid"></div>
+    </div>
+
+    <!-- Papers -->
+    <div id="papersSection" style="display:none">
+      <div class="section-label">Research Papers</div>
+      <div class="papers-grid" id="papersGrid"></div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+// ── Config ────────────────────────────────────────────────────────────────────
+const API_BASE = "http://localhost:8000";  // FastAPI backend (see backend notes)
+
+// ── UI Helpers ────────────────────────────────────────────────────────────────
+function show(id)   { document.getElementById(id).style.display = ''; }
+function hide(id)   { document.getElementById(id).style.display = 'none'; }
+function setText(id, val) { document.getElementById(id).textContent = val; }
+
+function showError(msg) {
+  const el = document.getElementById('errorBox');
+  el.textContent = '⚠ ' + msg;
+  el.classList.add('show');
+}
+function clearError() {
+  document.getElementById('errorBox').classList.remove('show');
+}
+
+function fillExample(el) {
+  document.getElementById('queryInput').value = el.textContent;
+  document.getElementById('queryInput').focus();
+}
+
+// ── Loading animation ─────────────────────────────────────────────────────────
+let stepTimers = [];
+function startLoading() {
+  document.getElementById('loading').classList.add('active');
+  ['step1','step2','step3','step4'].forEach((id, i) => {
+    document.getElementById(id).classList.remove('show');
+    const t = setTimeout(() => {
+      document.getElementById(id).classList.add('show');
+    }, i * 600);
+    stepTimers.push(t);
+  });
+}
+function stopLoading() {
+  stepTimers.forEach(clearTimeout);
+  stepTimers = [];
+  document.getElementById('loading').classList.remove('active');
+  ['step1','step2','step3','step4'].forEach(id =>
+    document.getElementById(id).classList.remove('show'));
+}
+
+// ── Render helpers ────────────────────────────────────────────────────────────
+function renderAnswer(data) {
+  setText('answerText', data.answer);
+  setText('answerModel', data.model || 'phi3:mini');
+  setText('answerSources', data.sources_used || data.citations?.length || '—');
+  setText('answerLatency', data.latency_ms ? data.latency_ms + 'ms' : '—');
+  show('answerSection');
+}
+
+function renderCitations(citations) {
+  if (!citations?.length) return;
+  const grid = document.getElementById('citationsGrid');
+  grid.innerHTML = citations.map((c, i) => `
+    <div class="citation-item">
+      <div class="cite-num">${i + 1}</div>
+      <div class="cite-content">
+        <div class="cite-title">${c.title || c.source || 'Unknown source'}</div>
+        <div class="cite-authors">${c.authors || c.chunk_id !== undefined ? 'chunk #' + c.chunk_id : ''}</div>
+      </div>
+    </div>
+  `).join('');
+  show('citationsSection');
+}
+
+function renderPapers(papers) {
+  if (!papers?.length) return;
+  const grid = document.getElementById('papersGrid');
+  grid.innerHTML = papers.map(p => `
+    <div class="paper-card" onclick="this.querySelector('.paper-abstract').style['-webkit-line-clamp']='unset'">
+      <div class="paper-top">
+        <div class="paper-title">${p.title || 'Untitled'}</div>
+        ${p.published ? `<div class="paper-year">${p.published.slice(0,4)}</div>` : ''}
+      </div>
+      <div class="paper-authors">${Array.isArray(p.authors) ? p.authors.slice(0,3).join(', ') + (p.authors.length > 3 ? ' et al.' : '') : (p.authors || '')}</div>
+      <div class="paper-abstract">${p.summary || p.abstract || p.text || ''}</div>
+      <div class="paper-footer">
+        ${p.source ? `<span class="tag">${p.source.split(/[\\/]/).pop()}</span>` : ''}
+        ${p.chunk_id !== undefined ? `<span class="tag">chunk #${p.chunk_id}</span>` : ''}
+      </div>
+    </div>
+  `).join('');
+  show('papersSection');
+}
+
+// ── Main search ───────────────────────────────────────────────────────────────
+async function handleSearch() {
+  const query = document.getElementById('queryInput').value.trim();
+  if (!query) return;
+
+  clearError();
+  hide('emptyState');
+  hide('answerSection');
+  hide('citationsSection');
+  hide('papersSection');
+
+  const btn = document.getElementById('searchBtn');
+  btn.disabled = true;
+  btn.textContent = 'RUNNING...';
+  startLoading();
+
+  try {
+    const res = await fetch(`${API_BASE}/query`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, top_k: 5 })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `Server error ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    renderAnswer(data);
+    renderCitations(data.citations || data.chunks || []);
+    renderPapers(data.papers || []);
+
+  } catch (err) {
+    showError(err.message || 'Could not reach backend. Is it running?');
+    show('emptyState');
+  } finally {
+    stopLoading();
+    btn.disabled = false;
+    btn.textContent = 'RUN QUERY';
+  }
+}
+
+// Enter key support
+document.getElementById('queryInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleSearch();
+});
+</script>
+
+</body>
+</html>

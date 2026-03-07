@@ -1,0 +1,712 @@
+[
+  {
+    "text": "7th ICML Workshop on Automated Machine Learning (2020)\nRegression Networks for Meta-Learning Few-Shot\nClassification\nArnout Devos\narnout.devos@epfl.ch\nMatthias Grossglauser\nmatthias.grossglauser@epfl.ch\n\u00b4Ecole Polytechnique F\u00b4ed\u00b4erale de Lausanne (EPFL), Switzerland\nAbstract",
+    "chunk_id": 0,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Abstract\nWe propose regression networks for the problem of few-shot classification, where a classifier\nmust generalize to new classes not seen in the training set, given only a small number of\nexamples of each class. In high dimensional embedding spaces the direction of data gen-",
+    "chunk_id": 1,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "erally contains richer information than magnitude. Next to this, state-of-the-art few-shot\nmetric methods that compare distances with aggregated class representations, have shown\nsuperior performance. Combining these two insights, we propose to meta-learn classifica-",
+    "chunk_id": 2,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "tion of embedded points by regressing the closest approximation in every class subspace\nwhile using the regression error as a distance metric. Similarly to recent approaches for\nfew-shot learning, regression networks reflect a simple inductive bias that is beneficial in",
+    "chunk_id": 3,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "this limited-data regime and they achieve excellent results, especially when more aggre-\ngate class representations can be formed with multiple shots. The code for this project is\npublicly available at https://github.com/ArnoutDevos/RegressionNet\n1. Introduction",
+    "chunk_id": 4,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "1. Introduction\nThe ability to adapt quickly to new situations is a cornerstone of human intelligence. Artifi-\ncial learning methods have been shown to be very e\ufb00ective for specific tasks, often surpassing\nhuman performance (Silver et al., 2016; Esteva et al., 2017). However, by relying on stan-",
+    "chunk_id": 5,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "dard training paradigms for supervised learning or reinforcement learning, these artificial\nmethods still require much training data and training time to adapt to a new task.\nAn area of machine learning that learns and adapts from a small amount of data is",
+    "chunk_id": 6,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "called few-shot learning (Fei-Fei et al., 2006). A shot corresponds to a single example, e.g.,\nan image and its label. In few-shot learning the learning scope is expanded from the classic\nsetting of a single task with many shots to a variety of tasks with a few shots each. Several",
+    "chunk_id": 7,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "machine learning approaches have been used for this, including metric-learning (Vinyals\net al., 2016; Snell et al., 2017; Sung et al., 2018), meta-learning (Finn et al., 2017; Ravi and\nLarochelle, 2017), and generative models (Fei-Fei et al., 2006; Lake et al., 2015).",
+    "chunk_id": 8,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Chen et al. (2019) show that a metric-learning based method called prototypical networks\n(Snell et al., 2017), although simple in nature, achieves competitive performance with state-\nof-the-art meta-learning approaches such as MAML (Finn et al., 2017) and other metric-",
+    "chunk_id": 9,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "learning methods. Metric-learning methods approach the few-shot classification problem by\n\u201dlearning to compare\u201d. To learn high capacity nonlinear comparison models, most modern\nfew-shot metric-learning methods use a neural embedding space to measure distance.",
+    "chunk_id": 10,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "In image classification with neural embeddings, the embedding dimensions are usually\nhigh: e.g., 1600 for a Conv-4 backbone (used later). In high dimensional image vector\nspaces \u201ddirection\u201d of data generally contains richer information than \u201dmagnitude\u201d (Zhe\nc\u20dd2020 A. Devos and M. Grossglauser.",
+    "chunk_id": 11,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "c\u20dd2020 A. Devos and M. Grossglauser.\narXiv:1905.13613v2  [cs.LG]  18 Jun 2020\nDevos and Grossglauser\nTesting\nProtoNet\nRelationNet\nRegressionNet\n\u03bc1\n\u03bc2\n\u03bc3\n\u03bc1\n\u03bc2\n\u03bc3\nh\u03b8\n|| . ||2\n|| . ||2\n< \u0398 >\nsample N classes\n\u2026\nSupport set\nQuery set\n\ud835\udcae\n\ud835\udcac\nTraining\nClass \nsubspaceS\nPoint to \nsubspace \ndistance",
+    "chunk_id": 12,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Class \nsubspaceS\nPoint to \nsubspace \ndistance\ntest support set \ntest query set\ntraining support set       (K shots/class)\nSample N classes for every task\ntraining query set      \n(Q queries/class)\n\ud835\udcaetr\n\ud835\udcactr\n\ud835\udcaete\n\ud835\udcacte\ntr\nte\nSupport set \nconditioned \nclassifier\nTraining data: \nClasses >> N",
+    "chunk_id": 13,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "classifier\nTraining data: \nClasses >> N \nExamples >> NK\nSupport set conditioned classifier C( . |\ud835\udcae)\nC( . |\ud835\udcaete)\nC( . |\ud835\udcaetr)\nbird\nsnake\n\u2026\nMatchingNet\n\ud835\udcafi\nN classes in task\n\u2112\ud835\udcafi\n\u2202\u2112\ud835\udcafi\n\u2202\u03d5\nbird\nsnake\n\u2026\n\ud835\udcae\n\ud835\udcac\n\ud835\udcae\n\ud835\udcac\n\ud835\udcae\n\ud835\udcac\n\ud835\udcae\n\ud835\udcac\n\ud835\udcafj\n\u03d5\n\u03d5\n\u03d5\n\u03d5\n\u03d5\n\u03d5\n\u03d5\n\u03d5",
+    "chunk_id": 14,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "bird\nsnake\n\u2026\n\ud835\udcae\n\ud835\udcac\n\ud835\udcae\n\ud835\udcac\n\ud835\udcae\n\ud835\udcac\n\ud835\udcae\n\ud835\udcac\n\ud835\udcafj\n\u03d5\n\u03d5\n\u03d5\n\u03d5\n\u03d5\n\u03d5\n\u03d5\n\u03d5\nFigure 1: Few-shot learning process (top) and metric-learning based methods (bottom),\nwith S the support set (colored circles), Q the query set (white circle), eY the output",
+    "chunk_id": 15,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "distribution over classes for the query points, f\u03c6 a neural embedding function, and h\u03b8 a\nneural network based distance function. Figure inspired by Chen et al. (2019).\net al., 2019). MatchingNet (Vinyals et al., 2016) leverages purely directional information",
+    "chunk_id": 16,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "whereas ProtoNet (Snell et al., 2017) and RelationNet (Sung et al., 2018) mostly improve\non this by comparing with aggregated class representations.\nWe propose regression networks which combine the good properties of directional in-",
+    "chunk_id": 17,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "formation in high-dimensional vector spaces with rich aggregate class information. The\nproposed method is based on the idea that there exists an embedding in which every point\nfrom the same class can be approximated by a linear combination of other points in that",
+    "chunk_id": 18,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "same class. In order to do this, we learn a nonlinear mapping of the input space to an\nembedding space by using a neural network and regress the best embedded approximation,\nfor each example. Classification of an embedded query point is then performed by simply",
+    "chunk_id": 19,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "finding the nearest class subspace by comparing regression errors.\nSubspaces have been used to model images for decades in computer vision and machine\nlearning (Fitzgibbon and Zisserman, 2003; Naseem et al., 2010). For example, the linear",
+    "chunk_id": 20,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "regression classification (LRC) method (Naseem et al., 2010) relies on the fact that the set\nof all reflectance functions produced by Lambertian objects, which parts of natural images\nare composed of, lie near a low-dimensional vector subspace (Basri and Jacobs, 2003). More",
+    "chunk_id": 21,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "recently, Simon et al. (2018) have explored few-shot learning with a\ufb03ne subspaces. Unlike\nour approach with vector subspaces, a\ufb03ne subspaces cannot be constructed with 1-shot\nlearning, a key few-shot learning problem.",
+    "chunk_id": 22,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "learning, a key few-shot learning problem.\nFigure 1 shows an overview of the few-shot learning process and a comparison of the\nproposed method with comparable state-of-the-art metric-learning based approaches.\n2\nRegression Networks for Meta-Learning Few-Shot Classification\n2. Regression Networks",
+    "chunk_id": 23,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "2. Regression Networks\n2.1 Notation\nWe formulate the N-way K-shot classification problem in an episodic way. Every episode has\na small support set of N classes with K labeled examples S = {(x11, y11), . . . , (xNK, yNK)},",
+    "chunk_id": 24,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "and a query set of Q di\ufb00erent examples Q = {(x1(K+1), y1(K+1)), . . . , (xN(K+Q), yN(K+Q))}.\nNote that the query set contains labels only during training, and the goal is to predict the\nlabels of the query set during testing. In S and Q each xij \u2208RD is the D-dimensional",
+    "chunk_id": 25,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "feature vector of an example and yij \u2208{1, . . . , N} is the corresponding label.\n2.2 Model\nRegression networks perform classification by regressing the best approximation to an em-\nbedding point in each aggregated class representation and subsequently using the regression",
+    "chunk_id": 26,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "error as a measure of distance. For this we start by constructing a K-dimensional embed-\nded subspace Sn of each class n, given K shots per class, through an embedding function\nf\u03c6 : RD \u2192RM with learnable parameters \u03c6. With slight abuse of notation, every class",
+    "chunk_id": 27,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "is represented by its subspace matrix Sn \u2208RM\u00d7K, that contains the K vectors of the\nembedded class support points:\nSn =\n\u0002\nf\u03c6(xn1)\n. . .\nf\u03c6(xnK)\n\u0003\n(1)\nThe regression-error distance ed(ei, Sn) of a point ei \u2208RM in the embedding space to a",
+    "chunk_id": 28,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "class subspace Sn can be measured by regressing the closest point in the subspace in terms\nof a certain distance metric. The closest point can be constructed with a linear combination\n(represented by vector a \u2208RK\u00d71) of the embedded support examples spanning that space.",
+    "chunk_id": 29,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "By using a Euclidean distance metric, this can be formulated as a quadratic optimization\nproblem in a of the following form:\ned(ei, Sn) = min\na\nd(ei, Sna) = min\na \u2225ei \u2212Sna\u22252\n(2)\nThe associated learning problem with this few-shot (K) high-dimensional (M) overdeter-",
+    "chunk_id": 30,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "minded system is least-squares linear regression. Given that M \u2265K, this is a well condi-\ntioned system, and it admits a di\ufb00erentiable closed-form solution (Friedman et al., 2001):\ned(ei, Sn) =\nei \u2212Sn\n\u0000ST\nnSn\n\u0001\u22121 ST\nnei",
+    "chunk_id": 31,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "2\n(3)\n= \u2225ei \u2212Pnei\u22252\n(4)\nwhere it is important to note that the matrix to be inverted is of size K \u00d7 K and the\nnumber of shots K is usually small. The transformation matrix Pn projects the point ei\northogonally onto the subspace spanned by the columns of Sn (Ko\u00b8c and Barkana, 2014).",
+    "chunk_id": 32,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Note that this transformation matrix Pn has to be computed only for every class, not every\nexample, which speeds up practical computation. Because the embedding function f\u03c6 can\noutput linearly dependent embeddings for di\ufb00erent support examples, a small term \u03bb1 > 0\nis added to avoid singularity:",
+    "chunk_id": 33,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "2\n(5)\n3\nDevos and Grossglauser\nWith this point-to-subspace distance function ed : RM \u00d7 RM\u00d7K \u2192[0, +\u221e), regression\nnetworks give a distribution over classes for a query point x based on a softmax over\ndistances to each of the class subspaces in the embedding space:\np\u03c6(y = n | x) =\nexp\n\u0010\n\u2212ed(f\u03c6(x), Sn)",
+    "chunk_id": 34,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "p\u03c6(y = n | x) =\nexp\n\u0010\n\u2212ed(f\u03c6(x), Sn)\n\u0011\nP\nn\u2032 exp\n\u0010\n\u2212ed(f\u03c6(x), Sn\u2032)\n\u0011\n(6)\nMeta-learning continues by minimizing the negative log-probability function Lbase(\u03c6) =\n\u2212log p\u03c6(y = n | x) of the true class n via stochastic gradient descent (SGD). Training",
+    "chunk_id": 35,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "episodes are formed by randomly sampling a subset of N classes from the training set.\nThen, a subset of K examples within each class is chosen as the support set S, and a subset\nof Q examples within each class is chosen as the query set Q.\n2.3 Subspace Orthogonalization",
+    "chunk_id": 36,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "2.3 Subspace Orthogonalization\nThe K-dimensional class vector subspaces live in a much larger M-dimensional space.\nTherefore, we can exploit this freedom during training by making subspaces as directionally\ndi\ufb00erent as possible. Concretely, we propose to add a pairwise subspace orthogonolization",
+    "chunk_id": 37,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "term to the loss function:\nLT = Lbase + \u03bb2\nN\nX\ni\u0338=j\nST\ni Sj\n2\nF\n\u2225Si\u22252\nF \u2225Sj\u22252\nF\n(7)\nwhere \u2225\u00b7\u2225F is the Frobenius norm and \u03bb2 is a scaling hyperparameter. Section 3.2 studies\nthe e\ufb00ect of this term. We have also experimented with principal angles between vector",
+    "chunk_id": 38,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "subspaces (Bjorck and Golub, 1973), because they only depend on the subspaces, not on\nthe (non-unique) set of points that define the subspaces as in Equation (7). Their results\nwere comparable with our current approach, but come at a higher computational cost with\na singular value decomposition.",
+    "chunk_id": 39,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "a singular value decomposition.\nAlgorithm 1 in Appendix A details the complete regression networks training procedure.\n3. Experiments\nIn terms of few-shot learning evaluation, we focus on the natural image-based mini-ImageNet",
+    "chunk_id": 40,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "(Vinyals et al., 2016) dataset. To ensure a fair comparison with other methods, we perform\nexperiments under the same conditions using the verified re-implementation (Chen et al.,\n2019) of MatchingNet, ProtoNet, RelationNet, MAML and extend it with R2D2 (Bertinetto",
+    "chunk_id": 41,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "et al., 2019). Compared to our direct approach, R2D2 is a meta-learning technique which\nleverages the closed-form solution of multinomial regression indirectly for classification (See\nSection 4). We decide to compare with these methods in particular, because they serve as",
+    "chunk_id": 42,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "the basis of many state-of-the-art few-shot classification algorithms (Oreshkin et al., 2018;\nXing et al., 2019), and our method is easily interchanged with them. Experimental details\ncan be found in Appendix B.",
+    "chunk_id": 43,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "can be found in Appendix B.\nIn this section, next to performance evaluation, we address the following research ques-\ntions: (i) Can regression networks benefit from richer class representations and higher\ndimensions? (Section 3.1). (ii) How much e\ufb00ect does subspace orthogonalization have?",
+    "chunk_id": 44,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "(Section 3.2).\n4\nRegression Networks for Meta-Learning Few-Shot Classification\nConv-4\nResNet-10\nMethod\n5-way 1-shot\n5-way 5-shot\n5-way 1-shot\n5-way 5-shot\nMatchingNet\n48.14\u00b10.78\n63.28\u00b10.68\n54.49\u00b10.81\n69.14\u00b10.69\nProtoNet\n44.42\u00b10.84\n65.15\u00b10.67\n51.98\u00b10.84\n73.77\u00b10.64\nRelationNet\n49.31\u00b10.85\n65.33\u00b10.70",
+    "chunk_id": 45,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "73.77\u00b10.64\nRelationNet\n49.31\u00b10.85\n65.33\u00b10.70\n52.19\u00b10.83\n69.97\u00b10.68\nMAML\n46.47\u00b10.82\n62.71\u00b10.71\n54.69\u00b10.89\n66.62\u00b10.83\nR2D2\n50.07\u00b10.79\n65.66\u00b10.69\n55.71\u00b10.78\n71.69\u00b10.63\nRegressionNet (ours)\n47.02\u00b10.77\n67.09\u00b10.69\n55.44\u00b10.86\n76.29\u00b10.59",
+    "chunk_id": 46,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "47.02\u00b10.77\n67.09\u00b10.69\n55.44\u00b10.86\n76.29\u00b10.59\nTable 1: Average accuracies (%) of mini-ImageNet test tasks with 95% confidence intervals.\nN-way K-shot\n\u03bb2 = 0\n\u03bb2 > 0\n5-way 1-shot\n54.83\u00b10.83\n55.44\u00b10.86\n5-way 5-shot\n74.03\u00b10.68\n76.29\u00b10.59",
+    "chunk_id": 47,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "55.44\u00b10.86\n5-way 5-shot\n74.03\u00b10.68\n76.29\u00b10.59\nTable 2: Ablation study of e\ufb00ect of subspace orthogonalization stimulation (Equation (7))\nusing a ResNet-10 backbone on mini-ImageNet. 1-shot: \u03bb2 = 10\u22123, 5-shot: \u03bb2 = 10\u22122\n3.1 Few-shot Image Classification: mini-ImageNet",
+    "chunk_id": 48,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "3.1 Few-shot Image Classification: mini-ImageNet\nTable 1 shows the results for 5-way classification for mini-ImageNet for a di\ufb00erent number\nof shots and backbones.\nFirst, because regression networks are expected to benefit more from better subspace",
+    "chunk_id": 49,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "representations when more support examples are available per class, we investigate the\ne\ufb00ect of the number of shots. As expected, when increasing the number of shots K per\nclass from 1 to 5, the classification accuracies increase for all methods. In the 5-shot case,",
+    "chunk_id": 50,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "RegressionNet significantly outperforms all other methods, showing the benefit of using rich\nclass representations.\nSecondly, as the backbone gets deeper, regression networks and prototypical networks\nbegin to perform significantly better than matching networks and relation networks with",
+    "chunk_id": 51,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "R2D2 following close.\nAlthough the performance di\ufb00erence is small for mini-Imagenet,\ngiven a relatively deep feature extractor ResNet-10, regression networks outperform all\nother meta-learning and metric-learning methods when enough shots are available.\n3.2 Ablation study",
+    "chunk_id": 52,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "3.2 Ablation study\nIn order to evaluate the e\ufb00ect of adding the subspace orthogonalization stimulating term\nto the loss function discussed in Section 2.3, we conduct an experiment without it. The\nresults, comparing a ResNet-10 model trained with subspace orthogonalization and without,",
+    "chunk_id": 53,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "are shown in Table 2. All ablation experiments use ResNet-10 as a backbone.\nUnder all settings considered, subspace orthogonalization gives a classification accuracy\nimprovement (up to 2%). Note that, even without subspace orthogonalization, our proposed",
+    "chunk_id": 54,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "method is still competitive with all other methods in Table 1.\n5\nDevos and Grossglauser\n4. Related work\nIn addition to the reproduced metric (meta-)learning based few-shot methods (Snell et al.,\n2017; Vinyals et al., 2016; Sung et al., 2018; Bertinetto et al., 2019), there is a large body of",
+    "chunk_id": 55,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "work on few-shot learning and metric (meta-)learning. We discuss work that is more closely\nrelated to regression networks in particular.\nOur approach shows similarities to the linear regression classification (LRC) method",
+    "chunk_id": 56,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "(Naseem et al., 2010), where each class is represented by the vector subspace spanned by\nits examples.\nLRC was developed for face recognition, where only a few examples are\navailable, however it relies on a linear embedding. Our approach also uses few examples,",
+    "chunk_id": 57,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "but it incorporates neural networks in order to nonlinearly embed examples and we couple\nthis with episodic training to handle the meta-learning few-shot scenario.\nSimon et al. (2018) have explored a\ufb03ne subspace representations for few-shot learning.",
+    "chunk_id": 58,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "In contrast to our closed-form linear regression approach, they make use of a truncated\nsingular value decomposition (SVD) of the support example matrix. A\ufb03ne subspaces cannot\nbe constructed with 1-shot learning, a key few-shot learning problem.\nIn contrast, our",
+    "chunk_id": 59,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "In contrast, our\nclosed-form linear regression approach relies on vector subspaces, which can be constructed\nwith 1-shot learning.\nBertinetto et al. (2019) propose to use regularized linear regression as a classifier on top",
+    "chunk_id": 60,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "of the embedding function. Doing so, they directly approach a classification problem with\na regression method, but they show competitive results. To achieve this, they introduce\nlearnable scalars that scale and shift the regression outputs for them to be used in the cross-",
+    "chunk_id": 61,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "entropy loss. Regression networks rely on the same closed-form solver for linear regression to\ncompute the transformation matrices, but are inherently designed for classification problems\nbecause of their similarity to the LRC method (Naseem et al., 2010).",
+    "chunk_id": 62,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Oreshkin et al. (2018) show that, following Hinton et al. (2015), by adding a learn-\nable temperature \u03b1 in the softmax of metric-based few-shot models (e.g., for regression\nnetworks: p\u03c6,\u03b1(y = n|x) = softmax(\u2212\u03b1d(ei, Pnei))), the performance di\ufb00erence between",
+    "chunk_id": 63,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "matching networks and prototypical networks vanishes. However, the performance of pro-\ntotypical networks improves only slightly. In addition, they make the embedding function\nconditionally dependent on the support set with conditional batch normalization. They",
+    "chunk_id": 64,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "show that by combining support-set conditioned batch normalization with temperature\nlearning, impressive performance gains can be achieved.\n5. Conclusion\nWe have proposed regression networks for meta-learning few-shot classification. The method",
+    "chunk_id": 65,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "assumes that for any embedded point we can regress the closest approximation in every class\nrepresentation and use the error as a distance measure. Classes are represented by their\nembedded vector subspaces, which are spanned by their examples. The approach produces",
+    "chunk_id": 66,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "better results than other state-of-the-art metric-learning based methods, when rich class\nrepresentations can be formed with multiple shots.\nStimulating subspace orthogonality\nconsistently improves performance. A direction for future work is to study the e\ufb00ect of using",
+    "chunk_id": 67,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "a low-rank approximation of the class subspace. Overall, the simplicity and e\ufb00ectiveness of\nregression networks makes it a promising approach for metric-based few-shot classification.\n6\nRegression Networks for Meta-Learning Few-Shot Classification\nAcknowledgements",
+    "chunk_id": 68,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Acknowledgements\nWe acknowledge fruitful discussions with Andreas Loukas, William Trouleau, Gergely Odor,\nFarnood Salehi, Negar Foroutan and anonymous reviewers. This project is supported by\nthe European Union\u2019s Horizon 2020 research and innovation program under the Marie",
+    "chunk_id": 69,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Skodowska-Curie grant agreement No. 754354.\nReferences\nRonen Basri and David W Jacobs. Lambertian reflectance and linear subspaces. IEEE\nTransactions on Pattern Analysis & Machine Intelligence, (2):218\u2013233, 2003.",
+    "chunk_id": 70,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Luca Bertinetto, Joo F. Henriques, Philip H. S. Torr, and Andrea Vedaldi. Meta-learning\nwith di\ufb00erentiable closed-form solvers.\nIn ICLR 2019 : 7th International Conference\non Learning Representations, 2019.\nURL https://academic.microsoft.com/paper/\n2964206659.",
+    "chunk_id": 71,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "2964206659.\nAke Bjorck and Gene H Golub. Numerical methods for computing angles between linear\nsubspaces. Mathematics of computation, 27(123):579\u2013594, 1973.\nWei-Yu Chen, Yen-Cheng Liu, Zsolt Kira, Yu-Chiang Frank Wang, and Jia-Bin Huang. A",
+    "chunk_id": 72,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "closer look at few-shot classification. In International Conference on Learning Represen-\ntations, 2019.\nJia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai Li, and Li Fei-Fei. Imagenet: A large-\nscale hierarchical image database.\nIn 2009 IEEE conference on computer vision and",
+    "chunk_id": 73,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "In 2009 IEEE conference on computer vision and\npattern recognition, pages 248\u2013255. Ieee, 2009.\nAndre Esteva, Brett Kuprel, Roberto A Novoa, Justin Ko, Susan M Swetter, Helen M Blau,\nand Sebastian Thrun. Dermatologist-level classification of skin cancer with deep neural",
+    "chunk_id": 74,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "networks. Nature, 542(7639):115, 2017.\nLi Fei-Fei, Rob Fergus, and Pietro Perona. One-shot learning of object categories. IEEE\ntransactions on pattern analysis and machine intelligence, 28(4):594\u2013611, 2006.\nChelsea Finn, Pieter Abbeel, and Sergey Levine.\nModel-agnostic meta-learning for fast",
+    "chunk_id": 75,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Model-agnostic meta-learning for fast\nadaptation of deep networks. In ICML\u201917 Proceedings of the 34th International Con-\nference on Machine Learning - Volume 70, pages 1126\u20131135, 2017.\nURL https:\n//academic.microsoft.com/paper/2604763608.",
+    "chunk_id": 76,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "//academic.microsoft.com/paper/2604763608.\nAndrew W Fitzgibbon and Andrew Zisserman. Joint manifold distance: a new approach to\nappearance based clustering. In 2003 IEEE Computer Society Conference on Computer\nVision and Pattern Recognition, 2003. Proceedings., volume 1, pages I\u2013I. IEEE, 2003.",
+    "chunk_id": 77,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Jerome Friedman, Trevor Hastie, and Robert Tibshirani. The elements of statistical learn-\ning, volume 1. Springer series in statistics New York, 2001.\nKaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.\nDeep residual learning for",
+    "chunk_id": 78,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Deep residual learning for\nimage recognition. In Proceedings of the IEEE conference on computer vision and pattern\nrecognition, pages 770\u2013778, 2016.\n7\nDevos and Grossglauser\nNathan Hilliard, Lawrence Phillips, Scott Howland, Art\u00a8em Yankov, Courtney D Corley,",
+    "chunk_id": 79,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "and Nathan O Hodas. Few-shot learning with metric-agnostic conditional embeddings.\narXiv preprint arXiv:1802.04376, 2018.\nGeo\ufb00rey Hinton, Oriol Vinyals, and Je\ufb00Dean. Distilling the knowledge in a neural network.\narXiv preprint arXiv:1503.02531, 2015.",
+    "chunk_id": 80,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "arXiv preprint arXiv:1503.02531, 2015.\nDiederik P Kingma and Jimmy Ba. Adam: A method for stochastic optimization. arXiv\npreprint arXiv:1412.6980, 2014.\nMehmet Ko\u00b8c and Atalay Barkana. Application of linear regression classification to low-\ndimensional datasets. Neurocomputing, 131:331\u2013335, 2014.",
+    "chunk_id": 81,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Brenden M Lake, Ruslan Salakhutdinov, and Joshua B Tenenbaum. Human-level concept\nlearning through probabilistic program induction. Science, 350(6266):1332\u20131338, 2015.\nImran Naseem, Roberto Togneri, and Mohammed Bennamoun. Linear regression for face\nrecognition.",
+    "chunk_id": 82,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "recognition.\nIEEE transactions on pattern analysis and machine intelligence, 32(11):\n2106\u20132112, 2010.\nBoris Oreshkin, Pau Rodr\u00b4\u0131guez L\u00b4opez, and Alexandre Lacoste. Tadam: Task dependent\nadaptive metric for improved few-shot learning. In Advances in Neural Information Pro-",
+    "chunk_id": 83,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "cessing Systems, pages 721\u2013731, 2018.\nAdam Paszke, Sam Gross, Soumith Chintala, Gregory Chanan, Edward Yang, Zachary\nDeVito, Zeming Lin, Alban Desmaison, Luca Antiga, and Adam Lerer. Automatic dif-\nferentiation in pytorch. 2017.",
+    "chunk_id": 84,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "ferentiation in pytorch. 2017.\nSiyuan Qiao, Chenxi Liu, Wei Shen, and Alan L Yuille. Few-shot image recognition by pre-\ndicting parameters from activations. In Proceedings of the IEEE Conference on Computer\nVision and Pattern Recognition, pages 7229\u20137238, 2018.\nSachin Ravi and Hugo Larochelle.",
+    "chunk_id": 85,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Sachin Ravi and Hugo Larochelle.\nOptimization as a model for few-shot learning.\nIn\nICLR 2017 : International Conference on Learning Representations 2017, 2017. URL\nhttps://academic.microsoft.com/paper/2753160622.\nDavid Silver, Aja Huang, Chris J Maddison, Arthur Guez, Laurent Sifre, George Van",
+    "chunk_id": 86,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Den Driessche, Julian Schrittwieser, Ioannis Antonoglou, Veda Panneershelvam, Marc\nLanctot, et al. Mastering the game of go with deep neural networks and tree search.\nnature, 529(7587):484, 2016.\nChristian Simon, Piotr Koniusz, and Mehrtash Harandi. Projective subspace networks for",
+    "chunk_id": 87,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "few-shot learning, 2018. URL https://openreview.net/forum?id=rkzfuiA9F7.\nJake Snell, Kevin Swersky, and Richard S. Zemel.\nPrototypical networks for few-shot\nlearning. In Advances in Neural Information Processing Systems, pages 4077\u20134087, 2017.\nURL https://academic.microsoft.com/paper/2601450892.\n8",
+    "chunk_id": 88,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "8\nRegression Networks for Meta-Learning Few-Shot Classification\nFlood Sung, Yongxin Yang, Li Zhang, Tao Xiang, Philip HS Torr, and Timothy M\nHospedales. Learning to compare: Relation network for few-shot learning. In Proceedings",
+    "chunk_id": 89,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "of the IEEE Conference on Computer Vision and Pattern Recognition, pages 1199\u20131208,\n2018.\nOriol Vinyals, Charles Blundell, Timothy Lillicrap, Daan Wierstra, et al. Matching networks\nfor one shot learning. In Advances in neural information processing systems, pages 3630\u2013\n3638, 2016.",
+    "chunk_id": 90,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "3638, 2016.\nCatherine Wah, Steve Branson, Peter Welinder, Pietro Perona, and Serge Belongie. The\ncaltech-ucsd birds-200-2011 dataset. 2011.\nChen Xing, Negar Rostamzadeh, Boris N. Oreshkin, and Pedro O. Pinheiro.\nAdaptive",
+    "chunk_id": 91,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Adaptive\ncross-modal few-shot learning. CoRR, abs/1902.07104, 2019. URL http://arxiv.org/\nabs/1902.07104.\nXuefei Zhe, Shifeng Chen, and Hong Yan. Directional statistics-based deep metric learning\nfor image classification and retrieval. Pattern Recognition, 93:113\u2013123, 2019.\n9\nDevos and Grossglauser",
+    "chunk_id": 92,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "9\nDevos and Grossglauser\nAppendix A. Algorithm\nAlgorithm 1 Regression Networks\nRequire: Training\nset\nwith\ntask\nbatches\nof\nNT\nN-way\nK-shot\nepisodes/tasks\n{T1, . . . , TNT }, with every Ti containing sets STi = {(xi11, yi11), . . . , (xiNK, yiNK)} and",
+    "chunk_id": 93,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "QTi = {(xi1(K+1), yi1(K+1)), . . . , (xiN(K+Q), yiN(K+Q))}. STin and QTin denote the class\nn subsets of support and query sets, respectively, of episode Ti.\nRequire: \u03b1, \u03bb1, \u03bb2: step size, conditioning and orthogonalization parameters\n1: Randomly initialize \u03c6\n2: while not done do\n3:",
+    "chunk_id": 94,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "1: Randomly initialize \u03c6\n2: while not done do\n3:\nfor each batch do\n\u25b7Sample batch of tasks\n4:\nfor i in {1, . . . , NT } do\n\u25b7Select task\n5:\nfor n in {1, . . . , N} do\n\u25b7Select class\n6:\nSn \u2190f\u03c6(STin)\n\u25b7Embed class support set subspace Sn \u2208RM\u00d7K\n7:\nPn \u2190Sn\n\u0000ST\nnSn + \u03bb1I\n\u0001\u22121 ST\nn",
+    "chunk_id": 95,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "7:\nPn \u2190Sn\n\u0000ST\nnSn + \u03bb1I\n\u0001\u22121 ST\nn\n\u25b7Compute transformation matrix\n8:\nLTi \u21900\n\u25b7Initialize episode loss\n9:\nfor n in {1, . . . , N} do\n10:\nfor (x, y = n) in QTin do\n11:\nLTi\u2190LTi +\n1\nNQ\n\u0014\n\u2225f\u03c6(x) \u2212Pnf\u03c6(x)\u22252 + log P\nn\u2032 exp(\u2212\u2225f\u03c6(x) \u2212Pn\u2032f\u03c6(x)\u22252)\n\u0015\n+ \u03bb2\nPN\ni\u0338=j\n\u2225ST\ni Sj\u2225\n2\nF\n\u2225Si\u22252\nF \u2225Sj\u22252\nF\n12:\n\u03c6 \u2190\u03c6 \u2212\u03b1\u2207\u03c6\nP\ni",
+    "chunk_id": 96,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "\u2225ST\ni Sj\u2225\n2\nF\n\u2225Si\u22252\nF \u2225Sj\u22252\nF\n12:\n\u03c6 \u2190\u03c6 \u2212\u03b1\u2207\u03c6\nP\ni\nLTi\n\u25b7Update embedding parameters \u03c6 with gradient descent\nAppendix B. Experimental details\nB.1 Experimental Setup and Datasets\nThe mini-Imagenet dataset proposed by (Vinyals et al., 2016) contains 100 classes, with 600",
+    "chunk_id": 97,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "84 \u00d7 84 images per class sampled from the larger ImageNet dataset (Deng et al., 2009).\nFollowing Ravi and Larochelle (2017), 64 classes are isolated for the training set and, from\nthe remaining classes, the validation and test sets of 16 and 20 classes, respectively, are\nconstructed.",
+    "chunk_id": 98,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "constructed.\nWe use exactly the same train/validation/test split of classes as the one\nsuggested by Ravi and Larochelle (2017).\nFor the additional experiments in Appendix C and cross-domain experiments in Ap-\npendix D we additionaly make use of the CUB-200-2011 dataset (Wah et al., 2011), here-",
+    "chunk_id": 99,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "after referred to as CUB. The CUB dataset contains 200 classes of birds and 11,788 images\nin total. Following Hilliard et al. (2018), we randomly split the CUB dataset into 100 train,\n50 validation, and 50 test classes.",
+    "chunk_id": 100,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "50 validation, and 50 test classes.\nWe implement regression networks using the automatic-di\ufb00erentation framework Py-\nTorch (Paszke et al., 2017).\nMany training optimizations exist, including using more classes in the training episodes",
+    "chunk_id": 101,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "than in the testing episodes (Snell et al., 2017) or pre-training the feature extractor with all\n10\nRegression Networks for Meta-Learning Few-Shot Classification\ntraining classes and a linear output layer (Qiao et al., 2018). However, we train all methods",
+    "chunk_id": 102,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "from scratch and construct our training and testing episodes to have the same number of\nclasses N and shots K because we are interested in the relative performance of the methods.\nFor RegressionNet, the conditioning parameter used to ensure a fully invertible matrix in",
+    "chunk_id": 103,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Equation (5) is set to \u03bb1 = 10\u22123. For 1-shot and 5-shot learning, \u03bb2 = 10\u22123 and \u03bb2 = 10\u22122\nare used, respectively.\nB.2 Architectures and training\nDespite the modification of some implementation details of the methods with respect to",
+    "chunk_id": 104,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "the original papers, these settings ensure a fair comparison and Chen et al. (2019) report\na maximal drop in classification performance of 2% with respect to the original reported\nperformance of each method. For MAML, we reuse the results from Chen et al. (2019).",
+    "chunk_id": 105,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "The Conv-4 backbone is composed of four convolutional blocks with an input size of\n84\u00d784 as in Snell et al. (2017). Each block comprises a 64-filter 3\u00d73 convolution with a\npadding of 1 and a stride of 1, a batch normalization layer, a ReLU nonlinearity and a 2\u00d72\nmax-pooling layer.",
+    "chunk_id": 106,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "max-pooling layer.\nThe ResNet-10 backbone has an input size of 224\u00d7224 and is a simplified version of\nResNet-18 in He et al. (2016), by using only one residual building block in each layer.\nResNet-34 is the same as described in He et al. (2016).",
+    "chunk_id": 107,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "All methods are trained with a random parameter initialization and use the Adam\noptimizer (Kingma and Ba, 2014) with an initial learning rate of 10\u22123. During the training\nstage, data augmentation is done in the form of: random crop, color jitter, and left-right",
+    "chunk_id": 108,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "flip. For MatchingNet, a rather sophisticated long-short term memory (LSTM)-based full\ncontext embedding (FCE) classification layer without fine-tuning is used over the support\nset, and the cosine similarity metric is multiplied by a constant factor of 100. In RelationNet,",
+    "chunk_id": 109,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "the L2 norm is replaced with a softmax layer to help the training procedure (Chen et al.,\n2019). The relation module is composed of 2 convolutional blocks (same as in Conv-4),\nfollowed by two fully connected layers of size 8 and 1.",
+    "chunk_id": 110,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "In all settings, we train for 60,000 episodes and use the held-out validation set to select\nthe best model during training. To construct an N-way episode, we sample N = 5 classes\nfrom the training set of classes. From each sampled class, we sample K examples to con-",
+    "chunk_id": 111,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "struct the support set of an episode and Q = 16 examples for the query set. During testing,\nwe average the results over 600 episodes of exactly the same form, but this time they are\nsampled from the test set classes.\nAppendix C. Extra experiments: mini-ImageNet and CUB",
+    "chunk_id": 112,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "We provide additional results for some considered methods on the e\ufb00ect of increasing the\nfeature embedding backbone depth even further and increasing the number of shots to\n10. Also, next to the already considered mini-ImageNet few-shot dataset, we also evaluate",
+    "chunk_id": 113,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "performance on CUB. Note that for RegressionNet we do not use the subspace orthogonal-\nization regularizer from Section 2.3. Tables 3 to 8 show the results on this.\nAs expected, performance of the few-shot classification methods generally improves when\na deeper backbone is used.",
+    "chunk_id": 114,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "a deeper backbone is used.\nAs can be seen, the relative rank in terms of classification\naccuracy of the distance-metric based methods shifts significantly when going from the\n11\nDevos and Grossglauser\nConv-4\nResNet-10\nResNet-34\nMatchingNet\n61.16 \u00b1 0.89\n71.29 \u00b1 0.90\n71.44 \u00b1 0.96\nProtoNet",
+    "chunk_id": 115,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "61.16 \u00b1 0.89\n71.29 \u00b1 0.90\n71.44 \u00b1 0.96\nProtoNet\n51.31 \u00b1 0.91\n70.13 \u00b1 0.94\n72.03 \u00b1 0.91\nRelationNet\n62.45 \u00b1 0.98\n68.65 \u00b1 0.91\n66.20 \u00b1 0.99\nRegressionNet (ours)\n59.05 \u00b1 0.90\n72.92 \u00b1 0.90\n73.74\u00b1 0.88\nTable 3: CUB 5-way 1-shot classification accuracies with 95% confidence intervals for dif-",
+    "chunk_id": 116,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "ferent methods and backbones. For each backbone, the best method is highlighted.\nConv-4\nResNet-10\nResNet-34\nMatchingNet\n76.74 \u00b1 0.67\n83.75 \u00b1 0.60\n85.96 \u00b1 0.52\nProtoNet\n76.14 \u00b1 0.68\n85.70 \u00b1 0.52\n88.49 \u00b1 0.46\nRelationNet\n78.98 \u00b1 0.63\n82.67 \u00b1 0.61\n84.13 \u00b1 0.57\nRegressionNet (ours)\n78.48 \u00b1 0.65",
+    "chunk_id": 117,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "84.13 \u00b1 0.57\nRegressionNet (ours)\n78.48 \u00b1 0.65\n87.45 \u00b1 0.48\n89.30 \u00b1 0.45\nTable 4: CUB 5-way 5-shot classification accuracies with 95% confidence intervals for dif-\nferent methods and backbones. For each backbone, the best method is highlighted.",
+    "chunk_id": 118,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Conv-4 embedding architecture to a deeper ResNet-10 or ResNet-34. For example in Table\n4, RelationNet performs best in the Conv-4 setting, but worst when using ResNet-34 and\nRegressionNet takes first place. Generally, across datasets and number of shots, regression",
+    "chunk_id": 119,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "networks outperform the other considered methods when the backbone is relatively deep\n(ResNet-10 and deeper).\nSince regression networks are expected to build better subspace representations when\nmore support examples are available per class, we investigate the e\ufb00ect of the number",
+    "chunk_id": 120,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "of shots. As expected, when increasing the number of shots K per class, the classification\naccuracies increase for almost all methods. Even for the smaller Conv-4 backbone, regression\nnetworks outperform all other methods on both datasets when 10 shots are used.",
+    "chunk_id": 121,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Comparing the classification results on the CUB and mini-ImageNet datasets, the accu-\nracies are consistently higher for CUB under the same setting (backbone, shots, method).\nThis can be explained by the di\ufb00erence in divergence of classes; this di\ufb00erence is higher in",
+    "chunk_id": 122,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "mini-ImageNet than in CUB (Chen et al., 2019). Appendix D discusses extra experiments\non the transferrability of di\ufb00erent methods under domain-shift and further reports on the\ndi\ufb00erence in divergence between classes in CUB and mini-ImageNet.\nAppendix D. Domain Shift: mini-ImageNet \u2192CUB and CUB \u2192",
+    "chunk_id": 123,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "mini-ImageNet\nWe provide additional results on how some of the considered few-shot classification meth-\nods perform when the test set is increasingly di\ufb00erent from the train set. Note that for\nRegressionNet we do not use the subspace orthogonalization regularizer from Section 2.3.",
+    "chunk_id": 124,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "In this section we perform experiments by permuting the training and testing domain from\none dataset to another (denoted as train \u2192test). The mini-ImageNet \u2192CUB setting,\n12\nRegression Networks for Meta-Learning Few-Shot Classification\nConv-4\nResNet-10\nResNet-34\nMatchingNet\n79.27 \u00b1 0.61\n85.38 \u00b1 0.54",
+    "chunk_id": 125,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "ResNet-34\nMatchingNet\n79.27 \u00b1 0.61\n85.38 \u00b1 0.54\n89.03 \u00b1 0.46\nProtoNet\n81.77 \u00b1 0.57\n87.61 \u00b1 0.44\n90.35 \u00b1 0.40\nRelationNet\n82.66 \u00b1 0.56\n84.96 \u00b1 0.53\n87.29 \u00b1 0.46\nRegressionNet (ours)\n83.02 \u00b1 0.53\n89.28 \u00b1 0.41\n91.46 \u00b1 0.36",
+    "chunk_id": 126,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "83.02 \u00b1 0.53\n89.28 \u00b1 0.41\n91.46 \u00b1 0.36\nTable 5: CUB 5-way 10-shot classification accuracies with 95% confidence intervals for\ndi\ufb00erent methods and backbones. For each backbone, the best method is highlighted.\nConv-4\nResNet-10\nResNet-34\nMatchingNet\n48.14 \u00b1 0.78\n54.49 \u00b1 0.81\n53.20 \u00b1 0.78\nProtoNet",
+    "chunk_id": 127,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "48.14 \u00b1 0.78\n54.49 \u00b1 0.81\n53.20 \u00b1 0.78\nProtoNet\n44.42 \u00b1 0.84\n51.98 \u00b1 0.84\n53.90 \u00b1 0.83\nRelationNet\n49.31 \u00b1 0.85\n52.19 \u00b1 0.83\n52.74 \u00b1 0.83\nRegressionNet (ours)\n47.99 \u00b1 0.80\n54.83 \u00b1 0.83\n53.93 \u00b1 0.81\nTable 6: miniImageNet 5-way 1-shot classification accuracies with 95% confidence intervals",
+    "chunk_id": 128,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "for di\ufb00erent methods and backbones. For each backbone, the best method is highlighted.\nConv-4\nResNet-10\nResNet-34\nMatchingNet\n63.28 \u00b1 0.68\n69.14 \u00b1 0.69\n70.36 \u00b1 0.70\nProtoNet\n65.15 \u00b1 0.67\n73.77 \u00b1 0.64\n75.14 \u00b1 0.65\nRelationNet\n65.33 \u00b1 0.70\n69.97 \u00b1 0.68\n71.38 \u00b1 0.68\nRegressionNet (ours)\n66.41 \u00b1 0.66",
+    "chunk_id": 129,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "71.38 \u00b1 0.68\nRegressionNet (ours)\n66.41 \u00b1 0.66\n74.03 \u00b1 0.68\n75.62 \u00b1 0.61\nTable 7: miniImageNet 5-way 5-shot classification accuracies with 95% confidence intervals\nfor di\ufb00erent methods and backbones. For each backbone, the best method is highlighted.\nConv-4\nResNet-10\nResNet-34\nMatchingNet",
+    "chunk_id": 130,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "Conv-4\nResNet-10\nResNet-34\nMatchingNet\n67.47 \u00b1 0.64\n74.63 \u00b1 0.62\n73.88 \u00b1 0.65\nProtoNet\n72.01 \u00b1 0.67\n78.92 \u00b1 0.54\n79.62 \u00b1 0.55\nRelationNet\n70.27 \u00b1 0.63\n75.69 \u00b1 0.61\n75.40 \u00b1 0.62\nRegressionNet (ours)\n72.69 \u00b1 0.61\n80.08 \u00b1 0.57\n80.42 \u00b1 0.53",
+    "chunk_id": 131,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "72.69 \u00b1 0.61\n80.08 \u00b1 0.57\n80.42 \u00b1 0.53\nTable 8: miniImageNet 5-way 10-shot classification accuracies with 95% confidence intervals\nfor di\ufb00erent methods and backbones. For each backbone, the best method is highlighted.\n13\nDevos and Grossglauser\ntraining set\nCUB\nmini-ImageNet\nmini-ImageNet\nCUB",
+    "chunk_id": 132,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "training set\nCUB\nmini-ImageNet\nmini-ImageNet\nCUB\ntest set\nCUB\nmini-ImageNet\nCUB\nmini-ImageNet\nMatchingNet\n83.75 \u00b1 0.60\n69.14 \u00b1 0.69\n52.59 \u00b1 0.71\n48.95 \u00b1 0.67\nProtoNet\n85.70 \u00b1 0.52\n73.77 \u00b1 0.64\n59.22 \u00b1 0.74\n53.58 \u00b1 0.73\nRelationNet\n82.67 \u00b1 0.61\n69.97 \u00b1 0.68\n54.36 \u00b1 0.71\n45.27 \u00b1 0.66",
+    "chunk_id": 133,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "69.97 \u00b1 0.68\n54.36 \u00b1 0.71\n45.27 \u00b1 0.66\nRegressionNet (ours)\n87.45 \u00b1 0.48\n74.03 \u00b1 0.68\n62.71 \u00b1 0.71\n56.66 \u00b1 0.68\nTable 9: Identical domain and domain shift accuracies for 5-way 5-shot classification using\na ResNet-10 backbone and mini-ImageNet and CUB datasets. The best-performing method",
+    "chunk_id": 134,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "is highlighted.\nintroduced by Chen et al. (2019), represents a coarse-grained train set to fine-grained test\nset domain-shift. Conversely, we propose to use the inverse scenario CUB \u2192mini-ImageNet\nas well.\nIn mini-ImageNet \u2192CUB, all 100 classes from mini-ImageNet make up the training set",
+    "chunk_id": 135,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "and the same 50 validation and 50 test classes from CUB are used. Conversely, in CUB\n\u2192mini-ImageNet, all 200 classes from CUB make up the training set and the same 16\nvalidation and 20 test classes from mini-ImageNet are used. To illustrate the domain shift,",
+    "chunk_id": 136,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "we can look at the mini-ImageNet \u2192CUB setting: the 200 classes of CUB are all types of\nbirds, whereas the 64 classes in the training set of mini-ImageNet only contain 3 types of\nbirds, which are not to be found in CUB. Evaluating the domain-shift scenario enables us",
+    "chunk_id": 137,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "to understand better which method is more general.\nTable 9 presents our results in the context of existing state-of-the-art distance-metric\nlearning based methods. All experiments in this setting are conducted with a ResNet-10",
+    "chunk_id": 138,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "backbone on a 5-way 5-shot problem. The intra-domain di\ufb00erence between classes is higher\nin mini-ImageNet than in CUB (Chen et al., 2019), which is reflected by a drop of the test\naccuracies of all methods. It can also be seen that when the domain di\ufb00erence between",
+    "chunk_id": 139,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "the training and test stage classes increases (left to right in Table 9) the performance of all\nfew-shot algorithms lowers.\nAs expected, the classification accuracy lowers when going from the mini-ImageNet \u2192\nCUB to the CUB \u2192mini-ImageNet setting. Interestingly though, it does not decrease sub-",
+    "chunk_id": 140,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  },
+  {
+    "text": "stantially. This shows that the di\ufb00erent feature embeddings generalize well, at least across\nthese two di\ufb00erent datasets. Compared to other distance-metric learning based methods,\nregression networks show significantly better performance in both the mini-ImageNet \u2192",
+    "chunk_id": 141,
+    "source": "data\\raw_papers\\Regression_Networks_for_Meta-Learning_Few-Shot_Classification.pdf"
+  }
+]

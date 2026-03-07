@@ -1,0 +1,53 @@
+fastapi
+uvicorn
+pydantic
+python-dotenv
+
+# LLM frameworks
+langchain
+langgraph
+openai
+
+# embeddings
+sentence-transformers
+tiktoken
+
+# vector databases
+faiss-cpu
+
+# document parsing
+pymupdf
+pdfminer.six
+unstructured
+
+# data processing
+numpy
+pandas
+
+# graph database
+neo4j
+
+# arxiv API
+arxiv
+
+# async requests
+httpx
+aiofiles
+
+# evaluation
+scikit-learn
+rouge-score
+bert-score
+
+# monitoring/logging
+loguru
+
+# utilities
+tqdm
+tenacity
+
+pinecone-client
+weaviate-client
+redis
+prometheus-client
+langsmith

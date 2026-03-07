@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment
+.env
+venv/
+.env/
+
+# Vector DB
+data/vector_store/*
+data/metadata/*
+
+# Models
+models/
+*.bin
+*.pt
+
+# Ollama
+*.gguf
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

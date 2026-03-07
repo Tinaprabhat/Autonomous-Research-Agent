@@ -1,0 +1,1247 @@
+[
+  {
+    "text": "Top-Related Meta-Learning Method for Few-Shot Object Detection\nQian Li *\nState Key Laboratory of Computer Architecture, Institute of Computing Technology,\nUniversity of Chinese Academy of Sciences, Beijing, China\nliqian18s@ict.ac.cn\nNan Guo",
+    "chunk_id": 0,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "liqian18s@ict.ac.cn\nNan Guo\nState Key Laboratory of Computer Architecture, Institute of Computing Technology,Beijing, China\nguonan@ict.ac.cn\nXiaochun Ye, Duo Wang, Dongrui Fan and Zhimin Tang\nState Key Laboratory of Computer Architecture, Institute of Computing Technology,",
+    "chunk_id": 1,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "University of Chinese Academy of Sciences, Beijing, China\n{yexiaochun,wangduo18z,fandr,tang}@ict.ac.cn\nAbstract\nMany meta-learning methods are proposed for few-shot\ndetection. However, previous most methods have two main\nproblems, poor detection APs, and strong bias because of",
+    "chunk_id": 2,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "imbalance and insufficient datasets. Previous works mainly\nalleviate these issues by additional datasets, multi-relation\nattention mechanisms and sub-modules. However, they re-\nquire more cost. In this work, for meta-learning, we find\nthat the main challenges focus on related or irrelevant se-",
+    "chunk_id": 3,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "mantic features between categories. Therefore, based on se-\nmantic features, we propose a Top-C classification loss (i.e.,\nTCL-C) for classification task and a category-based group-\ning mechanism for category-based meta-features obtained\nby the meta-model. The TCL-C exploits the true-label pre-",
+    "chunk_id": 4,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "diction and the most likely C-1 false classification predic-\ntions to improve detection performance on few-shot classes.\nAccording to similar appearance (i.e., visual appearance,\nshape, and limbs etc.) and environment in which objects of-\nten appear, the category-based grouping mechanism splits",
+    "chunk_id": 5,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "categories into disjoint groups to make similar semantic\nfeatures more compact between categories within a group\nand obtain more significant difference between groups, al-\nleviating the strong bias problem and further improving de-\ntection APs. The whole training consists of the base model",
+    "chunk_id": 6,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "and the fine-tuning phases. According to grouping mecha-\nnism, we group the meta-features vectors obtained by meta-\nmodel, so that the distribution difference between groups is\nobvious, and the one within each group is less. Extensive\nexperiments on Pascal VOC dataset demonstrate that ours",
+    "chunk_id": 7,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "which combines the TCL-C with category-based grouping\n*https://github.com/futureisatyourhand\nsignificantly outperforms previous state-of-the-art methods\nfor few-shot detection. Compared with previous competi-\ntive baseline, ours improves detection APs by almost 4%\nfor few-shot detection.",
+    "chunk_id": 8,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "for few-shot detection.\n1. Introduction\nRecently, neural network has progressed quickly for\ncomputer vision. Various efficient methods [26] [27] [35]\n[12] depend on large labeled datasets.\nHowever, when\ndatasets are insufficient, it may result in overfitting and hurt-",
+    "chunk_id": 9,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "ing generalization performance. On the contrary, there is\na quite difference between the human vision system and\nthe computer vision system.\nFor the unlabeled datasets,\nthe human vision system can classify, locate and describe.\nComputer systems cannot do those.\nDespite most state-",
+    "chunk_id": 10,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Despite most state-\nof-the-art methods can succeed, they require more expen-\nsive datasets that are the labeled with auxiliary descriptions,\nsuch as shape, scene or color etc.\nThe predecessors propose few-shot learning methods\n[38] [15] [9], solving the above issues, and few-shot learn-",
+    "chunk_id": 11,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "ing includes classification, detection and segementation.\nFew-shot detection [2] [25] [42] is one of the most chal-\nlenging tasks. This paper finds two main challenges. First,\ndue to just few samples, the features which are extracted\nfrom standard CNNs are not suitable for few-shot learning,",
+    "chunk_id": 12,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "directly. In previous most state-of-the-art few-shot learning\nmethods, the classification is often regarded as the standard\ntask. For each iteration of training, classification is a binary\nclassification task for YOLOv2 [27], resulting in bias prob-",
+    "chunk_id": 13,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "lem and hurting performance on the other classes. Then,\nmany methods [39] [21] [20] are proposed for auxiliary fea-\narXiv:2007.06837v6  [cs.CV]  15 Jun 2021\ntures related to description. However, it is difficult to ensure\nwhether the external datasets are beneficial and tell which is",
+    "chunk_id": 14,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "noise. Therefore, many methods [39] [28] [21] learn aux-\niliary features by sub-modules to improve performance, re-\nquiring more labeled datasets and more parameters.\nIn order to solve those problems, based on [10], we\npropose a new top-C classification loss (i.e., TCL-C) for",
+    "chunk_id": 15,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "few-shot learning to improve performance of few-shot de-\ntection. For YOLOv2 [27], classification task is a binary\nclassification task and ignores other results. Although the\nCross-Entropy loss [30] or Focal loss [16] can reduce the\ntrust on the original label and increase the trust on the",
+    "chunk_id": 16,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "other labels to a certain extent. That cannot ensure that\nother categories-based features except for the true-label are\nbad for learning features, hurting detection performance be-\ncause of few samples.\nMany researchers exploit the la-\nbel smoothing and Cross-Entropy to alleviate the problem.",
+    "chunk_id": 17,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "However, they do not eliminate category-based irrelevant\nfeatures and enhance similarity semantic features between\ncategories. Smoothing label may increase irrelevant seman-\ntic features of other classes and hurt performance for few-\nshot learning.\nTherefore, for classification, except for",
+    "chunk_id": 18,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Therefore, for classification, except for\nthe true-label, we constraint the C-1 predictions with\nthe highest classification scores. Because the C-1 false\nclasses are the most likely to predict as the true-label, in\nthis paper, we regard them as the most likely C-1 false",
+    "chunk_id": 19,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "classification predictions, we can only set a simple con-\nstraint to enhance the semantic features relating with the\ntrue-label and suppress irrelevant semantic information.\nFor few-shot detection, previous many methods[36]\n[40][37] [8] [8] [4] [41] [33] exploit Faster R-CNN with",
+    "chunk_id": 20,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "FPN, multi-relation networks and ResNet with many other\nmechanisms as backbone to detect few-shot objects well.\nHowever, their networks are very complex, and they fail to\nconsider strong bias problem (i.e., model can detect classes\nwith sufficient training samples, and classes with the few",
+    "chunk_id": 21,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "samples is poor).\nIn this paper, we propose a category-\nbased grouping mechanism only by labels to allevaite strong\nbias problem. As shown in Figure 1 (a), the left in the first\nrow is the object \u201daero\u201d and the last one in the same row is\n\u201dbird\u201d, they are similar in appearance (i.e., visual appear-",
+    "chunk_id": 22,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "ance, shape, and limbs etc.). In most conditions, they often\nappear on the same environment. In this Figure, these are\nalso very similar in appearance. And the scenes are also\nsimilar between objects in 1th, 2th, and 4th column, and\nbetween objects in 3th and 5th column. As seen in Fig-",
+    "chunk_id": 23,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "ure 1, we split classes into disjoint groups. Therefore, this\nwork proposes a category-based grouping mechanism to as-\nsist model learn meta-features better. Few methods without\nadditional datasets or modules have found the characteris-\ntic, applying that into few-shot detection. Therefore, we",
+    "chunk_id": 24,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "alleviate the strong bias problem between classes and fur-\nther improve few-shot detection APs by the category-based\ngrouping. Based on the few-shot detection[10], our contri-\nbutions are as follows:\n\u2022 We\ndesign\na\ntop-C\nclassification\nloss\n(i.e.,TCL-C), which allows the true-label",
+    "chunk_id": 25,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "loss\n(i.e.,TCL-C), which allows the true-label\nprediction and the most likely C-1 false\nclassification predictions to improve perfor-\nmance on few-shot classes.\n\u2022 Based similar appearance (i.e., visual ap-\npearance, shape, and limbs etc.)\nand\nenvironment in which objects often ap-",
+    "chunk_id": 26,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "and\nenvironment in which objects often ap-\npear. We group categories into sub-groups\nwith disjoint each other.\nThen, we con-\nstruct a category-based grouping loss on\nmeta-features grouped, which alleviates the\nstrong bias problem and further improves\ndetection APs.\n\u2022 We\nexperiment\ndifferent",
+    "chunk_id": 27,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "detection APs.\n\u2022 We\nexperiment\ndifferent\nclassification\nlosses for few-shot detection on Pascal\nVOC, and all results show that our TCL-C\nperforms better.\n\u2022 Combining the TCL-C with category-based\ngrouping mechanism, for k-shot detection,\nk = 1, 2, 3, the detection APs achieve al-",
+    "chunk_id": 28,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "k = 1, 2, 3, the detection APs achieve al-\nmost 20%, 25%, 30%, respectively. Exper-\nimental results show that ours outperforms\nthe state-of-the-art methods, and grouping\nis beneficial for concentration of detection\nAPs between classes.\n.\n2. Related Work\nClassification Loss.",
+    "chunk_id": 29,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": ".\n2. Related Work\nClassification Loss.\nDifferent classification losses,\nsuch as the BCEwithLogits, the Cross-Entropy loss with\nSoftMax[30] [18] [17], are proposed. Most computer vision\ntasks use the Cross-Entropy to implement training. Then,\n[16] proposes a focal loss to alleviate the imbalance be-",
+    "chunk_id": 30,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "tween the positive and negative samples. However, many\ntasks based on YOLOv2 [27] just exploit a binary classifi-\ncation loss, resulting in the imbalance and ignoring the cor-\nrelation about categories. In this paper, for few-shot classes,\nwe assume that too much noise can hurt detection, and only",
+    "chunk_id": 31,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "the true-label may fail in learning relation with other cate-\ngories. Therefore, we propose the TCL-C for classification\ntask, which only focuses on the true-label and the most sim-\nilar C-1 false classes. Compared with [24], our TCL-C only\nexploits semantic information to promote performance.",
+    "chunk_id": 32,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Meta-Learning. Recently, different meta-learning al-\ngorithms have been proposed, including metric-based [14]\n[15] [11], memory networks [32] [23] [19], and optimiza-\ntion [7] [13] [6] [5] [10]. The first type learns a metric based\non few samples given and score a label of the target image",
+    "chunk_id": 33,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Other groups\nK groups\nGroup 1\nGroup 2\nGroup K\nOthers\n(a) The visualization of category grouping.\ngroup\nClass\n1\naero\nbird\n2\ncow\nhorse\ncat\nsheep\ndog\n3\nsofa\nchair\n4\ntv\nplant\ntable\n5\nboat\nbicycle\ntrain\ncar\nbus\nmbike\n6\nbottle\nperson\n(b) Category-based grouping table on Pascal VOC dataset.",
+    "chunk_id": 34,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Figure 1. Overall scheme of category-based grouping mechanism. In (a), all categories are divided into K groups. All categories in each\nrow are similar in appearance and environment appeared. All categories in each row are a group. When \u201cbird\u201d is flying, it looks like \u201caero\u201d.",
+    "chunk_id": 35,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "\u201ccows, horses, cats, sheep and dogs\u201d have four legs and similar shape, and they often appear in similar environments. We regard them as\na group. In this work, we experiment Pascal VOC dataset. As detailed in (b), all categories of Pascal VOC dataset are divided into 6 (i.e.,",
+    "chunk_id": 36,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "K=6) groups by (a). The appearance and the appeared environment are very similar between categories within a group.\naccording to similarity. The second is cross-task learning,\nand most memory networks widely are model-independent\nadaptation [5]. A model is learned on a variety of differ-",
+    "chunk_id": 37,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "ent tasks, making it possible to solve some new learning\ntasks with only few samples. Many researchers propose\nmany variants [22, 34] [1] [31]. The last one is a parame-\nter prediction.[10] detects objects by Yolov2 [27], and based\non that, we further improve performance and alleviate many",
+    "chunk_id": 38,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "problems for few-shot detection.\nFew-shot Detection. Previous most few-shot detection\nmethods mainly focus on fine-tuning and metric learning,\n[36][10] and [8] [4] [41] [33].[37] based on [29] predicts pa-\nrameters of category-specific by a weight prediction meta-",
+    "chunk_id": 39,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "model, but the category-agnostic is botained by base class\nsamples. [36] [8] [4] use FasterR R-CNN and ResNet-101\nwith FPN as backbone to detect objects. [3] transfers the ba-\nsis domain to the novel. [4] based on [29] exploits attention-\nRPN and three relations to improve performance for few-",
+    "chunk_id": 40,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "shot detection. However, those methods fail to consider un-\nequal detection APs and increase more parameters, result-\ning in training slower and poor performance on few-shot\nclasses. [33] uses a contrastive branch measures the simi-\nlarity between proposals, the method fails to the similarity",
+    "chunk_id": 41,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "between categories. [41] projects features into the category-\nbased embedding space which is obtained by a large corpus\nof text, the cost of embedding space is much more. There-\nfore, based on [10], we only split all categories into dis-\njoint groups to improve detection performance without ad-",
+    "chunk_id": 42,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "ditional sub-modules(i.e., FPN, multi-relation modules, and\nmetric function etc.), and captures the correlation between\ngroups or categories from the category-based meta-features\nto reduce unequal detection.\n3. Our Approach\nAs shown in Figure 2, we propose the TCL-C for clas-",
+    "chunk_id": 43,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "sification and category-based grouping mechanism to help\nmeta-model M learn the related features between cate-\ngories. The input of the meta-model M is an image and\na mask of only an object selected randomly. The value of\nthe mask within object is 1, otherwise, it is 0. Every it-",
+    "chunk_id": 44,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "eration, the M inputs the same number of samples as the\nnumber of categories. The meta-model M extracts meta-\nfeature vectors about classes as the weight for reweighting\nfeatures from feature extractor D, then, the classifier and\ndetector complete classification and regression task. Dur-",
+    "chunk_id": 45,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "ing training, we use the TCL-C and category-based group-\ning mechanism to train classification and help meta-model\nM, respectively. According to categories-based grouping\nmechanism, we split category-based meta-feature vectors\ninto groups to learning better meta-features.",
+    "chunk_id": 46,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "into groups to learning better meta-features.\n3.1. Feature Reweighting for Detection\nDifferent categories may have a common and unique dis-\ntribution.As shown in Figure 2, based on YOLOv2 [27], this\nmethod uses a meta-model M to obtain meta-feature about\ncategories for reweighting features.",
+    "chunk_id": 47,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "categories for reweighting features.\nThe meta-learning\nmodel takes each annotated sample (Ii, Bi), and for the cat-\negory i, i = 1, 2, ..., N, N represents the number of cate-\ngories. Ii and Bi represent the image and the selected mask\nof only an object on ith class, obtaining category-based",
+    "chunk_id": 48,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "meta-feature by M. The M learns to predict N vectors\nW, W = {w1, w2, w3, ..., wN}, where wi represents the\nmeta-feature vector of the i\u2212th category, wi = M(Ii, Bi),\nM is the meta-model. Based on Darknet-19, the author\nbuilds a feature extractor D which extracts basis features",
+    "chunk_id": 49,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Fj from the image Sj: Fj = D(Sj). Then, for class i, the\nreweighted feature vector is obtained according to wi and\nFj: Fj,i=Fj\u2297wi. Finally, based on Fj,i, the author uses\nclassifier and detector to classify and regress. See [10] for\ndetails\n3.2. TCL-C",
+    "chunk_id": 50,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "details\n3.2. TCL-C\nFor few-shot detection, especially for meta-learning, we\nuse the TCL-C to encourage model to train classification\nby the true-label prediction and the most likely C-1 false\nD:Feature\n Extractor\no x y h w c\no x y h w c\n...\nShared classifier & \nbox regressor\nTCL\npredictions",
+    "chunk_id": 51,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "box regressor\nTCL\npredictions\nforeground or backfground:o\ncenter:(x,y)\nsize:(h,w)\nc:confidence of class\nConv:3\u00d73/1\nGlobal max \npooling\nMax-pooling:2\u00d72/2\nConv:3\u00d73/1\n\u00d7\nBasic \nfeatures\nImage\nMask\nInput image\n... \nperson\ntvmonitor\n... \nconcat\nconcat\nGroup 1 Group 2\nGroup K\n...\nCategory-based \nGrouping",
+    "chunk_id": 52,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Group K\n...\nCategory-based \nGrouping\nM:meta-model\nFigure 2. Overall structure of our method. The detection model consists of a feature extractor D and a meta-model M.\nclassification predictions, enhancing the semantic features\nrelating with the true-label and suppressing irrelevant se-",
+    "chunk_id": 53,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "mantic information. As shown in Equation 1, our TCL-C\nmakes the features tend to learn the true-label and controls\neffect of the most similar C-1 classes by \u03b2+ and \u03b2c\n\u2212, re-\nspectively, improving performance on novel (i.e.,few-shot)\nclasses. Therefore, \u03b2+, \u03b2c\n\u2212denote the expected classifica-",
+    "chunk_id": 54,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "\u2212denote the expected classifica-\ntion score of true-label, and highest k \u2212th classes expected\nscores except for the true-label, respectively. Because of\ndifferent similarities between categories,\u03b2c\n\u2212is obtained\nthrough extensive experiments. Therefore, in this paper, our",
+    "chunk_id": 55,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "experiment about TCL-C is only 2(i.e.,C=2), as detailed in\nEquation2. Finally, \u03b7 and \u03b3 affect the convergence rate. De-\ntailed in Equation 1 below.\nLcls = Lcls\npos + Lcls\nneg\nLcls\npos = log(\u03b7 + e\u03b3(\u03b2+\u2212Pt))\nLcls\nneg =log(\u03b7 + e\u03b3(Ft\n1\u2212\u03b21\n\u2212)) + log(\u03b7 + e\u03b3(Ft\n2\u2212\u03b22\n\u2212))\n+ \u00b7 \u00b7 \u00b7 + log(\u03b7 + e\u03b3(Ft\nc\u2212\u03b2c",
+    "chunk_id": 56,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "2\u2212\u03b22\n\u2212))\n+ \u00b7 \u00b7 \u00b7 + log(\u03b7 + e\u03b3(Ft\nc\u2212\u03b2c\n\u2212)) + \u00b7 \u00b7 \u00b7 +\nlog(\u03b7 + e\u03b3(Ft\nC\u2212\u03b2C\n\u2212)), 2 \u2264C \u2264N\n(1)\nwhere Lcls\npos and Lcls\nneg represent the loss functions for\nthe true-label class and the most likely C-1 false classes, re-\nspectively. Pt and Ft represent the prediction score on the",
+    "chunk_id": 57,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "true-label class, and prediction scores of the most similar\nC-1 classes(i.e., the most likely C-1 false classes), respec-\ntively. 0 \u2264\u03b2k\n\u2212\u22641, \u03b2k\n\u2212is the expected threshold for\nthe kth (i.e., k=1, 2, ..., C) similar category. During anal-\nysis, as detailed in Equation 2, we only experiment TCL-2.",
+    "chunk_id": 58,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "When C is bigger than 2 for TCL-C, how much influence\nother classes except for the true-label have on detection, we\nneed to adjust the threshold value of each category dynam-\nically to apply to the true-label, which requires extensive\nexperiments, and we will experiment it in the future. There-",
+    "chunk_id": 59,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "fore, we urge the model to distinguish between the semantic\nfeatures of the two most similar categories, improving the\ndetection APs on few-shot classes.\nLcls\nneg = log(\u03b7 + e\u03b3(Ft\u2212\u03b2\u2212))\n(2)\n3.3. Category-Based Grouping\nAs detailed in Figure 2, meta-learning uses the correla-",
+    "chunk_id": 60,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "tion between categories for few-shot detection. As shown\nin Figure 1, our grouping mechanism focuses on appear-\nance, followed by the environment, splitting all categories\ninto K groups which are disjoint with each other.\nWe\nmainly analyze the mean and variance of the category-based",
+    "chunk_id": 61,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "meta-feature distribution from M. As for the principle (see\nFigure 1), as shown in Equation 3,we propose a category-\nrelated loss about groups, the intra-group distance is smaller\nand the inter-group distance is larger. Our method encour-\nages the variance of the mean value of the feature vector",
+    "chunk_id": 62,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "smaller for every group, making the semantic feature distri-\nbution more compact between categories within each group,\nand helps the feature distribution sparser between groups,\nimproving detection APs and reducing the detection disper-\nsion on the all categories.\nLre\u2212meta =\nK\nX\nj=1\nlog(\u03c4 + Lj",
+    "chunk_id": 63,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Lre\u2212meta =\nK\nX\nj=1\nlog(\u03c4 + Lj\ngroup)\n(3)\nAs detailed in Equation 3, where Ljgroup is cost composed\nof within kth group and between the kth group and other\ngroups, \u03c4 is set to 1.0. As shown in Equation 4.\nLj\ngroup =\nWmean\u2212std\nj\n\u03f5 +\n1\nWmean\u2212stdj +\nK\nP\nk=j+1\nLj,k\nLj,k = e(Wstd\nj\u2212Wstd\nk)\n2\n+ e(Wmean",
+    "chunk_id": 64,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "P\nk=j+1\nLj,k\nLj,k = e(Wstd\nj\u2212Wstd\nk)\n2\n+ e(Wmean\nj\u2212Wmean\nk)\n2\n(4)\nwhere Lj,k represents the meat-features distribution differ-\nence between the jth group and the kth group, we ex-\npect the value to be as big as possible. Wmean\u2212std\nj rep-\nresent the dispersion of concentration of the meta-feature",
+    "chunk_id": 65,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "space between categories within the jth group, and we ex-\npect it to be as small as possible (i.e., distribution between\ncategories within gruops is more compact).\nWstd\nj and\nWmean\nj represents the dispersion metric and the concen-\ntration metric of meta-features between categories within",
+    "chunk_id": 66,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "the jth group , respectively.\nAccording to Equation 3,\nwe expect the distribution of different categories within the\ngroups is more compact, and the different groups are far far-\nther from each other (i.e., distribution is obvious between\ngroups). Wmean\u2212std\nj is smaller, then, Wstd\nj \u2212Wstd\nk",
+    "chunk_id": 67,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "j is smaller, then, Wstd\nj \u2212Wstd\nk\nand Wmean\nj \u2212Wmean\nk are bigger. Every theory is de-\ntailed below.\nWmean\u2212std\nj =\nv\nu\nu\nt\n1\n||Cj||\n||Cj||\nX\nm=1\n(umj \u2212uj)2\n(5)\nwhere we expect the value to be smaller. Cj is the jth\ngroup, and ||Cj|| represents the number of classes within",
+    "chunk_id": 68,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "the jth group. uj is the mean value of all features for the\njth group, and umj is the mean value of meta-features for\nthe mth class of the jth group.\nWstd\nj =\n\uf8f1\n\uf8f4\n\uf8f4\n\uf8f4\n\uf8f2\n\uf8f4\n\uf8f4\n\uf8f4\n\uf8f3\nv\nu\nu\nt\n1\n||Cj||\n||Cj||\nX\nm=1\n(\u03b4m\nj \u2212\u03b4j)\n2,\n||Cj|| > 1.\n\u03b4m\nj,\n||Cj|| = 1.\n(6)\nWmean\nj =\n\uf8f1\n\uf8f4\n\uf8f4\n\uf8f2\n\uf8f4\n\uf8f4\n\uf8f3\n1\n||Cj||\n||Cj||\nX",
+    "chunk_id": 69,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "(6)\nWmean\nj =\n\uf8f1\n\uf8f4\n\uf8f4\n\uf8f2\n\uf8f4\n\uf8f4\n\uf8f3\n1\n||Cj||\n||Cj||\nX\nm=1\num\nj,\n||Cj|| > 1.\num\nj,\n||Cj|| = 1.\n(7)\nui =\n1\n|F|\n|F |\nX\nf=1\nxf\ni,\n\u03b4i =\nv\nu\nu\nt 1\n|F|\n|F |\nX\nf=1\n(xf i \u2212ui)2\n(8)\nwhere x denotes that the category-related |F|-dimension\nmeta-feature vectors, |F| = 1024, i = 1, 2, 3, ..., N. ui and",
+    "chunk_id": 70,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "\u03b4i represent the mean value and variance of meta-feature for\nthe ith category, respectively. Within the jth group, \u03b4m\nj\nand \u03b4j are the variance value of the mth class and the vari-\nance value of all meta-features, respectively. As shown in",
+    "chunk_id": 71,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Figure 1, all 20 categories are divided into 6 groups, K = 6,\nCj \u2208{C1, C2, ..., C6}. Because of the correlation loss of\neach group, the value of the log function is less than 0.\nTherefore, the parameter \u03c4 is used to ensure that the loss is\na positive value, and the parameter must be greater than or",
+    "chunk_id": 72,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "equal to 1. In terms, the method alleviates the phenomenon\nwhich the performance on different categories varies greatly\nfor few-shot detection. See Appendix A for details.\n3.4. Loss Details\nCategory-Based Grouping. Considering that different\ncategories in different environments have the similar ap-",
+    "chunk_id": 73,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "pearance and different categories are in the similar environ-\nment, in order to reduce the setting, we mainly focus on the\nappearance similarity, followed by the environment, and we\nset classes with the similar appearance and scenes appeared",
+    "chunk_id": 74,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "as a group. As shown in Figure 1 (b), we divide the Pascal\nVOC with 20 categories into 6 groups, namely K = 6. As\nshown in the Equation 3, we set the parameter \u03c4, \u03f5 to 1 and\n0.00005 respectively.\nLoss Functions. In order to train the meta-model and en-",
+    "chunk_id": 75,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "sure that the shared features ( i.e., within a group) are more\ncompact between the meta-features of the similar seman-\ntic objects, we jointly train classification, category-based\ngrouping, and regression, as shown in Equation 9. Com-\npared with state-of-the-art classification methods, our TCL-",
+    "chunk_id": 76,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "2 method is more suitable for few-shot detection.\nLloc = Lloc(x) + Lloc(y) + Lloc(w) + Lloc(h)\nL = \u03b1Lcls + \u03c9Lre\u2212meta + \u03bbLloc\n(9)\nwhere Lre\u2212meta denotes the category-based grouping loss.\nLloc includes the center location loss Lloc(x), Lloc(y) and",
+    "chunk_id": 77,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "scale loss Lloc(w), Lloc(h). In this experiment, the classi-\nfication, similarity, and regression balance parameters, \u03b1, \u03c9\nand \u03bb, are set to 1, 6, and 1, respectively.\n4. Experiments and Results\nThis experiment consists of the base training and few-\nshot fine-tuning.",
+    "chunk_id": 78,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "shot fine-tuning.\nAs shown in Figure 2, the output of\nthe meta-model M is related to the number of categories,\nand each category-based meta-feature vector is represented\nas a 1024-dimension vector. We experiment with differ-\nent classification losses, BCEwithLogits, Focal [16], Cross-",
+    "chunk_id": 79,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Entropy [30] and the TCL-2, combining with the Category-\nbased Grouping, respectively.\nMethods which combine\nall classification losses and our proposed category-based\ngrouping are regarded as Re-BCEwithLogits, Re-Focal, Re-\nCross-Entropy, and Ours (i.e.,Re-TCL-2), respectively. De-\ntail as follows.",
+    "chunk_id": 80,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "tail as follows.\n4.1. DataSets and Setting\nThe Pascal VOC DataSet contains 20 categories, we ran-\ndomly select 5 categories as novel(i.e., few-shot) categories\nwith few samples (i.e.,k-shot, k = 1, 2, 3, 5) for fine-tuning,\nand the remaining 15 categories as base classes with suf-",
+    "chunk_id": 81,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "ficient samples for the base model. The 20 categories are\nrandomly divided into 6 novel parts, and we experiment 3\nparts obtained as the novel classes for fine-tuning k-shot,\nk = 1, 2, 3, 5. Our setting is the same with [10]. During\nbase classes training, only samples with 15 categories are",
+    "chunk_id": 82,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "trained, and the remaining regarded as novel classes with\n5 categories are fine-tuned, and each novel class has only\nk-shot, named 5-way k-shot. For meta-model, when there\nare multiple objects in an image, only an object mask is\nrandomly selected corresponding to the classes. All mod-",
+    "chunk_id": 83,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "els are trained by 4 GPUs with 64 batch sizes, and we train\nfor 80,000 iterations for base model. In our work, we use\ntest sets of VOC2007 as our test sets, and training/validation\nsets of VOC2007 and VOC2012 as our training sets. We use\nSGD with momentum 0.9, and L2 weight-decay 0.0005 for",
+    "chunk_id": 84,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "detector and meta-model.\n4.2. Ablation Studies\nOur experiments are mainly for 5-way k-shot. We an-\nalyze the detection performance on Pascal VOC by the\ncategory-based meta-feature grouping and different classi-\nfication losses. The details are as follows.",
+    "chunk_id": 85,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "fication losses. The details are as follows.\n(a) Curves of the APs(%) normalized for all methods.\n(b) Curves of the APs(%) normalized for different \u03b2\u2212.\nFigure 3.\nFor Pascal VOC, in (a), for novel set1 2-shot, the\ncurve shows all epochs fine-tuning results of the detection APs",
+    "chunk_id": 86,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "(%) on the novel classes. Our method obviously outperforms oth-\ners. In (b), Results with solid line are normalized APs on the novel\nclasses, and results with the dashed line are the detection normal-\nized APs on all categories. For TCL-2, when the \u03b2\u2212is set to 0.5,",
+    "chunk_id": 87,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "our method is better for fine-tuning novel1 2-shot.\n4.2.1\nThe Importance of the TCL\nImpact of \u03b2\u2212. As shown in Equation 1, \u03b2\u2212is essential\nfor our TCL-2. The threshold of true-label \u03b2+ is 1.0, the\nthreshold of the most likely false classification prediction\n\u03b2\u2212is set to 0.5.",
+    "chunk_id": 88,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "\u03b2\u2212is set to 0.5.\n\u03b2\u2212cannot be too large or small.\nIf\nit is too large, making meta-model drive the other classes\ntowards the true-label,and that causes semantically similar\ncategories to become ambiguous and inconducive to classi-\nfication. Otherwise, it makes the model trust only the true-",
+    "chunk_id": 89,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "label,and that make farther gap between similar categories\nand fail to make full use of semantic to assist each other. As\nillustrated in Figure 3(b), when the \u03b2\u2212is greater than 0.5,\nthe APs distribution on the novel classes(see the solid line)",
+    "chunk_id": 90,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "is consistent, and best APs on all categories(see the dashed\nline) is lower than our setting, \u03b2\u2212= 0.5. When \u03b2\u2212is less\nthan 0.5, the APs on the novel classes tend to be smooth\nbecause the semantics between the true-label and the false\nmost likely classification results are clearly separated, mak-",
+    "chunk_id": 91,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "ing model trust the true-label most and failing to weaken the\nassistance of false true result. Therefore, when the \u03b2\u2212is set\nto 0.5, our method can exploit similar semantics distribution\nbetween different categories to improve the performance on\nnovel classes better.",
+    "chunk_id": 92,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "novel classes better.\nComparsion with the state-of-the-art losses.\nAs\nshown in Table 1, compared with the state-of-the-art BCE-\nwithLogits, Focal [16], and Cross-Entropy [30], our TCL-\n2 can improve the few-shot detection performance.\nFor\nnovel set 1, the 1-shot detection APs of TCL-2 is 2.73%,",
+    "chunk_id": 93,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "2.88%, and 3.78% better than the other classification losses,\nrespectively. The TCL-2 is better than the other classifi-\ncation methods by 1.23%, 0.73%, and 5.53% for 3-shot,\nrespectively.TCL-2 has another advantage (i.e.,alleviating\nthe strong bias problem). As shown in Table 2, for exam-",
+    "chunk_id": 94,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "ple, our TCL-2 for dispersion of detection APs is 2.04%,\n4.0%, and 4.15% better than the BCEwithLogits, Focal and\nCross-Entropy on novel set 1, respectively.\n4.2.2\nAnalysis of the Category-based Grouping\nImpact on every strategy. We design the scheme in Equa-",
+    "chunk_id": 95,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "tion 10 by category-based grouping mechanism (i.e., Fig-\nure 1 and Equation 3). Then, the experiment analyzes every\ncomponent (i.e., qj, Qj and Uj).\nLre\u2212meta =\nK\nX\nj=1\nlog(\u03c4 +\nqj\n\u03f5 + Qj +\nK\nP\nk=j+1\nUj\n).\n(10)\nExcept for the best strategy (Equation 3 and Equation 4),",
+    "chunk_id": 96,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "we experiment three other strategies, details as follows:\nqj = 1, Qj = 0, Uj = e(Wstd\nj\u2212Wstd\nk)\n2\n(11)\nNovel Set1\nNovel Set2\nNovel Set3\nMethod/shot\n1\n2\n3\n5\n1\n2\n3\n5\n1\n2\n3\n5\nBCEwithLogits\n16.42\n18.51\n27.41\n36.07\n13.59\n14.71\n26.3\n35.2\n15.1\n15.62\n26.14\n31.6\nRe-BCEwithLogits\n13.26\n17.46\n24.31\n33.76",
+    "chunk_id": 97,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "31.6\nRe-BCEwithLogits\n13.26\n17.46\n24.31\n33.76\n18.29\n19.71\n26.99\n35.3\n11.0\n13.0\n20.74\n31.95\nFocal\n16.27\n21.63\n27.91\n37.43\n10.39\n15.23\n18.36\n34.09\n9.6\n8.87\n20.16\n27.54\nRe-Focal\n18.22\n20.05\n20.45\n36.15\n14.16\n15.88\n23.13\n27.2\n7.3\n8.67\n16.35\n28.6\nCross-Entropy\n15.37\n19.11\n23.11\n35.18\n16.04\n19.2\n25.46",
+    "chunk_id": 98,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "15.37\n19.11\n23.11\n35.18\n16.04\n19.2\n25.46\n35.84\n12.19\n15.3\n20.31\n31.91\nRe-Cross-Entropy\n18.55\n21.02\n22.25\n36.5\n15.15\n20.81\n26.07\n33.45\n13.07\n14.53\n23.93\n35.58\nTCL-2\n19.15\n21.23\n28.64\n36.94\n17.56\n22.25\n25.57\n38.45\n12.27\n17.33\n30.81\n35.08\nOurs\n20.08\n26.75\n29.76\n36.28\n18.07\n24.66\n30.94\n39.04\n19.42",
+    "chunk_id": 99,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "26.75\n29.76\n36.28\n18.07\n24.66\n30.94\n39.04\n19.42\n17.43\n23.24\n37.66\nTable 1. The results of detection APs(%) on novel classes. For few-shot detection on Pascal VOC, our method significantly outperforms\nothers.\nShot/Method\nBCEwithLogits\nRe-BCEwithLogit\nFocal\nRe-Focal\nCross-Entropy\nRe-Cross-Entropy",
+    "chunk_id": 100,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Focal\nRe-Focal\nCross-Entropy\nRe-Cross-Entropy\nTCL-2\nOurs\n1\n55.04\n58.58\n57.0\n54.77\n57.15\n53.86\n53.0\n52.63\n2\n52.84\n54.46\n57.0\n51.99\n53.36\n50.63\n50.93\n46.45\n3\n45.81\n48.28\n45.67\n51.22\n49.63\n48.6\n45.46\n44.37\n5\n41.1\n42.07\n40.74\n32.57\n41.95\n40.64\n41.82\n41.36",
+    "chunk_id": 101,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "5\n41.1\n42.07\n40.74\n32.57\n41.95\n40.64\n41.82\n41.36\nTable 2. Dispersion of the detection APs(%) on all categories. For novel set1, our method obviously alleviates the strong bias, reducing\ndispersion of detection performance.\nwhere related grouping is only related to dispersion of meta-",
+    "chunk_id": 102,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "feature distribution between groups, the method fails to take\ninto account the similarity of meta-feature distribution be-\ntween groups. Therefore, we optimize the component Uj,\nas detailed below:\nqj = 1, Qj = 0\nUj = e(Wstd\nj\u2212Wstd\nk)\n2\n+ e(Wmean\nj\u2212Wmean\nk)\n2\n(12)",
+    "chunk_id": 103,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "j\u2212Wstd\nk)\n2\n+ e(Wmean\nj\u2212Wmean\nk)\n2\n(12)\nUj can learn features between groups.\nHowever, the\nmethod fails to learn meta-feature distribute within a group.\nThen,our best category-based grouping metric (Equation\n3) makes the distribution of meta-features more compact",
+    "chunk_id": 104,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "within a group and the difference between groups more ob-\nvious. In the other hand, if the category-based grouping is\nonly attribute to the disperse and similarity of meta-feature\nbetween groups, grouping mechanism cannot learn the dif-\nference of meta-features between categories within a group,",
+    "chunk_id": 105,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "failing to distinguish between different categories of meta-\nfeature distribution within a group, detail as follow:\nqj = Wmean\u2212std\nj, Qj =\n1\nWmean\u2212std\nj .\nUj = e(Wstd\nj\u2212Wstd\nk)\n2\n.\n(13)\nAs shown in Table 3 , for every strategy ( Equation 3, 10,\n11,12,and 13), we experiment different Re-TCL methods",
+    "chunk_id": 106,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "which combine our TCL-2 with different category-based\ngrouping methods. Ours combining TCL-2 with the strat-\negy (in Equation 3) is better for few-shot detection.\nImpact\nof\ncategory-based\ngrouping\nmechanism.\nWithout additional datasets, as detailed in Equation3, we",
+    "chunk_id": 107,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "mainly focus on the similar appearance between categories,\nfollowed by similar scenes, exploiting the relationships\nto promote performance.\nFor Equation 3, we analyze\ncategory-based grouping, and compare with every ablation.\nAs shown in Table 1, compared with only classification",
+    "chunk_id": 108,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "losses, splitting 20 categories into 6 disjoint groups can im-\nprove performance for few-shot detection.\nImpact on dispersion.\nAs shown in Table 2, Re-\nBCEwithLogits, Re-Focal, and Re-Cross-Entropy is com-\npared with the BCEwithLogits, Focal, and Cross-Entropy,",
+    "chunk_id": 109,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "respectively. We find that the better meta-feature distribu-\ntion between categories can alleviate the unbalanced perfor-\nmance on all categories. Especially for novel set1 2-shot,\nthe dispersion of Re-Focal and Re-Cross-Entropy are re-\nduced by 5.01% and 2.73%, respectively. Therefore, our",
+    "chunk_id": 110,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "category-based grouping mechanism can help distribution\nbetween similar semantic classes more compact and exploit\nthe correlation between categories better, and alleviate the\nstrong bias problem.\nAs shown in Figure 4, for a subgraph, each category-",
+    "chunk_id": 111,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "based meta-feature is represented by different color his-\ntograms, and each subgraph is represented as a group with\ncategories. We find that the meta-features distribution is\nvery similar within a group, and the difference between\ngroups is obvious.\n4.3. Visualization and Results",
+    "chunk_id": 112,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "groups is obvious.\n4.3. Visualization and Results\nOur TCL-C and category-based grouping can improve\ndetection performance on few-shot classes, as seen in Ap-\npendix B. First, as detailed in Equation 1 and Figure 3 (a),\nour TCL-2 performs better for similar semantics to improve",
+    "chunk_id": 113,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "the detection APs on few-shot classes.\nNovel Set 1\nAPs\nShot\nMethod\nboat\ncat\nmbike\nsheep\nsofa\nmean\nbase AP\nAP\n1\nRe-TCL-2 (Equation 10 and 11)\n9.39\n37.6\n28.63\n17.93\n12.84\n21.27\n65.72\n54.61\nRe-TCL-2 (Equation 10 and 12)\n4.55\n32.78\n29.89\n18.28\n10.87\n19.27\n66.51\n54.7\nRe-TCL-2 (Equation(10 and 13)\n9.09",
+    "chunk_id": 114,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "66.51\n54.7\nRe-TCL-2 (Equation(10 and 13)\n9.09\n34.75\n21.63\n17.11\n19.67\n20.45\n65.14\n53.97\nOurs 3\n9.53\n33.58\n32.28\n19.66\n5.34\n20.08\n65.44\n54.1\n2\nRe-TCL-2 (Equation 10 and 11)\n7.22\n41.24\n20.34\n32.36\n13.66\n22.96\n64.83\n55.61\nRe-TCL-2 (Equation 10 and 12)\n5.22\n39.38\n33.79\n33.46\n11.9\n24.75\n65.05\n54.97",
+    "chunk_id": 115,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "5.22\n39.38\n33.79\n33.46\n11.9\n24.75\n65.05\n54.97\nRe-TCL-2 (Equation 10 and 13)\n2.19\n45.05\n25.01\n27.84\n17.8\n23.56\n64.83\n54.51\nOur 3\n10.61\n35.11\n33.75\n35.89\n18.38\n26.75\n65.18\n55.58\n3\nRe-TCL-2 (Equation 10 and 11)\n6.32\n47.77\n22.45\n27.92\n29.99\n26.89\n65.55\n55.89\nRe-TCL-2 (Equation 10 and 12)\n10.46\n47.35",
+    "chunk_id": 116,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "55.89\nRe-TCL-2 (Equation 10 and 12)\n10.46\n47.35\n27.08\n26.12\n37.72\n29.75\n65.11\n56.27\nRe-TCL-2 (Equation 10 and 13)\n10.29\n39.55\n18.76\n28.67\n33.84\n26.22\n65.18\n55.44\nOurs 3\n10.29\n46.05\n28.11\n29.81\n34.52\n29.76\n65.64\n56.67",
+    "chunk_id": 117,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "10.29\n46.05\n28.11\n29.81\n34.52\n29.76\n65.64\n56.67\nTable 3. The detection APs(%) on Pascal VOC by combining our TCL-2 with different category-based grouping methods. For k-shot",
+    "chunk_id": 118,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "detection, k = 1, 2, 3, ours is better than others for novel set1. This table illustrates APs (i.e., every novel class, the mean APs on the novel\nclasses, the mean APs on the base classes, and the mean APs on the all categories).",
+    "chunk_id": 119,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Figure 4. Histogram of meta-features distribution. The distribution of meta-feature vectors of 20 categories. In a sub-figure, the feature\nvectors of each group are represented, and different colors represent different categories within a group. Every meta-feature in a subgraph",
+    "chunk_id": 120,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "is very similar, and the distribution difference between subgraphs is obvious. Our method can extract shared meta-features within a group\nbetter.\nThen, according to the similar appearance and environ-\nment which different categories appear, as detailed in Fig-",
+    "chunk_id": 121,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "ure 1 and Equation 3, we split all categories into K groups\nwhich is disjoint each other.\nThe distribution of meta-\nfeatures is compact between categories within a group, the\ndistribution between groups is far away from each other.\nThat category-based grouping exploits similar distribution",
+    "chunk_id": 122,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "of category-based meta-features and reduces the detection\ndispersion on all categories. As can be seen from Figure\n3 (a), Figure 4 and Table 1, the category-based grouping\nhelps meta-model extract the shared meta-features between\ncategories and ours improves the detection APs by similar",
+    "chunk_id": 123,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "semantics between categories. As shown in Table 2, ours\nreduces the dispersion of the detection APs on all classes.\nCombining TCL-2 with category-based grouping is more\nbeneficial for few-shot detection. As shown in Table 1, for\nk-shot detection, k = 1, 2, 3,ours is better, and the detection",
+    "chunk_id": 124,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "APs are close to 20.0%, 25%, 30%, respectively. For novel\nset3, the novel classes are \u201d aero, bottle, cow, horse, sofa\u201d\nand the remaining is the base classes. Although there is no\nnovel class associated with the base categories, our method\nis 4.32%, 9.82% and 6.35% better than the BCEwithLog-",
+    "chunk_id": 125,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "its, the Focal and Re-Cross-Entropy for novel set3 1-shot,\nrespectively.\n5. Conclusions\nFor few-shot detection, we present a TCL-C for exploit-\ning the true-label and the most similar C-1 classes to im-\nprove the detection performance on few-shot classes, and",
+    "chunk_id": 126,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "a category-based grouping method for helping meta-model\nextract category-related meta-features better, alleviating the\nstrong bias problem and further improving performance.\nBased on similar appearance or the environment they often\nappeared, this paper splits categories into disjoint groups",
+    "chunk_id": 127,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "manually. This method helps the meta-model extract meta-\nfeature vectors, making distribution of meta-features within\na group more compact and difference of meta-features more\nobvious between groups.\nFor 1-shot, 2-shot, and 3-shot\ndetection, our method obtains all detection APs of almost",
+    "chunk_id": 128,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "20%, 25%, and 30%. In the future, rather than group man-\nually, we will combine categories-embedded features and\nunsupervised clustering to group more categories dynami-\ncally to improve performance for few-shot detection.\nReferences\n[1] Antreas Antoniou, Harrison Edwards, and Amos Storkey.",
+    "chunk_id": 129,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "How to train your maml. arXiv: Learning, 2018. 3\n[2] Ankan Bansal, Karan Sikka, Gaurav Sharma, Rama Chel-\nlappa, and Ajay Divakaran. Zero-shot object detection. pages\n397\u2013414, 2018. 1\n[3] Hao Chen, Yali Wang, Guoyou Wang, and Yu Qiao. Lstd: A",
+    "chunk_id": 130,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "low-shot transfer detector for object detection. pages 2836\u2013\n2843, 2018. 3\n[4] Qi Fan, Wei Zhuo, Chi-Keung Tang, and Yu-Wing Tai. Few-\nshot object detection with attention-rpn and multi-relation\ndetector.\nIn Proceedings of the IEEECVF Conference on",
+    "chunk_id": 131,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "In Proceedings of the IEEECVF Conference on\nComputer Vision and Pattern Recognition, pages 4013\u2013\n4022, 2020. 2, 3\n[5] Chelsea Finn, Pieter Abbeel, and Sergey Levine.\nModel-\nagnostic meta-learning for fast adaptation of deep networks.\npages 1126\u20131135, 2017. 2, 3\n[6] Chelsea Finn and Sergey Levine.",
+    "chunk_id": 132,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "[6] Chelsea Finn and Sergey Levine.\nMeta-learning and uni-\nversality: Deep representations and gradient descent can ap-\nproximate any learning algorithm. arXiv: Learning, 2017.\n2\n[7] Erin Grant, Chelsea Finn, Sergey Levine, Trevor Darrell, and",
+    "chunk_id": 133,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Thomas L Griffiths. Recasting gradient-based meta-learning\nas hierarchical bayes. arXiv: Learning, 2018. 2\n[8] Ting-I Hsieh, Yi-Chen Lo, Hwann-Tzong Chen, and Tyng-\nLuh Liu. One-shot object detection with co-attention and\nco-excitation. arXiv preprint arXiv:1911.12529, 2019. 2, 3",
+    "chunk_id": 134,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "[9] Muhammad Abdullah Jamal and Guo-Jun Qi. Task agnos-\ntic meta-learning for few-shot learning. In Proceedings of\nthe IEEE/CVF Conference on Computer Vision and Pattern\nRecognition, pages 11719\u201311727, 2019. 1\n[10] Bingyi Kang, Zhuang Liu, Xin Wang, Fisher Yu, Jiashi Feng,\nand Trevor Darrell.",
+    "chunk_id": 135,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "and Trevor Darrell.\nFew-shot object detection via feature\nreweighting. pages 8420\u20138429, 2019. 2, 3, 5\n[11] Junsik Kim, Taehyun Oh, Seokju Lee, Fei Pan, and In So\nKweon. Variational prototyping-encoder: One-shot learning\nwith prototypical images. arXiv: Computer Vision and Pat-",
+    "chunk_id": 136,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "tern Recognition, 2019. 2\n[12] Tao Kong, Fuchun Sun, Huaping Liu, Yuning Jiang, and\nJianbo Shi. Foveabox: Beyond anchor-based object detec-\ntor. arXiv preprint arXiv:1904.03797, 2019. 1\n[13] Yoonho Lee and Seungjin Choi.\nGradient-based meta-",
+    "chunk_id": 137,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Gradient-based meta-\nlearning with learned layerwise metric and subspace. pages\n2927\u20132936, 2018. 2\n[14] Wenbin Li, Lei Wang, Jinglin Xu, Jing Huo, Yang Gao, and\nJiebo Luo. Revisiting local descriptor based image-to-class\nmeasure for few-shot learning. pages 7260\u20137268, 2019. 2",
+    "chunk_id": 138,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "[15] Yann Lifchitz, Yannis Avrithis, Sylvaine Picard, and Andrei\nBursuc.\nDense classification and implanting for few-shot\nlearning. pages 9258\u20139267, 2019. 1, 2\n[16] Tsung Yi Lin, Priyal Goyal, Ross Girshick, Kaiming He, and\nPiotr Dollar. Focal loss for dense object detection. IEEE",
+    "chunk_id": 139,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Transactions on Pattern Analysis & Machine Intelligence,\nPP(99):2999\u20133007, 2017. 2, 5, 6\n[17] Weiyang Liu, Yandong Wen, Zhiding Yu, Ming Li, Bhiksha\nRaj, and Le Song. Sphereface: Deep hypersphere embedding\nfor face recognition. pages 6738\u20136746, 2017. 2",
+    "chunk_id": 140,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "for face recognition. pages 6738\u20136746, 2017. 2\n[18] Weiyang Liu, Yandong Wen, Zhiding Yu, and Meng Yang.\nLarge-margin softmax loss for convolutional neural net-\nworks. arXiv: Machine Learning, 2016. 2\n[19] Nikhil Mishra, Mostafa Rohaninejad, Xi Chen, and Pieter\nAbbeel.",
+    "chunk_id": 141,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Abbeel.\nA simple neural attentive meta-learner.\narXiv\npreprint arXiv:1707.03141, 2017. 2\n[20] Ishan Misra, Abhinav Shrivastava, and Martial Hebert.\nWatch and learn: Semi-supervised learning for object de-\ntectors from video. In Proceedings of the IEEE Conference",
+    "chunk_id": 142,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "on Computer Vision and Pattern Recognition, pages 3593\u2013\n3602, 2015. 1\n[21] Jian Ni, Shanghang Zhang, and Haiyong Xie. Dual adversar-\nial semantics-consistent network for generalized zero-shot\nlearning. arXiv preprint arXiv:1907.05570, 2019. 1, 2",
+    "chunk_id": 143,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "[22] Alex Nichol, Joshua Achiam, and John Schulman. On first-\norder meta-learning algorithms. arXiv: Learning, 2018. 3\n[23] Boris N Oreshkin, Pau Rodriguez Lopez, and Alexandre La-\ncoste. Tadam: Task dependent adaptive metric for improved\nfew-shot learning. pages 721\u2013731, 2018. 2",
+    "chunk_id": 144,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "few-shot learning. pages 721\u2013731, 2018. 2\n[24] Shafin Rahman, Salman Khan, and Nick Barnes.\nPo-\nlarity loss for zero-shot object detection.\narXiv preprint\narXiv:1811.08982, 2018. 2\n[25] Shafin Rahman, Salman Khan, and Fatih Porikli. Zero-shot",
+    "chunk_id": 145,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "object detection: Learning to simultaneously recognize and\nlocalize novel concepts. In Asian Conference on Computer\nVision, pages 547\u2013563. Springer, 2018. 1\n[26] Joseph Redmon, Santosh Divvala, Ross Girshick, and Ali\nFarhadi. You only look once: Unified, real-time object de-\ntection. 2015. 1",
+    "chunk_id": 146,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "tection. 2015. 1\n[27] Joseph Redmon and Ali Farhadi. Yolo9000: Better, faster,\nstronger. In IEEE Conference on Computer Vision & Pattern\nRecognition, 2017. 1, 2, 3\n[28] Mengye Ren, Renjie Liao, Ethan Fetaya, and Richard S\nZemel. Incremental few-shot learning with attention attrac-",
+    "chunk_id": 147,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "tor networks. arXiv preprint arXiv:1810.07218, 2018. 2\n[29] Shaoqing Ren, Kaiming He, Ross Girshick, and Jian Sun.\nFaster r-cnn: Towards real-time object detection with region\nproposal networks. IEEE Transactions on Pattern Analysis\n& Machine Intelligence, 39(6):1137\u20131149, 2017. 3",
+    "chunk_id": 148,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "& Machine Intelligence, 39(6):1137\u20131149, 2017. 3\n[30] Reuven Rubinstein. The cross-entropy method for combina-\ntorial and continuous optimization. Methodology & Comput-\ning in Applied Probability, 2(2):127\u2013190, 1999. 2, 5, 6\n[31] Andrei A Rusu, Dushyant Rao, Jakub Sygnowski, Oriol",
+    "chunk_id": 149,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Vinyals, Razvan Pascanu, Simon Osindero, and Raia Had-\nsell.\nMeta-learning with latent embedding optimization.\n2019. 3\n[32] Adam Santoro, Sergey Bartunov, Matthew Botvinick, Daan\nWierstra, and Timothy Lillicrap.\nMeta-learning with\nmemory-augmented neural networks.\npages 1842\u20131850,\n2016. 2",
+    "chunk_id": 150,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "pages 1842\u20131850,\n2016. 2\n[33] Bo Sun, Banghuai Li, Shengcai Cai, Ye Yuan, and Chi\nZhang. Fsce: Few-shot object detection via contrastive pro-\nposal encoding. 2021. 2, 3\n[34] Qianru Sun, Yaoyao Liu, Tatseng Chua, and Bernt Schiele.\nMeta-transfer learning for few-shot learning. pages 403\u2013412,\n2019. 3",
+    "chunk_id": 151,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "2019. 3\n[35] Zhi Tian, Chunhua Shen, Hao Chen, and Tong He. FCOS:\nFully convolutional one-stage object detection. In Proc. Int.\nConf. Computer Vision (ICCV), 2019. 1\n[36] Xin Wang, Thomas E Huang, Trevor Darrell, Joseph E Gon-\nzalez, and Fisher Yu. Frustratingly simple few-shot object",
+    "chunk_id": 152,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "detection. arXiv preprint arXiv:2003.06957, 2020. 2, 3\n[37] Yu-Xiong Wang, Deva Ramanan, and Martial Hebert. Meta-\nlearning to detect rare objects.\nIn Proceedings of the\nIEEE/CVF International Conference on Computer Vision,\npages 9925\u20139934, 2019. 2, 3",
+    "chunk_id": 153,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "pages 9925\u20139934, 2019. 2, 3\n[38] Davis Wertheimer and Bharath Hariharan. Few-shot learn-\ning with localization in realistic settings. pages 6558\u20136567,\n2019. 1\n[39] Chen Xing, Negar Rostamzadeh, Boris N Oreshkin, and Pe-\ndro O Pinheiro.\nAdaptive cross-modal few-shot learning.",
+    "chunk_id": 154,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Adaptive cross-modal few-shot learning.\narXiv preprint arXiv:1902.07104, 2019. 1, 2\n[40] Xiaopeng Yan, Ziliang Chen, Anni Xu, Xiaoxi Wang, Xi-\naodan Liang, and Liang Lin. Meta r-cnn: Towards general\nsolver for instance-level low-shot learning. In Proceedings",
+    "chunk_id": 155,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "of the IEEE/CVF International Conference on Computer Vi-\nsion, pages 9577\u20139586, 2019. 2\n[41] Chenchen Zhu, Fangyi Chen, Uzair Ahmed, and Marios Sav-\nvides. Semantic relation reasoning for shot-stable few-shot\nobject detection. arXiv preprint arXiv:2103.01903, 2021. 2,\n3",
+    "chunk_id": 156,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "3\n[42] Pengkai Zhu, Hanxiao Wang, and Venkatesh Saligrama.\nZero shot detection. IEEE Transactions on Circuits and Sys-\ntems for Video Technology, 30(4):998\u20131010, 2019. 1\nA. Algorithm Introduction\nAlgorithm 1: Metric of Category-based Grouping Mechanism",
+    "chunk_id": 157,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Input: The number of category for current Dataset is N; Category-based meta-features set X; All categories are\ngrouped into K groups by category-based grouping mechanism, and grouping results C={C1, ..., CK};\nConstant \u03c4, \u03f5;\nOutput: Lre\u2212meta(X)\n1 The mean value is U = {u1, ..., uN};",
+    "chunk_id": 158,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "1 The mean value is U = {u1, ..., uN};\n2 The variance value is \u03b4 = {\u03b41, ..., \u03b4N};\n3 X \u2208RN\u00d71024 and U, \u03b4 \u2208RN;\n4 Ci \u2229Cj = \u2205for i \u0338= j, i, j \u2208{1, 2, ..., K};\n5 The constraint between groups is Lmean\u2212std;\n6 for i = 1; i \u2264N do\n7\nCompute the mean ui and variance \u03b4i of the meta-features using Xi;",
+    "chunk_id": 159,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "8 For all groups, the mean set is Wmean, the variance set is Wstd, and the variance of mean is Wmean\u2212std;\n9 for j = 1; j \u2264K do\n10\nCompute uj and \u03b4j of the jth group using Cj in Equation(8);\n11\nif number of Cj =1 then\n12\nConstruct Wmean\nj by Cj = {m} and U in Equation(7);\n13\nConstruct Wstd",
+    "chunk_id": 160,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "13\nConstruct Wstd\nj by Cj = {m} and \u03b4 in Equation(6);\n14\nelse\n15\nCompute Wmean\nj using Cj, uj and U in Equation(7);\n16\nCompute Wstd\nj using Cj, \u03b4j and \u03b4 in Equation(6);\n17\nCompute Wmean\u2212std\nj using uj, U and Cj in Equation(5);\n18 for j = 1; j \u2264K; do\n19\nfor k = j + 1; k \u2264K do\n20\nLmean\u2212std",
+    "chunk_id": 161,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "19\nfor k = j + 1; k \u2264K do\n20\nLmean\u2212std\nj \u2190Compute Lj,k by Wmean and Wstd in Equation(4);\n21\nCompute Lj\ngroup using Wmean\u2212std\nj and Lmean\u2212std\nj in Equation(4);\n22\nLre\u2212meta(X) \u2190log(\u03c4 + Lj\ngroup) in Equation(3);\n23 return Lre\u2212meta(X);\nB. Results and Visualization on Pascal VOC",
+    "chunk_id": 162,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "B. Results and Visualization on Pascal VOC\nFor novel set 1, 2, 3, this section shows our all results for k-shot detection, k = 1, 2, 3, 5. Finally, we visualize all results\non all novel categories (i.e., boat, cat, mbike, sheep and sofa) for novel set1 2-shot.\nNovel\nBase\nShot\nMethod\nboat\ncat\nmbike",
+    "chunk_id": 163,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Novel\nBase\nShot\nMethod\nboat\ncat\nmbike\nsheep\nsofa\nmean\naero\nbike\nbird\nbottle\nbus\ncar\nchair\ncow\ntable\ndog\nhorse\nperson\nplant\ntrain\ntv\nmean\n1\nYOLO-joint\n0.0\n9.1\n0.0\n0.0\n0.0\n1.8\n78.7\n76.8\n73.4\n48.8\n79.0\n82.3\n50.2\n68.4\n71.4\n76.7\n80.7\n75.0\n46.8\n83.8\n71.7\n70.9\nYOLO-ft\n0.1\n25.8\n10.7\n3.6\n0.1\n8.1\n77.2\n74.9",
+    "chunk_id": 164,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "70.9\nYOLO-ft\n0.1\n25.8\n10.7\n3.6\n0.1\n8.1\n77.2\n74.9\n69.1\n47.4\n78.7\n79.7\n47.9\n68.3\n69.6\n74.7\n79.4\n74.2\n42.2\n82.7\n71.1\n69.1\nYOLO-ft-full\n0.1\n30.9\n26.0\n8.0\n0.1\n13.0\n75.1\n70.7\n65.9\n43.6\n78.4\n79.5\n47.8\n68.7\n68.0\n72.8\n79.5\n72.3\n40.1\n80.5\n68.6\n67.4\nBaseline\n10.8\n44.0\n17.8\n18.1\n5.3\n19.2\n77.1\n71.8\n66.3\n40.4",
+    "chunk_id": 165,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "10.8\n44.0\n17.8\n18.1\n5.3\n19.2\n77.1\n71.8\n66.3\n40.4\n75.2\n77.8\n50.1\n54.6\n66.8\n69.1\n78.3\n68.1\n41.9\n80.6\n70.3\n65.9\nBCEwithLogits\n9.09\n22.3\n25.47\n15.56\n9.67\n16.42\n71.91\n73.19\n62.09\n42.19\n72.81\n76.81\n46.55\n51.06\n63.8\n66.6\n77.99\n67.24\n40\n80.42\n69.46\n64.11\nRe-BCEwithLogits\n2.6\n23.81\n19.89\n19.76\n0.22\n13.26",
+    "chunk_id": 166,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Re-BCEwithLogits\n2.6\n23.81\n19.89\n19.76\n0.22\n13.26\n71.61\n72.1\n66.8\n41.64\n74.47\n75.84\n46.48\n57.61\n66.5\n68.8\n79.13\n70.27\n40.78\n78.62\n69.68\n65.36\nFocal\n1.55\n42.88\n15.23\n16.72\n4.98\n16.27\n75.89\n72.62\n71.47\n43.01\n78.7\n76.87\n48.79\n53.16\n62.29\n71.2\n79.33\n71.7\n38.22\n77.16\n68.65\n65.94\nRe-Focal\n9.79\n37.99",
+    "chunk_id": 167,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "71.7\n38.22\n77.16\n68.65\n65.94\nRe-Focal\n9.79\n37.99\n20.64\n20.14\n2.54\n18.22\n75.27\n71.74\n66.44\n41.01\n75.73\n76.07\n46.39\n52.88\n63.02\n69.68\n81.9\n70.64\n38.75\n80.53\n68.17\n65.22\nCross-Entropy\n3.52\n29.01\n25.6\n16.43\n2.27\n15.37\n71.6\n72.08\n65.53\n39.42\n75.42\n76.06\n43.93\n57.07\n64.87\n68.09\n78.69\n69.24\n37.81\n78.67",
+    "chunk_id": 168,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "43.93\n57.07\n64.87\n68.09\n78.69\n69.24\n37.81\n78.67\n68.35\n64.45\nRe-Cross-Entropy\n9.52\n33.67\n27.33\n12.35\n9.85\n18.55\n73.86\n74.4\n66.14\n40.42\n73.87\n76.45\n47.09\n53.91\n68.13\n70.78\n78.2\n67.53\n35.64\n76.24\n67.65\n64.69\nTCL-2\n6.43\n33.8\n31.21\n11.51\n12.8\n19.15\n72.03\n71\n67.24\n42.16\n74.23\n76.77\n46.57\n54.34\n65.69",
+    "chunk_id": 169,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "71\n67.24\n42.16\n74.23\n76.77\n46.57\n54.34\n65.69\n71.61\n81.02\n69.77\n41.35\n77.03\n69.46\n65.35\nOurs\n9.53\n33.58\n32.28\n19.66\n5.34\n20.08\n71.98\n72.65\n65.45\n41.96\n75.14\n78.44\n43.75\n52.03\n65.04\n73.27\n80.29\n68.78\n43.46\n80.36\n68.97\n65.44\n2\nYOLO-joint\n0.0\n9.1\n0.0\n0.0\n0.0\n1.8\n77.6\n77.1\n74.0\n49.4\n79.8\n79.9\n50.5\n71.0",
+    "chunk_id": 170,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "0.0\n1.8\n77.6\n77.1\n74.0\n49.4\n79.8\n79.9\n50.5\n71.0\n72.7\n76.3\n81.0\n75.0\n48.4\n84.9\n72.7\n71.4\nYOLO-ft\n0.0\n24.4\n2.5\n9.8\n0.1\n7.4\n78.2\n76.0\n72.2\n47.2\n79.3\n79.8\n47.3\n72.1\n70.0\n74.9\n80.3\n74.3\n45.2\n84.9\n72.0\n70.2\nYOLO-ft-full\n0.0\n35.2\n28.7\n15.4\n0.1\n15.9\n75.3\n72.0\n69.8\n44.0\n79.1\n78.8\n42.1\n70.0\n64.9\n73.8\n81.7",
+    "chunk_id": 171,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "72.0\n69.8\n44.0\n79.1\n78.8\n42.1\n70.0\n64.9\n73.8\n81.7\n71.4\n40.9\n80.9\n69.4\n67.6\nBaseline\n5.3\n46.4\n18.4\n26.1\n12.4\n21.7\n71.4\n72.4\n64.5\n37.9\n75.3\n77.1\n42.9\n55.0\n57.4\n73.7\n78.9\n68.0\n41.5\n75.9\n69.0\n64.1\nBCEwithLogits\n4.57\n30.21\n23.74\n17.66\n16.36\n18.51\n69.8\n71.62\n62.79\n40.77\n73.2\n77.57\n46.19\n55.03\n64.48\n67.55",
+    "chunk_id": 172,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "62.79\n40.77\n73.2\n77.57\n46.19\n55.03\n64.48\n67.55\n78.61\n68.79\n39.37\n74.09\n66.16\n63.74\nRe-BCEwithLogits\n2.93\n28.84\n19.64\n27.16\n8.74\n17.46\n71.5\n72.77\n68.1\n40.92\n74.89\n75.99\n42.6\n58.7\n65.78\n67.99\n79.35\n69.94\n40.27\n73.78\n66.97\n64.64\nFocal\n2.58\n43.85\n11.29\n33.16\n17.29\n21.63\n72.16\n71.4\n69.1\n42.31\n75.8\n73.5",
+    "chunk_id": 173,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "33.16\n17.29\n21.63\n72.16\n71.4\n69.1\n42.31\n75.8\n73.5\n44.85\n61.52\n64.11\n70.09\n79.28\n70\n39.02\n78.23\n69.14\n65.37\nRe-Focal\n6.15\n33.6\n18.95\n29.43\n12.1\n20.05\n74.88\n62.18\n66.6\n41.13\n76.91\n76.51\n45.4\n60.88\n62.23\n70.71\n82.32\n71.68\n42.19\n74.26\n67.51\n65.03\nCross-Entropy\n10.25\n36.46\n16.2\n24.97\n7.66\n19.11\n72.31",
+    "chunk_id": 174,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "10.25\n36.46\n16.2\n24.97\n7.66\n19.11\n72.31\n75.59\n67.87\n40.79\n74.26\n76.95\n42.75\n59.03\n66.24\n72.86\n79.03\n71.4\n39.73\n75.37\n67.32\n65.43\nRe-Cross-Entropy\n10.06\n38.83\n19.41\n17.65\n19.15\n21.02\n70.92\n73.33\n66.49\n38.73\n74.36\n75.59\n46.96\n59.51\n66.33\n70.34\n78.13\n70.29\n40.36\n69.74\n67.04\n64.54\nTCL-2\n4.95\n32.49",
+    "chunk_id": 175,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "70.29\n40.36\n69.74\n67.04\n64.54\nTCL-2\n4.95\n32.49\n28.31\n27.06\n13.34\n21.23\n60.79\n70.66\n67.51\n39.37\n74.61\n76.4\n39.26\n54.21\n66.68\n70.81\n79.91\n69.22\n41.68\n67.71\n67.89\n63.71\nOurs\n10.61\n35.11\n33.75\n35.89\n18.38\n26.75\n70.53\n73.53\n66.6\n43.18\n75.52\n77.71\n41.29\n53.9\n63.63\n72.5\n80.85\n69.77\n43.08\n77.27\n68.42\n65.18",
+    "chunk_id": 176,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "63.63\n72.5\n80.85\n69.77\n43.08\n77.27\n68.42\n65.18\n3\nYOLO-joint\n0.0\n9.1\n0.0\n0.0\n0.0\n1.8\n77.1\n77.0\n70.6\n46.3\n77.5\n79.7\n49.7\n68.8\n73.4\n74.5\n79.4\n75.6\n48.1\n83.6\n72.1\n70.2\nYOLO-ft\n0.0\n27.0\n1.8\n9.1\n0.1\n7.6\n77.7\n76.6\n71.4\n47.5\n78.0\n79.9\n47.6\n70.0\n70.5\n74.4\n80.0\n73.7\n44.1\n83.0\n70.9\n69.7\nYOLO-ft-full\n0.0\n39.0",
+    "chunk_id": 177,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "73.7\n44.1\n83.0\n70.9\n69.7\nYOLO-ft-full\n0.0\n39.0\n18.1\n17.9\n0.0\n15.0\n73.2\n71.1\n68.8\n43.7\n78.9\n79.3\n43.1\n67.8\n62.2\n76.3\n79.4\n70.8\n40.5\n81.6\n69.6\n67.1\nBaaseline\n11.2\n39.8\n20.9\n23.7\n33.0\n25.7\n73.2\n68.0\n65.9\n39.8\n77.3\n77.5\n43.5\n57.7\n60.7\n64.5\n77.5\n68.4\n42.0\n80.6\n70.2\n64.4\nBCEwithLogits\n10.92\n46.62\n24.57",
+    "chunk_id": 178,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "80.6\n70.2\n64.4\nBCEwithLogits\n10.92\n46.62\n24.57\n23.23\n31.71\n27.41\n73.06\n71.22\n62.71\n40.1\n73.9\n77.79\n46.02\n55.06\n62.75\n67.95\n79.51\n65.49\n39.81\n76.69\n67.36\n63.96\nRe-BCEwithLogits\n9.77\n45.18\n22.77\n22.37\n21.47\n24.31\n71.95\n70.14\n63.95\n38.09\n74.65\n74.86\n41.02\n57.12\n58.25\n63.08\n79.29\n65.36\n40.36\n73.38",
+    "chunk_id": 179,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "41.02\n57.12\n58.25\n63.08\n79.29\n65.36\n40.36\n73.38\n67.43\n62.6\nFocal\n10.36\n43.77\n19.45\n28.41\n37.56\n27.91\n72.71\n71.66\n66.84\n42.79\n76.13\n76.71\n44.92\n57.42\n66.61\n68\n81.97\n68.8\n40.25\n77.19\n67.44\n65.3\nRe-Focal\n11.67\n27.17\n16.83\n30.07\n16.52\n20.45\n73.75\n72.52\n69.66\n43.83\n76.44\n77.94\n48.14\n64.6\n66.78\n71.62",
+    "chunk_id": 180,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "69.66\n43.83\n76.44\n77.94\n48.14\n64.6\n66.78\n71.62\n83.64\n70.66\n43.86\n79.86\n68.55\n67.32\nCross-Entropy\n7.42\n32.57\n14.75\n31.04\n29.76\n23.11\n70.8\n73.39\n69.21\n40.52\n75.33\n78.98\n46.07\n57.42\n66.21\n69.44\n79.53\n69.03\n38.8\n79.15\n65.43\n65.29\nRe-Cross-Entropy\n10.47\n32.89\n16.06\n24.1\n28.75\n22.25\n74.1\n74.44\n68\n41.23",
+    "chunk_id": 181,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "32.89\n16.06\n24.1\n28.75\n22.25\n74.1\n74.44\n68\n41.23\n77.62\n76.84\n48.19\n58.56\n67.15\n69.26\n78.71\n69.84\n38.12\n80.31\n67.1\n65.96\nTCL-2\n9.67\n47.2\n25.11\n28.97\n32.26\n28.64\n72.5\n67.82\n67.63\n39.08\n75.28\n77.06\n43.79\n53.3\n65.71\n72.9\n80.65\n69.11\n41.24\n76.85\n69.16\n64.8\nOurs\n10.29\n46.05\n28.11\n29.81\n34.52\n29.76\n72.45",
+    "chunk_id": 182,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Ours\n10.29\n46.05\n28.11\n29.81\n34.52\n29.76\n72.45\n73.14\n66.32\n41.18\n75.07\n78.55\n45.04\n56.81\n64.46\n72.73\n81.23\n68.26\n42.61\n79.87\n66.89\n65.64\n5\nYOLO-joint\n0.0\n9.1\n0.0\n0.0\n9.1\n3.6\n78.2\n78.5\n72.1\n47.8\n76.6\n82.1\n50.7\n70.1\n71.8\n77.6\n80.4\n75.4\n46.0\n84.8\n72.5\n71.0\nYOLO-ft\n0.0\n33.8\n2.6\n7.8\n3.2\n9.5\n77.2\n77.1",
+    "chunk_id": 183,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "71.0\nYOLO-ft\n0.0\n33.8\n2.6\n7.8\n3.2\n9.5\n77.2\n77.1\n71.9\n47.3\n78.8\n79.8\n47.1\n69.8\n71.8\n77.0\n80.2\n74.3\n44.2\n82.5\n70.6\n70.0\nYOLO-ft-full\n7.9\n48.0\n39.1\n29.4\n36.6\n32.2\n75.5\n73.6\n69.1\n43.3\n78.4\n78.9\n42.3\n70.2\n66.1\n77.4\n79.8\n72.2\n41.9\n82.8\n69.3\n68.1\nBaseline\n14.2\n57.3\n50.8\n38.9\n41.6\n40.6\n70.1\n66.3\n66.5\n40.0",
+    "chunk_id": 184,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "14.2\n57.3\n50.8\n38.9\n41.6\n40.6\n70.1\n66.3\n66.5\n40.0\n78.1\n77.0\n40.4\n61.2\n61.5\n71.2\n79.1\n70.4\n38.5\n80.0\n68.0\n64.6\nBCEwithLogits\n8.91\n49.65\n49.11\n31.72\n40.95\n36.07\n70.68\n73.05\n65.16\n38.42\n75\n77.82\n41.25\n61.02\n62.72\n71.88\n79.94\n68.33\n40.99\n77.75\n67.68\n64.78\nRe-BCEwithLogits\n12.61\n44.16\n42.49\n36.93\n32.59",
+    "chunk_id": 185,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Re-BCEwithLogits\n12.61\n44.16\n42.49\n36.93\n32.59\n33.76\n70.83\n73.53\n67.28\n38.7\n76.79\n76.65\n39.31\n64.76\n63.29\n69.56\n81.21\n66.78\n39.42\n78.28\n68.1\n64.97\nFocal\n8.04\n52.42\n48.07\n39.9\n38.76\n37.43\n72.2\n72.54\n66.31\n40.65\n78.69\n76.74\n43.54\n64.5\n68.53\n69.94\n81.07\n69.84\n37.68\n80.03\n69.13\n66.09\nRe-Focal\n12.66",
+    "chunk_id": 186,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "69.84\n37.68\n80.03\n69.13\n66.09\nRe-Focal\n12.66\n42.89\n43.28\n40.7\n43.44\n36.15\n73.2\n66.09\n66.03\n41.02\n77.06\n76.78\n44.6\n65.74\n63.48\n67.93\n82.62\n70.46\n40.7\n76.88\n68.1\n65.38\nCross-Entropy\n7.37\n45.65\n44.55\n39.62\n38.7\n35.18\n72.32\n69.03\n67.67\n40.15\n77.41\n77.16\n40.29\n60.94\n64.86\n73.51\n81.17\n69.68\n38.94\n80.75",
+    "chunk_id": 187,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "40.29\n60.94\n64.86\n73.51\n81.17\n69.68\n38.94\n80.75\n67.45\n65.42\nRe-Cross-Entropy\n10.66\n48.92\n44.25\n36.05\n42.65\n36.5\n75.5\n75.17\n69.9\n40.72\n77.28\n76.96\n47.54\n62.26\n65.63\n73.91\n79.66\n70.86\n38.87\n80.68\n68.61\n66.9\nTCL-2\n5.94\n55.34\n49.25\n34.84\n39.33\n36.94\n70.44\n66.41\n64.71\n35.75\n75.56\n75.54\n35.72\n59.05\n57.86",
+    "chunk_id": 188,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "66.41\n64.71\n35.75\n75.56\n75.54\n35.72\n59.05\n57.86\n73.47\n77.87\n66.64\n37\n75.44\n65.73\n62.48\nOurs\n9.02\n47.13\n49.78\n40.11\n35.37\n36.28\n73.28\n74.77\n67.25\n39.4\n76.51\n78.53\n44.52\n57.32\n66.44\n75.54\n81.33\n58.92\n39.8\n80.15\n68.98\n66.18",
+    "chunk_id": 189,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "66.44\n75.54\n81.33\n58.92\n39.8\n80.15\n68.98\n66.18\nTable 4. The results of detection APs (%). For few-shot detection on Pascal VOC, ours significantly outperforms others on novel set1.\nNovel\nBase\nShot\nMethod\nbird\nbus\ncow\nmbike\nsofa\nmean\naero\nbike\nboat\nbottle\ncar\ncat\nchair\ntable\ndog\nhorse\nperson\nplant",
+    "chunk_id": 190,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "bottle\ncar\ncat\nchair\ntable\ndog\nhorse\nperson\nplant\nsheep\ntrain\ntv\nmean\n1\nYOLO-joint\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0\n78.4\n76.9\n61.5\n48.7\n79.8\n84.5\n51.0\n72.7\n79.0\n77.6\n74.9\n48.2\n62.8\n84.8\n73.1\n70.2\nYOLO-ft\n6.8\n0.0\n9.1\n0.0\n0.0\n3.2\n77.1\n78.2\n61.7\n46.7\n79.4\n82.7\n51.0\n69.0\n78.3\n79.5\n74.2\n42.7\n68.3\n84.1\n72.9\n69.7",
+    "chunk_id": 191,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "51.0\n69.0\n78.3\n79.5\n74.2\n42.7\n68.3\n84.1\n72.9\n69.7\nYOLO-ft-full\n11.4\n17.6\n3.8\n0.0\n0.0\n6.6\n75.8\n77.3\n63.1\n45.9\n78.7\n84.1\n52.3\n66.5\n79.3\n77.2\n73.7\n44.0\n66.0\n84.2\n72.2\n69.4\nBaseline\n13.5\n10.6\n31.5\n13.8\n4.3\n14.8\n75.1\n70.7\n57.0\n41.6\n76.6\n81.7\n46.6\n72.4\n73.8\n76.9\n68.8\n43.1\n63.0\n78.8\n69.9\n66.4",
+    "chunk_id": 192,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "46.6\n72.4\n73.8\n76.9\n68.8\n43.1\n63.0\n78.8\n69.9\n66.4\nBCEwithLogits\n10.56\n17.23\n5.64\n33.62\n0.91\n13.59\n74.13\n69.35\n54.19\n38.89\n75.62\n80.05\n48.07\n61.85\n72.03\n74.75\n64.59\n38.88\n58.63\n77.72\n68.27\n63.8\nRe-BCEwithLogits\n5.89\n38.39\n14.65\n32.00\n0.51\n18.29\n73.1\n69.84\n55.76\n40.42\n76.81\n78.51\n46.1\n63.73\n75.78",
+    "chunk_id": 193,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "69.84\n55.76\n40.42\n76.81\n78.51\n46.1\n63.73\n75.78\n77.92\n68.69\n40.41\n59.85\n79.28\n70.79\n65.13\nFocal\n11.18\n1.17\n13.66\n25.83\n0.1\n10.39\n74.61\n73.96\n53.91\n41.82\n53.8\n78.28\n48.87\n24.36\n78.16\n76.08\n71.31\n42.12\n64.13\n81.33\n70.97\n62.25\nRe-Focal\n11.41\n6.89\n22.09\n28.55\n1.89\n14.16\n72.78\n69.65\n55.88\n40.02\n77.14",
+    "chunk_id": 194,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "28.55\n1.89\n14.16\n72.78\n69.65\n55.88\n40.02\n77.14\n82.69\n47.32\n67.15\n78.6\n77.33\n68.6\n40.36\n62.98\n80.14\n70.69\n66.09\nCross-Entropy\n12.49\n11.16\n24.72\n28.79\n3.03\n16.04\n72.85\n69.98\n55.87\n43.31\n76.53\n77.72\n45.37\n69.87\n75.76\n75.98\n69.72\n40.07\n59.27\n78.15\n70.13\n65.37\nRe-Cross-Entropy\n12.35\n16.28\n13.23\n33.41",
+    "chunk_id": 195,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "65.37\nRe-Cross-Entropy\n12.35\n16.28\n13.23\n33.41\n0.47\n15.15\n73.02\n70.19\n60.02\n41.78\n77.59\n80.05\n44.86\n66.17\n78.08\n75.95\n70\n40\n59.47\n79.68\n68.27\n65.68\nTCL-2\n18.21\n18.02\n15.38\n24.2\n11.99\n17.56\n69.95\n72.15\n55.51\n37.15\n76.74\n81.57\n45.66\n68.99\n72.95\n75.79\n68.26\n41.47\n62.86\n78.64\n70.91\n65.24\nOurs\n19.18",
+    "chunk_id": 196,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "68.26\n41.47\n62.86\n78.64\n70.91\n65.24\nOurs\n19.18\n22.58\n7.62\n30.81\n10.16\n18.07\n72.43\n76.21\n56.25\n40.45\n77.07\n81.02\n47.89\n67.63\n75.06\n74.2\n69.72\n39.38\n61.51\n76.96\n67.46\n65.55\n2\nYOLO-joint\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0\n77.6\n77.6\n60.4\n48.1\n81.5\n82.6\n51.5\n72.0\n79.2\n78.8\n75.2\n47.0\n65.2\n86.0\n72.7\n70.4\nYOLO-ft",
+    "chunk_id": 197,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "79.2\n78.8\n75.2\n47.0\n65.2\n86.0\n72.7\n70.4\nYOLO-ft\n11.5\n5.8\n7.6\n0.1\n7.5\n6.5\n77.9\n75.0\n58.5\n45.7\n77.6\n84.0\n50.4\n68.5\n79.2\n79.7\n73.8\n44.0\n66.0\n77.5\n72.9\n68.7\nYOLO-ft-full\n16.6\n9.7\n12.4\n0.1\n14.5\n10.7\n76.4\n70.2\n56.9\n43.3\n77.5\n83.8\n47.8\n70.7\n79.1\n77.6\n71.7\n39.6\n61.4\n77.0\n70.3\n66.9\nBaseline\n21.2\n12.0\n16.8",
+    "chunk_id": 198,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "39.6\n61.4\n77.0\n70.3\n66.9\nBaseline\n21.2\n12.0\n16.8\n17.9\n9.6\n15.5\n74.6\n74.9\n56.3\n38.5\n75.5\n68.0\n43.2\n69.3\n66.2\n42.4\n68.1\n41.8\n59.4\n76.4\n70.3\n61.7\nBCEwithLogits\n19.22\n12.11\n21.55\n14.98\n5.7\n14.71\n71.83\n70.38\n54.28\n37.96\n75.46\n81.24\n44.12\n71.37\n77.53\n76.8\n69.95\n39.44\n54.8\n72.74\n66.68\n64.3",
+    "chunk_id": 199,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "77.53\n76.8\n69.95\n39.44\n54.8\n72.74\n66.68\n64.3\nRe-BCEwithLogits\n15.18\n6.49\n27.69\n26.89\n22.27\n19.71\n72.21\n72.97\n55.33\n39.56\n74.71\n77.94\n43.68\n65.32\n77.86\n77.43\n68.3\n39.71\n57.31\n76.16\n68.11\n64.44\nFocal\n19.13\n11.25\n28.13\n15.09\n2.56\n15.23\n74.46\n77.02\n54.96\n43.77\n77.86\n82.33\n45.03\n68.47\n79.01\n75.34\n72.02",
+    "chunk_id": 200,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "43.77\n77.86\n82.33\n45.03\n68.47\n79.01\n75.34\n72.02\n43.38\n62.98\n79.66\n68.55\n66.99\nRe-Focal\n12.45\n3.88\n37.62\n19.14\n6.28\n15.88\n72.29\n72.52\n59.1\n44.79\n78.15\n82.47\n47.14\n68.25\n79.49\n76.44\n72.27\n41.79\n67.79\n75.44\n69.9\n67.19\nCross-Entropy\n24.64\n7.22\n27.93\n27.00\n9.19\n19.2\n74.52\n70.24\n55.12\n42.94\n77.14\n78.71",
+    "chunk_id": 201,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "9.19\n19.2\n74.52\n70.24\n55.12\n42.94\n77.14\n78.71\n44.82\n69.75\n76.92\n69.73\n69.15\n41.45\n58.8\n73.04\n68.76\n64.74\nRe-Cross-Entropy\n23.43\n11.61\n19.13\n37.85\n12.04\n20.81\n71.79\n70.63\n59.38\n41.65\n77.42\n81.35\n44.56\n66.39\n78.41\n56.23\n70.88\n40.77\n52.71\n73.85\n68.52\n63.64\u2019\nTCL-2\n23.02\n8.3\n36.51\n27.34\n16.09\n22.25",
+    "chunk_id": 202,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "63.64\u2019\nTCL-2\n23.02\n8.3\n36.51\n27.34\n16.09\n22.25\n72.65\n70.28\n54.02\n36.6\n76.41\n80.82\n42.55\n67.26\n75.97\n77.13\n69.15\n41.8\n60.92\n73.06\n68.71\n64.49\nOurs\n25.18\n12.29\n31.87\n32.71\n21.23\n24.66\n72.31\n73.62\n55.07\n38.23\n74.73\n81.85\n44.37\n65.41\n75.94\n75.85\n69.93\n39.81\n56.93\n73.31\n65.72\n64.21\n3\nYOLO-joint\n0\n0\n0\n0",
+    "chunk_id": 203,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "56.93\n73.31\n65.72\n64.21\n3\nYOLO-joint\n0\n0\n0\n0\n9.1\n1.8\n78.0\n77.2\n61.2\n45.6\n81.6\n83.7\n51.7\n73.4\n80.7\n79.6\n75.0\n45.5\n65.6\n83.1\n72.7\n70.3\nYOLO-ft\n10.9\n5.5\n15.3\n0.2\n0.1\n6.4\n76.7\n77.0\n60.4\n46.9\n78.8\n84.9\n51.0\n68.3\n79.6\n78.7\n73.1\n44.5\n67.6\n83.6\n72.4\n69.6\nYOLO-ft-full\n21.0\n22.0\n19.1\n0.5\n0.0\n12.5\n73.4\n67.5",
+    "chunk_id": 204,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "21.0\n22.0\n19.1\n0.5\n0.0\n12.5\n73.4\n67.5\n56.8\n41.2\n77.1\n81.6\n45.5\n62.1\n74.6\n78.9\n67.9\n37.8\n54.1\n76.4\n71.9\n64.4\nBaseline\n26.1\n19.1\n40.7\n20.4\n27.1\n26.7\n73.6\n73.1\n56.7\n41.6\n76.1\n78.7\n42.6\n66.8\n72.0\n77.7\n68.5\n42.0\n57.1\n74.7\n70.7\n64.8\nBCEwithLogits\n24.71\n22.63\n29.19\n29.22\n25.75\n26.3\n71.62\n70.05\n54.66\n37.51",
+    "chunk_id": 205,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "29.19\n29.22\n25.75\n26.3\n71.62\n70.05\n54.66\n37.51\n75.44\n79.7\n46.09\n63.79\n75.58\n77.37\n67.16\n40.1\n49.63\n73.3\n66.12\n63.21\nRe-BCEwithLogits\n23.03\n29.91\n22.74\n19.06\n40.2\n26.99\n70.37\n72.92\n56.98\n37.24\n75.72\n79.38\n45.12\n66.07\n74.99\n78.59\n65.85\n40.35\n49.45\n77.29\n68.68\n63.93\nFocal\n10.3\n16.38\n33.76\n17.11\n14.24",
+    "chunk_id": 206,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "68.68\n63.93\nFocal\n10.3\n16.38\n33.76\n17.11\n14.24\n18.36\n73.33\n74.27\n55.78\n43.21\n79.32\n82.48\n47.69\n70.4\n76.97\n79.0\n70.32\n42.39\n61.53\n81.29\n70.48\n67.23\nRe-Focal\n25.98\n11.44\n37.02\n20.43\n20.79\n23.13\n72.58\n70.06\n58.43\n42.27\n78.28\n80.97\n47.52\n66.97\n78.47\n76.03\n68.9\n41.7\n60.5\n75.51\n69.02\n65.81\nCross-Entropy",
+    "chunk_id": 207,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "68.9\n41.7\n60.5\n75.51\n69.02\n65.81\nCross-Entropy\n28.17\n14.07\n32.98\n24.2\n27.86\n25.46\n73.07\n70.39\n56.28\n41.02\n73.88\n80.17\n45.97\n70.5\n75.79\n77.58\n68.22\n40.2\n55.15\n76.83\n69.07\n64.94\nRe-Cross-Entropy\n23.25\n18.64\n37.54\n24.33\n26.62\n26.07\n70.03\n71.94\n56.92\n40.92\n77.53\n81.16\n47.0\n68.24\n76.68\n77.33\n69.29\n41.12",
+    "chunk_id": 208,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "77.53\n81.16\n47.0\n68.24\n76.68\n77.33\n69.29\n41.12\n51.47\n77.53\n69.22\n65.09\nTCL-2\n31.15\n23.29\n23.97\n19.96\n29.49\n25.57\n67.69\n66.26\n51.65\n35.66\n76.84\n80.62\n45.79\n66.01\n74.73\n77.15\n65.55\n40.55\n57.96\n77.71\n69.72\n63.59\nOurs\n32.1\n20.53\n30.64\n28.52\n42.9\n30.94\n71.19\n69.39\n51.81\n37.66\n76.41\n81.63\n45.39\n64.51",
+    "chunk_id": 209,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "71.19\n69.39\n51.81\n37.66\n76.41\n81.63\n45.39\n64.51\n75.41\n76.11\n69.45\n39.09\n54.88\n75.38\n67.9\n63.75\n5\nYOLO-joint\n0.0\n0.0\n0.0\n0.0\n9.1\n1.8\n77.8\n76.4\n65.7\n45.9\n79.5\n82.3\n50.4\n72.5\n79.1\n79.0\n75.5\n47.9\n67.2\n83.0\n72.5\n70.3\nYOLO-ft\n11.6\n7.1\n10.7\n2.1\n6.0\n7.5\n76.5\n76.4\n61.0\n45.5\n78.7\n84.5\n49.2\n68.7\n78.5\n78.1",
+    "chunk_id": 210,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "76.5\n76.4\n61.0\n45.5\n78.7\n84.5\n49.2\n68.7\n78.5\n78.1\n73.7\n45.4\n66.8\n85.3\n70.0\n69.2\nYOLO-ft-full\n20.2\n20.0\n22.4\n36.4\n24.8\n24.8\n72.0\n70.6\n60.7\n42.0\n76.8\n84.2\n47.7\n63.7\n76.9\n78.8\n72.1\n42.2\n61.1\n80.8\n69.9\n66.6\nBaseline\n31.5\n21.1\n39.8\n40.0\n37.0\n33.9\n69.3\n57.5\n56.8\n37.8\n74.8\n82.8\n41.2\n67.3\n74.0\n77.4\n70.9",
+    "chunk_id": 211,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "57.5\n56.8\n37.8\n74.8\n82.8\n41.2\n67.3\n74.0\n77.4\n70.9\n40.9\n57.3\n73.5\n69.3\n63.4\nBCEwithLogits\n30.15\n24.25\n32.32\n52.43\n36.83\n35.2\n70.62\n71.46\n54.45\n38.34\n75.34\n80.7\n47.78\n65.24\n73.84\n77.03\n65.86\n36.92\n48.75\n73.89\n65.78\n63.07\nRe-BCEwithLogits\n25.41\n36.34\n25.49\n46.96\n42.29\n35.3\n69.14\n74.33\n55.5\n37.18\n76.77",
+    "chunk_id": 212,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "46.96\n42.29\n35.3\n69.14\n74.33\n55.5\n37.18\n76.77\n79.12\n45.9\n64.79\n76.47\n77.61\n67.74\n38.64\n53.98\n78.21\n68.97\n64.29\nFocal\n28.07\n20.89\n40.79\n49.65\n31.03\n34.09\n73.52\n68.13\n56.93\n39.23\n76.85\n80.54\n44.15\n67.99\n77.37\n75.21\n69.25\n40.05\n59.0\n78.25\n70.47\n65.13\nRe-Focal\n18.82\n21.87\n38.92\n33.81\n22.6\n27.2\n73.12",
+    "chunk_id": 213,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Re-Focal\n18.82\n21.87\n38.92\n33.81\n22.6\n27.2\n73.12\n73.52\n60.79\n42.24\n78.96\n83.06\n49.59\n68.32\n79.09\n77.7\n71.54\n41.5\n66.99\n80.1\n70.96\n67.83\nCross-Entropy\n33.26\n25.01\n40.64\n38.19\n42.11\n35.84\n71.91\n70.27\n58.51\n40.01\n76.6\n80.33\n45.54\n69.93\n78.19\n77.44\n70.96\n40.05\n58.74\n80.47\n69.78\n65.92\nRe-Cross-Entropy",
+    "chunk_id": 214,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "40.05\n58.74\n80.47\n69.78\n65.92\nRe-Cross-Entropy\n29.4\n14.81\n37.89\n49.28\n35.85\n33.45\n70.98\n70.31\n56.94\n41.35\n77.53\n83.88\n45.11\n67.13\n76.83\n78.14\n70.17\n41.45\n56.7\n76.74\n67.41\n65.38\nTCL-2\n29.84\n42.46\n30.11\n48.26\n41.58\n38.45\n67.27\n60.54\n52.2\n32.59\n74.41\n81.03\n33.61\n62.9\n67.29\n75.62\n64.23\n32.44\n56.2\n71.65",
+    "chunk_id": 215,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "33.61\n62.9\n67.29\n75.62\n64.23\n32.44\n56.2\n71.65\n66.99\n59.93\nOurs\n30.35\n37.51\n30.7\n55.16\n41.49\n39.04\n67.82\n67.17\n48.47\n33.66\n73.42\n78.18\n39.45\n61.11\n69.54\n74.0\n68.07\n36.5\n55.67\n71.31\n65.04\n60.63",
+    "chunk_id": 216,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "69.54\n74.0\n68.07\n36.5\n55.67\n71.31\n65.04\n60.63\nTable 5. The results of detection APs (%). For few-shot detection on Pascal VOC, ours significantly outperforms others on novel set2.\nNovel\nBase\nShot\nMethod\naero\nbottle\ncow\nhorse\nsofa\nmean\nbike\nbird\nboat\nbus\ncar\ncat\nchair\ntable\ndog\nmbike\nperson\nplant",
+    "chunk_id": 217,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "bus\ncar\ncat\nchair\ntable\ndog\nmbike\nperson\nplant\nsheep\ntrain\ntv\nmean\n1\nYOLO-joint\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0\n78.8\n73.2\n63.6\n79.0\n79.7\n87.2\n51.5\n71.2\n81.1\n78.1\n75.4\n47.7\n65.9\n84.0\n73.7\n72.7\nYOLO-ft\n0.4\n0.2\n10.3\n29.8\n0.0\n8.2\n77.9\n70.2\n62.2\n79.8\n79.4\n86.6\n51.9\n72.3\n77.1\n78.1\n73.9\n44.1\n66.6\n83.4\n74.0\n71.8",
+    "chunk_id": 218,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "51.9\n72.3\n77.1\n78.1\n73.9\n44.1\n66.6\n83.4\n74.0\n71.8\nYOLO-ft-full\n0.6\n9.1\n11.2\n41.6\n0.0\n12.5\n74.9\n67.2\n60.1\n78.8\n79.0\n83.8\n50.6\n72.7\n75.5\n74.8\n71.7\n43.9\n62.5\n81.8\n72.6\n70.0\nBaseline\n11.8\n9.1\n15.6\n23.7\n18.2\n15.7\n77.6\n62.7\n54.2\n75.3\n79.0\n80.0\n49.6\n70.3\n78.3\n78.2\n68.5\n42.2\n58.2\n78.5\n70.4\n68.2",
+    "chunk_id": 219,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "49.6\n70.3\n78.3\n78.2\n68.5\n42.2\n58.2\n78.5\n70.4\n68.2\nBCEwithLogits\n10.12\n0.7\n7.86\n39.72\n17.1\n15.1\n74.81\n64.83\n52.22\n73.61\n76.19\n78.31\n46.72\n66.34\n78.4\n77.34\n67.81\n37.57\n58.53\n74.82\n70.73\n66.55\nRe-BCEwithLogits\n10.74\n0.51\n7.39\n31.33\n5.05\n11\n73.86\n62.79\n49.72\n72.46\n77.28\n80.37\n44.56\n66.54\n76.61\n75.87",
+    "chunk_id": 220,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "49.72\n72.46\n77.28\n80.37\n44.56\n66.54\n76.61\n75.87\n65.98\n38.26\n57.72\n71.58\n68.98\n65.5\nFocal\n10.76\n0.06\n16.13\n19.98\n1.06\n9.6\n75.75\n65.05\n57.9\n77.11\n77.29\n81.48\n46.04\n62.73\n75.47\n74.19\n69.38\n40.55\n54.75\n78.08\n69.18\n67\nRe-Focal\n9.48\n0.03\n19.36\n7.48\n0.13\n7.3\n78.53\n68.12\n59.02\n77.91\n78.58\n83.09\n50.56\n57.57",
+    "chunk_id": 221,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "78.53\n68.12\n59.02\n77.91\n78.58\n83.09\n50.56\n57.57\n72.67\n76.19\n69.51\n42.75\n59.86\n72.39\n70.87\n67.8\nCross-Entropy\n14.01\n0.34\n10.89\n25.89\n9.88\n12.19\n73.46\n62.63\n52.58\n74.92\n76.8\n81.12\n46.33\n66.23\n79.3\n74.31\n68.15\n38.79\n56.06\n76.86\n69.38\n66.46\nRe-Cross-Entropy\n9.28\n0.22\n21.57\n25.2\n9.09\n13.07\n75.33\n64.84",
+    "chunk_id": 222,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "9.28\n0.22\n21.57\n25.2\n9.09\n13.07\n75.33\n64.84\n54.94\n75.81\n77.84\n82.48\n47.64\n63.8\n78.3\n75.53\n70.4\n38.38\n57.96\n76.01\n67.7\n67.13\nTCL-2\n0.76\n0.07\n16.96\n29.59\n13.99\n12.27\n75.82\n60.6\n54.09\n75.65\n77.95\n84.08\n48.81\n64.8\n73.36\n77.1\n71.26\n40.53\n58.01\n78.17\n69.27\n67.3\nOurs\n16.33\n9.09\n8.7\n46.9\n16.08\n19.42\n72.71",
+    "chunk_id": 223,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "67.3\nOurs\n16.33\n9.09\n8.7\n46.9\n16.08\n19.42\n72.71\n62.94\n45\n74.97\n75.29\n77.39\n44.73\n64.71\n67.84\n74.99\n68.65\n38.36\n54.3\n76.09\n68.95\n64.46\n2\nYOLO-joint\n0.0\n0.6\n0.0\n0.0\n0.0\n0.1\n78.4\n69.7\n64.5\n78.3\n79.7\n86.1\n52.2\n72.6\n81.2\n78.6\n75.2\n50.3\n66.1\n85.3\n74.0\n72.8\nYOLO-ft\n0.2\n0.2\n17.2\n1.2\n0.0\n3.8\n78.1\n70.0\n60.6",
+    "chunk_id": 224,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "YOLO-ft\n0.2\n0.2\n17.2\n1.2\n0.0\n3.8\n78.1\n70.0\n60.6\n79.8\n79.4\n87.1\n49.7\n70.3\n80.4\n78.8\n73.7\n44.2\n62.2\n82.4\n74.9\n71.4\nYOLO-ft-full\n1.8\n1.8\n15.5\n1.9\n0.0\n4.2\n76.4\n69.7\n58.0\n80.0\n79.0\n86.9\n44.8\n68.2\n75.2\n77.4\n72.2\n40.3\n59.1\n81.6\n73.4\n69.5\nBaseline\n28.6\n0.9\n27.6\n0.0\n19.5\n15.3\n75.8\n67.4\n52.4\n74.8\n76.6\n82.5",
+    "chunk_id": 225,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "27.6\n0.0\n19.5\n15.3\n75.8\n67.4\n52.4\n74.8\n76.6\n82.5\n44.5\n66.0\n79.4\n76.2\n68.2\n42.3\n53.8\n76.6\n71.0\n67.2\nBCEwithLogits\n28.39\n0.61\n28.6\n0.53\n19.97\n15.62\n74.24\n67.99\n51.14\n75.32\n76.18\n79.04\n45.98\n66.83\n77.66\n77.48\n68.75\n38.91\n55.13\n75.69\n70.05\n66.69\nRe-BCEwithLogits\n21.59\n0.22\n25.02\n0.19\n17.96\n13\n75.95",
+    "chunk_id": 226,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "21.59\n0.22\n25.02\n0.19\n17.96\n13\n75.95\n64.26\n48.5\n76.34\n77.12\n81.84\n43.76\n67.99\n78.27\n76.22\n68.65\n42.37\n54.22\n76.54\n68.03\n66.67\nFocal\n26.74\n1.3\n13.04\n0.66\n2.59\n8.87\n73.85\n67.33\n54.91\n77.18\n78.56\n82.54\n44.52\n63.84\n80.36\n77.87\n69.33\n42.3\n58.35\n77.97\n69.95\n67.92\nRe-Focal\n14.44\n0.29\n24.55\n0.13\n3.94\n8.67",
+    "chunk_id": 227,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "67.92\nRe-Focal\n14.44\n0.29\n24.55\n0.13\n3.94\n8.67\n77.32\n70.66\n56.19\n78.09\n78.07\n83.41\n48.05\n65.54\n79.71\n78.13\n68.42\n42.57\n59.41\n76.83\n70.55\n68.86\nCross-Entropy\n28.6\n0.9\n27.6\n0\n19.5\n15.3\n75.8\n67.4\n52.4\n74.8\n76.6\n82.5\n44.5\n66\n79.4\n76.2\n68.2\n42.3\n53.8\n76.6\n71\n67.2\nRe-Cross-Entropy\n28.4\n0.13\n28.42\n0.57",
+    "chunk_id": 228,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "71\n67.2\nRe-Cross-Entropy\n28.4\n0.13\n28.42\n0.57\n15.15\n14.53\n75.4\n67.05\n57.57\n75.18\n77.82\n82.17\n49.28\n71.61\n79.59\n76.72\n70.17\n42.48\n59.89\n76.29\n68.35\n68.64\u2019\nTCL-2\n34.66\n0.83\n31.32\n1.01\n18.82\n17.33\n69.88\n61.47\n50.09\n72.15\n73.96\n77.26\n38.45\n61.21\n73.48\n74.39\n66.28\n37\n50.94\n71.34\n66.07\n62.93\nOurs\n34.14",
+    "chunk_id": 229,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "74.39\n66.28\n37\n50.94\n71.34\n66.07\n62.93\nOurs\n34.14\n0.49\n34.6\n2.27\n15.65\n17.43\n77.56\n65.59\n51.74\n72.95\n76.14\n79.49\n42.88\n64.67\n76.65\n75.98\n70.37\n41.08\n55.8\n75.15\n68.4\n66.3\n3\nYOLO-joint\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0\n77.6\n72.2\n61.2\n77.9\n79.8\n85.8\n49.9\n73.2\n80.0\n77.9\n75.3\n50.8\n64.3\n84.2\n72.6\n72.2\nYOLO-ft\n4.9",
+    "chunk_id": 230,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "77.9\n75.3\n50.8\n64.3\n84.2\n72.6\n72.2\nYOLO-ft\n4.9\n0.0\n11.2\n1.2\n0.0\n3.5\n78.7\n71.6\n62.4\n77.4\n80.4\n87.5\n49.5\n70.8\n79.7\n79.5\n72.6\n44.3\n60.0\n83.0\n75.2\n71.5\nYOLO-ft-full\n10.7\n4.6\n12.9\n29.7\n0.0\n11.6\n74.9\n69.2\n60.4\n79.4\n79.1\n87.3\n43.4\n69.7\n75.8\n75.2\n70.5\n39.4\n52.9\n80.8\n73.4\n68.8\nBaseline\n29.4\n4.6\n34.9\n6.8",
+    "chunk_id": 231,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "52.9\n80.8\n73.4\n68.8\nBaseline\n29.4\n4.6\n34.9\n6.8\n37.9\n22.7\n62.6\n64.7\n55.2\n76.6\n77.1\n82.7\n46.7\n65.4\n75.4\n78.3\n69.2\n42.8\n45.2\n77.9\n69.6\n66.0\nBCEwithLogits\n32.19\n9.09\n29.2\n18.99\n41.25\n26.14\n71.29\n64.92\n50.96\n75.89\n76.87\n80.89\n47.81\n67.03\n75.62\n75.87\n65.67\n37.94\n40.8\n78.44\n70.66\n65.38\nRe-BCEwithLogits",
+    "chunk_id": 232,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "37.94\n40.8\n78.44\n70.66\n65.38\nRe-BCEwithLogits\n28.57\n1.59\n30.45\n12.91\n30.16\n20.74\n69.18\n62.13\n50.28\n75.55\n77.51\n81.86\n44.31\n67.74\n76.39\n76.9\n65.58\n40.88\n48.33\n77.22\n66.98\n65.37\nFocal\n41.55\n0.14\n30.81\n5.24\n23.06\n20.16\n68.15\n65.43\n53.92\n78.67\n77.53\n81.51\n46.51\n62.56\n79.72\n76.13\n70.46\n41.11\n53.42\n76.39",
+    "chunk_id": 233,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "46.51\n62.56\n79.72\n76.13\n70.46\n41.11\n53.42\n76.39\n68.93\n66.7\nRe-Focal\n23.68\n0.14\n30.79\n11.23\n15.91\n16.35\n71.85\n69.68\n52.25\n78.67\n78.78\n83.68\n50.77\n66.81\n78.45\n76.73\n70.02\n40.98\n56.54\n76.72\n71.39\n68.22\nCross-Entropy\n36.47\n0.83\n35.42\n4.65\n24.2\n20.31\n73.66\n64.98\n51.99\n75.61\n77.96\n84.05\n46.85\n66.4\n75.29",
+    "chunk_id": 234,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "64.98\n51.99\n75.61\n77.96\n84.05\n46.85\n66.4\n75.29\n79.23\n70.37\n41.69\n52.23\n78.26\n69.17\n67.18\nRe-Cross-Entropy\n35.59\n1.3\n38.54\n12.54\n31.71\n23.93\n70.71\n67.85\n48.91\n76.36\n78.06\n82.38\n49.33\n68.88\n78.77\n78.7\n69.41\n40.87\n56.92\n77.58\n68.21\n67.53\nTCL-2\n44.05\n9.09\n29.74\n30.28\n40.9\n30.81\n64.75\n60.22\n50.98\n73.25",
+    "chunk_id": 235,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "29.74\n30.28\n40.9\n30.81\n64.75\n60.22\n50.98\n73.25\n74.53\n75.68\n42.18\n59.55\n69.3\n73.94\n62.4\n37.19\n42.58\n71.69\n67.77\n61.73\nOurs\n43.57\n3.03\n26.28\n8.77\n34.58\n23.24\n74.94\n65.33\n53.83\n73.41\n77.16\n80.42\n46.47\n62.36\n74.49\n77.22\n68.61\n42.38\n56.93\n78.05\n69.73\n66.76\n5\nYOLO-joint\n0.0\n0.0\n0.0\n0.0\n9.1\n1.8\n78.0\n71.5",
+    "chunk_id": 236,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "5\nYOLO-joint\n0.0\n0.0\n0.0\n0.0\n9.1\n1.8\n78.0\n71.5\n62.9\n81.7\n79.7\n86.8\n50.0\n72.3\n81.7\n77.9\n75.6\n48.4\n65.4\n83.2\n73.6\n72.6\nYOLO-ft\n0.8\n0.2\n11.3\n5.2\n0.0\n3.5\n78.6\n72.4\n61.5\n79.4\n81.0\n87.8\n48.6\n72.1\n81.0\n79.6\n73.6\n44.9\n61.4\n83.9\n74.7\n72.0\nYOLO-ft-full\n10.3\n9.1\n17.4\n43.5\n0.0\n16.0\n76.4\n69.6\n59.1\n80.3\n78.5",
+    "chunk_id": 237,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "9.1\n17.4\n43.5\n0.0\n16.0\n76.4\n69.6\n59.1\n80.3\n78.5\n87.8\n42.1\n72.1\n76.6\n77.1\n70.7\n43.1\n58.0\n82.4\n72.6\n69.8\nBaseline\n33.1\n9.4\n38.4\n25.4\n44.0\n30.1\n73.2\n65.6\n52.9\n75.9\n77.5\n80.0\n43.7\n65.0\n73.8\n78.4\n68.9\n39.2\n56.4\n78.0\n70.8\n66.6\nBCEwithLogits\n34.95\n9.6\n39.77\n38.42\n35.25\n31.6\n62.67\n60.27\n47.94\n73.84\n76.02",
+    "chunk_id": 238,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "38.42\n35.25\n31.6\n62.67\n60.27\n47.94\n73.84\n76.02\n81.24\n36.22\n58.34\n70.32\n76.77\n64.08\n34.21\n44.07\n67.14\n68.85\n61.46\nRe-BCEwithLogits\n39.54\n10.18\n29.8\n39.16\n41.09\n31.95\n68.47\n62.8\n50.71\n75.66\n75.9\n82.76\n38.52\n64.22\n66.51\n76.59\n65.42\n36.26\n47.94\n77.55\n66.9\n63.75\nFocal\n36.72\n9.25\n38.45\n19.4\n33.85\n27.54",
+    "chunk_id": 239,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "63.75\nFocal\n36.72\n9.25\n38.45\n19.4\n33.85\n27.54\n71.35\n63.31\n50.51\n78.66\n77.23\n82.49\n43.95\n60.1\n76.13\n77.55\n70\n37.36\n53.92\n77.12\n69.18\n65.92\nRe-Focal\n39.04\n9.27\n37.96\n28.32\n28.4\n28.6\n68.26\n66.08\n51.29\n78.9\n77.25\n83.35\n44.7\n65.53\n76.78\n74.94\n68.89\n38.34\n54.3\n77.37\n70.51\n66.43\nCross-Entropy\n37.34\n9.86",
+    "chunk_id": 240,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "54.3\n77.37\n70.51\n66.43\nCross-Entropy\n37.34\n9.86\n34.27\n38.2\n39.86\n31.91\n70.22\n59.53\n47.57\n74.56\n75.95\n82.2\n43.24\n65.92\n68.43\n76.71\n68.36\n35.22\n50.16\n77.82\n67.55\n64.23\nRe-Cross-Entropy\n38.61\n9.65\n42.49\n39.82\n47.31\n35.58\n67.01\n62.41\n52.4\n74.6\n74.65\n80.34\n42.02\n67.56\n73.28\n75.78\n67\n38.57\n50.48\n74.02",
+    "chunk_id": 241,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "42.02\n67.56\n73.28\n75.78\n67\n38.57\n50.48\n74.02\n67.88\n64.53\nTCL-2\n47.64\n9.41\n36.71\n41.67\n39.97\n35.08\n64.22\n60.49\n52.15\n75.61\n73.65\n78.92\n36.39\n58.68\n70.4\n75.1\n62.92\n32.91\n45.41\n75.02\n67.69\n61.97\nOurs\n44.66\n9.88\n37.51\n55.49\n40.75\n37.66\n64.54\n63.48\n50.68\n75.2\n74.96\n77.02\n38.67\n59.23\n71.05\n75.06\n64.4",
+    "chunk_id": 242,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "75.2\n74.96\n77.02\n38.67\n59.23\n71.05\n75.06\n64.4\n35.82\n52.06\n74.45\n68.15\n62.98\nTable 6. The results of detection APs (%). For few-shot detection on Pascal VOC, ours significantly outperforms others on novel set3.\nBCEwithLogits\nRe-BCEwithLogits\nFocal\nRe-Focal\nCross-Entropy\nRe-Cross-Entropy\nTCL-2\nOurs",
+    "chunk_id": 243,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Cross-Entropy\nRe-Cross-Entropy\nTCL-2\nOurs\nFigure 5. Qualitative 2-shot boat detection results on our test set for novel set1. We visualize the bounding boxes of all methods.\nBCEwithLogits\nRe-BCEwithLogits\nFocal\nRe-Focal\nCross-Entropy\nRe-Cross-Entropy\nTCL-2\nOurs",
+    "chunk_id": 244,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Cross-Entropy\nRe-Cross-Entropy\nTCL-2\nOurs\nFigure 6. Qualitative 2-shot cat detection results on our test set for novel set1. We visualize the bounding boxes of all methods.\nBCEwithLogits\nRe-BCEwithLogits\nFocal\nRe-Focal\nCross-Entropy\nRe-Cross-Entropy\nTCL-2\nOurs",
+    "chunk_id": 245,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Cross-Entropy\nRe-Cross-Entropy\nTCL-2\nOurs\nFigure 7. Qualitative 2-shot mbike detection results on our test set for novel set1. We visualize the bounding boxes of all methods.\nBCEwithLogits\nRe-BCEwithLogits\nFocal\nRe-Focal\nCross-Entropy\nRe-Cross-Entropy\nTCL-2\nOurs",
+    "chunk_id": 246,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Cross-Entropy\nRe-Cross-Entropy\nTCL-2\nOurs\nFigure 8. Qualitative 2-shot sheep detection results on our test set for novel set1. We visualize the bounding boxes of all methods.\nBCEwithLogits\nRe-BCEwithLogits\nFocal\nRe-Focal\nCross-Entropy\nRe-Cross-Entropy\nTCL-2\nOurs",
+    "chunk_id": 247,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  },
+  {
+    "text": "Cross-Entropy\nRe-Cross-Entropy\nTCL-2\nOurs\nFigure 9. Qualitative 2-shot sofa detection results on our test set for novel set1. We visualize the bounding boxes of all methods.",
+    "chunk_id": 248,
+    "source": "data\\raw_papers\\Top-Related_Meta-Learning_Method_for_Few-Shot_Object_Detection.pdf"
+  }
+]
