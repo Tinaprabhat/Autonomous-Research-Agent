@@ -112,7 +112,10 @@ def chunk_document(
 
             doc: dict = {"text": chunk, "chunk_id": chunk_id}
             if metadata:
-                doc.update(metadata)
+                # core keys are never overwritten by caller metadata
+                for k, v in metadata.items():
+                    if k not in ("text", "chunk_id"):
+                        doc[k] = v
 
             documents.append(doc)
             chunk_id += 1

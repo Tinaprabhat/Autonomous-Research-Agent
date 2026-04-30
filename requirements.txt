@@ -1,0 +1,25 @@
+# API server
+fastapi==0.135.1
+uvicorn==0.41.0
+pydantic==2.11.10
+python-multipart==0.0.22
+httpx==0.28.1
+requests==2.32.5
+
+# RAG pipeline
+sentence-transformers==5.2.2
+faiss-cpu==1.13.2
+rank-bm25==0.2.2
+transformers==4.56.2
+torch==2.8.0
+numpy==2.3.3
+
+# LLM backend
+ollama==0.6.1
+
+# Evaluation
+ragwatch==0.3.0
+ragas==0.4.3
+
+# Testing
+pytest==9.0.3

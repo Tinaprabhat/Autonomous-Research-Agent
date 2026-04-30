@@ -1,0 +1,463 @@
+{
+  "n": 50,
+  "per_pair": [
+    {
+      "query": "What is the attention mechanism?",
+      "rouge_l": 0.3448,
+      "bleu": 0.0275,
+      "str_sim": 0.3125,
+      "faithfulness": 0.2308,
+      "relevance": 0.3333,
+      "conciseness": 1.0
+    },
+    {
+      "query": "How does self-attention differ from cross-attention?",
+      "rouge_l": 0.3529,
+      "bleu": 0.0251,
+      "str_sim": 0.3925,
+      "faithfulness": 0.4,
+      "relevance": 0.3,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is multi-head attention?",
+      "rouge_l": 0.3448,
+      "bleu": 0.1018,
+      "str_sim": 0.3303,
+      "faithfulness": 0.6667,
+      "relevance": 0.3333,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is the transformer architecture?",
+      "rouge_l": 0.4667,
+      "bleu": 0.1051,
+      "str_sim": 0.2549,
+      "faithfulness": 0.5833,
+      "relevance": 0.0,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What are positional encodings?",
+      "rouge_l": 0.4167,
+      "bleu": 0.0946,
+      "str_sim": 0.4722,
+      "faithfulness": 0.4762,
+      "relevance": 0.2353,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is the scaled dot-product attention formula?",
+      "rouge_l": 0.4211,
+      "bleu": 0.4385,
+      "str_sim": 0.413,
+      "faithfulness": 0.64,
+      "relevance": 0.5217,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is the feed-forward network in a transformer?",
+      "rouge_l": 0.5263,
+      "bleu": 0.1145,
+      "str_sim": 0.3007,
+      "faithfulness": 0.6667,
+      "relevance": 0.4138,
+      "conciseness": 1.0
+    },
+    {
+      "query": "How do transformers handle variable-length sequences?",
+      "rouge_l": 0.3429,
+      "bleu": 0.0846,
+      "str_sim": 0.2677,
+      "faithfulness": 0.8,
+      "relevance": 0.16,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is layer normalisation in transformers?",
+      "rouge_l": 0.48,
+      "bleu": 0.1964,
+      "str_sim": 0.4082,
+      "faithfulness": 0.4444,
+      "relevance": 0.2353,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is the encoder-only transformer architecture?",
+      "rouge_l": 0.4,
+      "bleu": 0.0524,
+      "str_sim": 0.3585,
+      "faithfulness": 0.4762,
+      "relevance": 0.3,
+      "conciseness": 1.0
+    },
+    {
+      "query": "How does BERT pre-train?",
+      "rouge_l": 0.5,
+      "bleu": 0.1719,
+      "str_sim": 0.41,
+      "faithfulness": 0.6154,
+      "relevance": 0.2,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is masked language modelling?",
+      "rouge_l": 0.4,
+      "bleu": 0.2198,
+      "str_sim": 0.3511,
+      "faithfulness": 0.4348,
+      "relevance": 0.3,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is next sentence prediction?",
+      "rouge_l": 0.4286,
+      "bleu": 0.1968,
+      "str_sim": 0.4839,
+      "faithfulness": 0.3478,
+      "relevance": 0.3333,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is fine-tuning in the context of BERT?",
+      "rouge_l": 0.4118,
+      "bleu": 0.0342,
+      "str_sim": 0.3265,
+      "faithfulness": 0.6667,
+      "relevance": 0.3333,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is the WordPiece tokenisation used by BERT?",
+      "rouge_l": 0.4286,
+      "bleu": 0.063,
+      "str_sim": 0.505,
+      "faithfulness": 0.5217,
+      "relevance": 0.2727,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is the CLS token in BERT?",
+      "rouge_l": 0.3333,
+      "bleu": 0.1532,
+      "str_sim": 0.4,
+      "faithfulness": 0.5833,
+      "relevance": 0.3636,
+      "conciseness": 1.0
+    },
+    {
+      "query": "How many layers does BERT-base have?",
+      "rouge_l": 0.4444,
+      "bleu": 0.0393,
+      "str_sim": 0.3592,
+      "faithfulness": 0.8182,
+      "relevance": 0.3529,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What tasks does BERT excel at?",
+      "rouge_l": 0.2222,
+      "bleu": 0.0581,
+      "str_sim": 0.2887,
+      "faithfulness": 0.4,
+      "relevance": 0.1905,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is bidirectional encoding?",
+      "rouge_l": 0.3704,
+      "bleu": 0.0348,
+      "str_sim": 0.3723,
+      "faithfulness": 0.4,
+      "relevance": 0.2353,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is the difference between BERT and GPT?",
+      "rouge_l": 0.4444,
+      "bleu": 0.0659,
+      "str_sim": 0.3559,
+      "faithfulness": 0.8462,
+      "relevance": 0.3478,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is retrieval-augmented generation?",
+      "rouge_l": 0.6207,
+      "bleu": 0.2546,
+      "str_sim": 0.396,
+      "faithfulness": 0.2963,
+      "relevance": 0.0,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is dense retrieval?",
+      "rouge_l": 0.5517,
+      "bleu": 0.1383,
+      "str_sim": 0.5487,
+      "faithfulness": 0.5455,
+      "relevance": 0.2222,
+      "conciseness": 1.0
+    },
+    {
+      "query": "How does BM25 work?",
+      "rouge_l": 0.48,
+      "bleu": 0.0835,
+      "str_sim": 0.4336,
+      "faithfulness": 0.4211,
+      "relevance": 0.1429,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is hybrid retrieval?",
+      "rouge_l": 0.5185,
+      "bleu": 0.0984,
+      "str_sim": 0.6373,
+      "faithfulness": 0.7619,
+      "relevance": 0.25,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is FAISS?",
+      "rouge_l": 0.2143,
+      "bleu": 0.0372,
+      "str_sim": 0.2718,
+      "faithfulness": 0.5,
+      "relevance": 0.2222,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is a cross-encoder reranker?",
+      "rouge_l": 0.5,
+      "bleu": 0.0634,
+      "str_sim": 0.4694,
+      "faithfulness": 0.5385,
+      "relevance": 0.4,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is the difference between bi-encoder and cross-enc",
+      "rouge_l": 0.3571,
+      "bleu": 0.0714,
+      "str_sim": 0.4808,
+      "faithfulness": 0.3,
+      "relevance": 0.2105,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is vector indexing?",
+      "rouge_l": 0.3,
+      "bleu": 0.0903,
+      "str_sim": 0.4607,
+      "faithfulness": 0.3333,
+      "relevance": 0.3077,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is semantic chunking?",
+      "rouge_l": 0.3704,
+      "bleu": 0.0661,
+      "str_sim": 0.47,
+      "faithfulness": 0.5455,
+      "relevance": 0.2222,
+      "conciseness": 1.0
+    },
+    {
+      "query": "Why is reranking important in RAG?",
+      "rouge_l": 0.2857,
+      "bleu": 0.117,
+      "str_sim": 0.4554,
+      "faithfulness": 0.6154,
+      "relevance": 0.2,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is LoRA?",
+      "rouge_l": 0.5641,
+      "bleu": 0.1423,
+      "str_sim": 0.4901,
+      "faithfulness": 0.7333,
+      "relevance": 0.0909,
+      "conciseness": 1.0
+    },
+    {
+      "query": "Why is LoRA memory efficient?",
+      "rouge_l": 0.3871,
+      "bleu": 0.0716,
+      "str_sim": 0.2991,
+      "faithfulness": 0.5385,
+      "relevance": 0.2,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is the rank in LoRA?",
+      "rouge_l": 0.5,
+      "bleu": 0.0722,
+      "str_sim": 0.4158,
+      "faithfulness": 0.6364,
+      "relevance": 0.2105,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is PEFT?",
+      "rouge_l": 0.5161,
+      "bleu": 0.1017,
+      "str_sim": 0.2925,
+      "faithfulness": 0.4545,
+      "relevance": 0.1111,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is instruction fine-tuning?",
+      "rouge_l": 0.5,
+      "bleu": 0.0718,
+      "str_sim": 0.5234,
+      "faithfulness": 0.7368,
+      "relevance": 0.375,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is catastrophic forgetting?",
+      "rouge_l": 0.4,
+      "bleu": 0.0744,
+      "str_sim": 0.5,
+      "faithfulness": 0.6875,
+      "relevance": 0.2857,
+      "conciseness": 1.0
+    },
+    {
+      "query": "How does LoRA prevent catastrophic forgetting?",
+      "rouge_l": 0.4138,
+      "bleu": 0.0692,
+      "str_sim": 0.3465,
+      "faithfulness": 0.25,
+      "relevance": 0.1,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is QLoRA?",
+      "rouge_l": 0.4375,
+      "bleu": 0.1817,
+      "str_sim": 0.4059,
+      "faithfulness": 0.48,
+      "relevance": 0.1053,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is faithfulness in RAG evaluation?",
+      "rouge_l": 0.4615,
+      "bleu": 0.0646,
+      "str_sim": 0.4804,
+      "faithfulness": 0.75,
+      "relevance": 0.3333,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is answer relevance in RAG evaluation?",
+      "rouge_l": 0.3571,
+      "bleu": 0.0725,
+      "str_sim": 0.4086,
+      "faithfulness": 0.7,
+      "relevance": 0.2222,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is context precision?",
+      "rouge_l": 0.6207,
+      "bleu": 0.1506,
+      "str_sim": 0.6633,
+      "faithfulness": 0.6957,
+      "relevance": 0.3529,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is ROUGE score?",
+      "rouge_l": 0.6087,
+      "bleu": 0.291,
+      "str_sim": 0.6237,
+      "faithfulness": 0.7368,
+      "relevance": 0.1429,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is BLEU score?",
+      "rouge_l": 0.4444,
+      "bleu": 0.0692,
+      "str_sim": 0.4343,
+      "faithfulness": 0.6667,
+      "relevance": 0.1111,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is hallucination in language models?",
+      "rouge_l": 0.25,
+      "bleu": 0.041,
+      "str_sim": 0.3524,
+      "faithfulness": 0.4167,
+      "relevance": 0.3529,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What are sentence embeddings?",
+      "rouge_l": 0.4167,
+      "bleu": 0.1048,
+      "str_sim": 0.4118,
+      "faithfulness": 0.5263,
+      "relevance": 0.4,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is cosine similarity?",
+      "rouge_l": 0.48,
+      "bleu": 0.1438,
+      "str_sim": 0.4607,
+      "faithfulness": 0.7,
+      "relevance": 0.25,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is the all-MiniLM-L6-v2 model?",
+      "rouge_l": 0.4375,
+      "bleu": 0.1584,
+      "str_sim": 0.3663,
+      "faithfulness": 0.5517,
+      "relevance": 0.4167,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is approximate nearest neighbour search?",
+      "rouge_l": 0.2143,
+      "bleu": 0.0629,
+      "str_sim": 0.21,
+      "faithfulness": 0.3333,
+      "relevance": 0.4,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is embedding dimensionality?",
+      "rouge_l": 0.3448,
+      "bleu": 0.0336,
+      "str_sim": 0.3889,
+      "faithfulness": 0.5,
+      "relevance": 0.3333,
+      "conciseness": 1.0
+    },
+    {
+      "query": "What is the role of embeddings in RAG?",
+      "rouge_l": 0.4828,
+      "bleu": 0.0796,
+      "str_sim": 0.4904,
+      "faithfulness": 0.4545,
+      "relevance": 0.1905,
+      "conciseness": 1.0
+    }
+  ],
+  "aggregate": {
+    "rouge_l": 0.4223,
+    "bleu": 0.1071,
+    "str_sim": 0.411,
+    "faithfulness": 0.5485,
+    "relevance": 0.2585,
+    "conciseness": 1.0
+  }
+}

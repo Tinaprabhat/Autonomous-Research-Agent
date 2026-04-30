@@ -9,9 +9,11 @@ class HybridRetriever:
         self.documents = documents
 
         tokenized_docs = [doc["text"].split() for doc in documents]
-        self.bm25 = BM25Okapi(tokenized_docs)
+        self.bm25 = BM25Okapi(tokenized_docs) if tokenized_docs else None
 
     def search(self, query, k=10):
+        if not self.documents:
+            return []
 
         # vector results
         vector_results = self.vector_store.search(query, k)

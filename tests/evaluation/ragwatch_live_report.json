@@ -1,0 +1,525 @@
+{
+  "n_cases": 50,
+  "passed": false,
+  "composite_mean": 0.49338751236736345,
+  "composite_std": 0.07864858279118538,
+  "faithfulness_mean": 0.4300916202590479,
+  "hallucination_mean": 0.5699083797409521,
+  "n_failures": 11,
+  "failures": [
+    "[What is the encoder-only transformer architecture?] composite 0.405 < 0.45",
+    "[How does BM25 work?] composite 0.330 < 0.45",
+    "[Why is reranking important in RAG?] composite 0.446 < 0.45",
+    "[What is LoRA?] composite 0.432 < 0.45",
+    "[Why is LoRA memory efficient?] composite 0.344 < 0.45",
+    "[What is the rank in LoRA?] composite 0.421 < 0.45",
+    "[What is QLoRA?] composite 0.363 < 0.45",
+    "[What is ROUGE score?] composite 0.259 < 0.45",
+    "[What are sentence embeddings?] composite 0.419 < 0.45",
+    "[What is cosine similarity?] composite 0.404 < 0.45",
+    "[What is the all-MiniLM-L6-v2 model?] composite 0.367 < 0.45"
+  ],
+  "guard_faithfulness_mean": 0.842,
+  "per_case": [
+    {
+      "label": "What is the attention mechanism?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5407146689467481,
+      "faithfulness": 0.49888800441112835,
+      "hallucination": 0.5011119955888717,
+      "answer_relevance": 0.6542309522628784,
+      "completeness": 0.34205460641533136
+    },
+    {
+      "label": "How does self-attention differ from cross-attention?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5401405039020756,
+      "faithfulness": 0.5042073278721849,
+      "hallucination": 0.4957926721278151,
+      "answer_relevance": 0.6612820029258728,
+      "completeness": 0.519976609852165
+    },
+    {
+      "label": "What is multi-head attention?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.75,
+      "composite": 0.5539090414937163,
+      "faithfulness": 0.4989937294540141,
+      "hallucination": 0.5010062705459859,
+      "answer_relevance": 0.8223286271095276,
+      "completeness": 0.4986069635488093
+    },
+    {
+      "label": "What is the transformer architecture?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.75,
+      "composite": 0.5130686734701158,
+      "faithfulness": 0.4977402207490134,
+      "hallucination": 0.5022597792509866,
+      "answer_relevance": 0.5635842084884644,
+      "completeness": 0.4998418784234673
+    },
+    {
+      "label": "What are positional encodings?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.4996448455774225,
+      "faithfulness": 0.5846499780891463,
+      "hallucination": 0.4153500219108537,
+      "answer_relevance": 0.6100636124610901,
+      "completeness": 0.5052662938833237
+    },
+    {
+      "label": "What is the scaled dot-product attention formula?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5477814725141174,
+      "faithfulness": 0.3608541526232979,
+      "hallucination": 0.6391458473767021,
+      "answer_relevance": 0.8373399972915649,
+      "completeness": 0.5522687658667564
+    },
+    {
+      "label": "What is the feed-forward network in a transformer?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.571,
+      "composite": 0.46782807349522043,
+      "faithfulness": 0.4829711916954693,
+      "hallucination": 0.5170288083045307,
+      "answer_relevance": 0.6733392477035522,
+      "completeness": 0.4800469372421503
+    },
+    {
+      "label": "How do transformers handle variable-length sequences?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.47419371835479973,
+      "faithfulness": 0.2531715962977614,
+      "hallucination": 0.7468284037022386,
+      "answer_relevance": 0.8163577318191528,
+      "completeness": 0.508086301619187
+    },
+    {
+      "label": "What is layer normalisation in transformers?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.4726335764580289,
+      "faithfulness": 0.4958931828296045,
+      "hallucination": 0.5041068171703955,
+      "answer_relevance": 0.6645744442939758,
+      "completeness": 0.4435248787049204
+    },
+    {
+      "label": "What is the encoder-only transformer architecture?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.40474936939782313,
+      "faithfulness": 0.7468773148721084,
+      "hallucination": 0.2531226851278916,
+      "answer_relevance": 0.31386733055114746,
+      "completeness": 0.00014585757980967173
+    },
+    {
+      "label": "How does BERT pre-train?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.5394483453183785,
+      "faithfulness": 0.4995110614254372,
+      "hallucination": 0.5004889385745628,
+      "answer_relevance": 0.6383141875267029,
+      "completeness": 0.48830412374809384
+    },
+    {
+      "label": "What is masked language modelling?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5484807294883649,
+      "faithfulness": 0.35957672019139864,
+      "hallucination": 0.6404232798086014,
+      "answer_relevance": 0.7098682522773743,
+      "completeness": 0.9897444683301728
+    },
+    {
+      "label": "What is next sentence prediction?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5032190927921328,
+      "faithfulness": 0.4980858469401331,
+      "hallucination": 0.501914153059867,
+      "answer_relevance": 0.7735162377357483,
+      "completeness": 0.4999212812981568
+    },
+    {
+      "label": "What is fine-tuning in the context of BERT?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.6170494476187741,
+      "faithfulness": 0.49722912518579204,
+      "hallucination": 0.5027708748142079,
+      "answer_relevance": 0.813040018081665,
+      "completeness": 0.7578882614616305
+    },
+    {
+      "label": "What is the WordPiece tokenisation used by BERT?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.562722054985934,
+      "faithfulness": 0.4986316207505297,
+      "hallucination": 0.5013683792494703,
+      "answer_relevance": 0.8240840435028076,
+      "completeness": 0.5004680515266955
+    },
+    {
+      "label": "What is the CLS token in BERT?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.75,
+      "composite": 0.510510763063503,
+      "faithfulness": 0.4863281294189316,
+      "hallucination": 0.5136718705810683,
+      "answer_relevance": 0.815127968788147,
+      "completeness": 0.5010837018489838
+    },
+    {
+      "label": "How many layers does BERT-base have?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.5,
+      "composite": 0.584030555881327,
+      "faithfulness": 0.4977957619703375,
+      "hallucination": 0.5022042380296625,
+      "answer_relevance": 0.9378474950790405,
+      "completeness": 0.5031575083266944
+    },
+    {
+      "label": "What tasks does BERT excel at?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5123015621064405,
+      "faithfulness": 0.3346281738267862,
+      "hallucination": 0.6653718261732138,
+      "answer_relevance": 0.6154739260673523,
+      "completeness": 0.7679644044255838
+    },
+    {
+      "label": "What is bidirectional encoding?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5161398161621764,
+      "faithfulness": 0.5017722480697557,
+      "hallucination": 0.49822775193024427,
+      "answer_relevance": 0.7238457202911377,
+      "completeness": 0.5360225678887218
+    },
+    {
+      "label": "What is the difference between BERT and GPT?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.778,
+      "composite": 0.4507315143831407,
+      "faithfulness": 0.4790341360743956,
+      "hallucination": 0.5209658639256044,
+      "answer_relevance": 0.6704428791999817,
+      "completeness": 0.11124933883547783
+    },
+    {
+      "label": "What is retrieval-augmented generation?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.6801078664371744,
+      "faithfulness": 0.7233616574667394,
+      "hallucination": 0.2766383425332606,
+      "answer_relevance": 0.7688541412353516,
+      "completeness": 0.9203235195018351
+    },
+    {
+      "label": "What is dense retrieval?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.45369061527890153,
+      "faithfulness": 0.33185917703667656,
+      "hallucination": 0.6681408229633234,
+      "answer_relevance": 0.7409252524375916,
+      "completeness": 0.5072074120398611
+    },
+    {
+      "label": "How does BM25 work?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.3303645590069937,
+      "faithfulness": 0.011362786521203816,
+      "hallucination": 0.9886372134787962,
+      "answer_relevance": 0.5598769783973694,
+      "completeness": 0.5027739437646233
+    },
+    {
+      "label": "What is hybrid retrieval?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.8,
+      "composite": 0.5619211964344141,
+      "faithfulness": 0.5100989591795951,
+      "hallucination": 0.48990104082040486,
+      "answer_relevance": 0.6426551342010498,
+      "completeness": 0.908291197498329
+    },
+    {
+      "label": "What is FAISS?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.5135943931146175,
+      "faithfulness": 0.4037663117487682,
+      "hallucination": 0.5962336882512318,
+      "answer_relevance": 0.6291691064834595,
+      "completeness": 0.9713241118006408
+    },
+    {
+      "label": "What is a cross-encoder reranker?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.75,
+      "composite": 0.5152858318560175,
+      "faithfulness": 0.4996372391809321,
+      "hallucination": 0.5003627608190679,
+      "answer_relevance": 0.7175545692443848,
+      "completeness": 0.5026120117399842
+    },
+    {
+      "label": "What is the difference between bi-encoder and cross-encoder?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.4670333790673301,
+      "faithfulness": 0.45906077393218375,
+      "hallucination": 0.5409392260678163,
+      "answer_relevance": 0.6200327277183533,
+      "completeness": 0.49919530656188726
+    },
+    {
+      "label": "What is vector indexing?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.6107089571485994,
+      "faithfulness": 0.7232640410948079,
+      "hallucination": 0.2767359589051921,
+      "answer_relevance": 0.8888587951660156,
+      "completeness": 0.5065772918751463
+    },
+    {
+      "label": "What is semantic chunking?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.504063781340883,
+      "faithfulness": 0.5183496619902144,
+      "hallucination": 0.48165033800978563,
+      "answer_relevance": 0.6420774459838867,
+      "completeness": 0.4999706196831539
+    },
+    {
+      "label": "Why is reranking important in RAG?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.75,
+      "composite": 0.44617947501130395,
+      "faithfulness": 0.5003155856829835,
+      "hallucination": 0.4996844143170165,
+      "answer_relevance": 0.4636877477169037,
+      "completeness": 0.5456466524919961
+    },
+    {
+      "label": "What is LoRA?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.75,
+      "composite": 0.43233187130332223,
+      "faithfulness": 0.3469796602197069,
+      "hallucination": 0.6530203397802932,
+      "answer_relevance": 0.6640757322311401,
+      "completeness": 0.5005286252126098
+    },
+    {
+      "label": "Why is LoRA memory efficient?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.75,
+      "composite": 0.34391889868031283,
+      "faithfulness": 0.005719629684487397,
+      "hallucination": 0.9942803703155126,
+      "answer_relevance": 0.6477712988853455,
+      "completeness": 0.5007387661316898
+    },
+    {
+      "label": "What is the rank in LoRA?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.42078614769852724,
+      "faithfulness": 0.5671024893720945,
+      "hallucination": 0.4328975106279055,
+      "answer_relevance": 0.3076494038105011,
+      "completeness": 0.4972569156670943
+    },
+    {
+      "label": "What is PEFT?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.48709883279690985,
+      "faithfulness": 0.6595283331601726,
+      "hallucination": 0.34047166683982744,
+      "answer_relevance": 0.5159427523612976,
+      "completeness": 0.5011234611738473
+    },
+    {
+      "label": "What is instruction fine-tuning?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.5199987727239204,
+      "faithfulness": 0.49996636092691915,
+      "hallucination": 0.5000336390730808,
+      "answer_relevance": 0.6535779237747192,
+      "completeness": 0.49149887391831726
+    },
+    {
+      "label": "What is catastrophic forgetting?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.5602121097406052,
+      "faithfulness": 0.503342149018863,
+      "hallucination": 0.496657850981137,
+      "answer_relevance": 0.8704131245613098,
+      "completeness": 0.5001921262883116
+    },
+    {
+      "label": "How does LoRA prevent catastrophic forgetting?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5830852101084019,
+      "faithfulness": 0.4970873728059814,
+      "hallucination": 0.5029126271940185,
+      "answer_relevance": 0.75970059633255,
+      "completeness": 0.9738011714071035
+    },
+    {
+      "label": "What is QLoRA?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.36256317344028505,
+      "faithfulness": 0.012302652078991136,
+      "hallucination": 0.9876973479210088,
+      "answer_relevance": 0.6482476592063904,
+      "completeness": 0.5107075925916433
+    },
+    {
+      "label": "What is faithfulness in RAG evaluation?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.4605536408233456,
+      "faithfulness": 0.3342032984752829,
+      "hallucination": 0.665796701524717,
+      "answer_relevance": 0.7987370491027832,
+      "completeness": 0.7439954057335854
+    },
+    {
+      "label": "What is answer relevance in RAG evaluation?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5660376528778579,
+      "faithfulness": 0.4827760146581568,
+      "hallucination": 0.5172239853418432,
+      "answer_relevance": 0.6836684346199036,
+      "completeness": 0.9876908692531288
+    },
+    {
+      "label": "What is context precision?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5303893008333398,
+      "faithfulness": 0.5008884486645305,
+      "hallucination": 0.49911155133546947,
+      "answer_relevance": 0.651174783706665,
+      "completeness": 0.8533957861363888
+    },
+    {
+      "label": "What is ROUGE score?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.25898388390836774,
+      "faithfulness": 0.01810505770117743,
+      "hallucination": 0.9818949422988226,
+      "answer_relevance": 0.6848365068435669,
+      "completeness": 0.004590712676872499
+    },
+    {
+      "label": "What is BLEU score?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.8,
+      "composite": 0.46542101731174623,
+      "faithfulness": 0.28429227927699685,
+      "hallucination": 0.7157077207230031,
+      "answer_relevance": 0.79350745677948,
+      "completeness": 0.5007876934250817
+    },
+    {
+      "label": "What is hallucination in language models?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5152422902107355,
+      "faithfulness": 0.253759353843634,
+      "hallucination": 0.746240646156366,
+      "answer_relevance": 0.8172963857650757,
+      "completeness": 0.8970613063429482
+    },
+    {
+      "label": "What are sentence embeddings?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.5,
+      "composite": 0.41914192949538115,
+      "faithfulness": 0.24969883263111115,
+      "hallucination": 0.7503011673688889,
+      "answer_relevance": 0.7772948741912842,
+      "completeness": 0.029152342001907527
+    },
+    {
+      "label": "What is cosine similarity?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.4038917434075847,
+      "faithfulness": 0.2554056637454778,
+      "hallucination": 0.7445943362545222,
+      "answer_relevance": 0.8240965008735657,
+      "completeness": 0.022912408225238323
+    },
+    {
+      "label": "What is the all-MiniLM-L6-v2 model?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.3672626136979306,
+      "faithfulness": 0.259581706721292,
+      "hallucination": 0.740418293278708,
+      "answer_relevance": 0.6782936453819275,
+      "completeness": 0.019694928225362673
+    },
+    {
+      "label": "What is approximate nearest neighbour search?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.667,
+      "composite": 0.468726238977033,
+      "faithfulness": 0.49946770072347135,
+      "hallucination": 0.5005322992765286,
+      "answer_relevance": 0.8361319899559021,
+      "completeness": 0.015981235570507124
+    },
+    {
+      "label": "What is embedding dimensionality?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 1.0,
+      "composite": 0.5613954274667776,
+      "faithfulness": 0.4547649345137567,
+      "hallucination": 0.5452350654862432,
+      "answer_relevance": 0.7092348337173462,
+      "completeness": 0.4973230808391236
+    },
+    {
+      "label": "What is the role of embeddings in RAG?",
+      "source": "live_pipeline",
+      "guard_faithfulness": 0.889,
+      "composite": 0.5000869827593124,
+      "faithfulness": 0.5616933581489624,
+      "hallucination": 0.4383066418510376,
+      "answer_relevance": 0.44808822870254517,
+      "completeness": 0.5009961366304196
+    }
+  ]
+}
