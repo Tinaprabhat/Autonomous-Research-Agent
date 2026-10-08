@@ -3,15 +3,19 @@ import hashlib
 import time
 import json
 
+from backend.app import config
+from backend.app.llm.groq_llm import LLMError
 
-class LocalLLM:
+
+class OllamaLLM:
+    """Local Ollama backend (fallback generator)."""
 
     # Module-level cache shared across all instances
     _cache: dict = {}
     CACHE_TTL = 3600  # cached responses expire after 1 hour
 
-    def __init__(self, model="mistral", temperature=0.3, max_tokens=512, timeout=60):
-        self.model = model
+    def __init__(self, model=None, temperature=0.3, max_tokens=512, timeout=60):
+        self.model = model or config.OLLAMA_MODEL
         self.url = "http://localhost:11434/api/generate"
         self.temperature = temperature
         self.max_tokens = max_tokens
@@ -40,8 +44,7 @@ class LocalLLM:
         """
         Returns full response as a string.
         Caches deterministic calls (temperature=0) automatically.
-        keep_alive=10m tells Ollama to keep the model in RAM between calls,
-        saving ~2s reload time on every request.
+        keep_alive tells Ollama to keep the model in RAM between calls.
         """
         key = self._cache_key(prompt)
         if use_cache and self.temperature == 0.0:
@@ -56,10 +59,10 @@ class LocalLLM:
                     "model": self.model,
                     "prompt": prompt,
                     "stream": False,
+                    "keep_alive": "10m",
                     "options": {
                         "temperature": self.temperature,
                         "num_predict": self.max_tokens,
-                        "keep_alive": "10m",
                     }
                 },
                 timeout=self.timeout
@@ -78,23 +81,16 @@ class LocalLLM:
             return result
 
         except requests.exceptions.ConnectionError:
-            raise RuntimeError("Ollama is not running. Start it with: ollama serve")
+            raise LLMError("Ollama is not running. Start it with: ollama serve")
         except requests.exceptions.Timeout:
-            raise RuntimeError(f"Ollama timed out after {self.timeout}s")
+            raise LLMError(f"Ollama timed out after {self.timeout}s")
         except requests.exceptions.HTTPError as e:
-            raise RuntimeError(f"Ollama HTTP error: {e}")
+            raise LLMError(f"Ollama HTTP error: {e}")
 
     # ── Generate (streaming) ──────────────────────────────────────────────────
 
     def generate_stream(self, prompt: str):
-        """
-        Yields tokens as they are produced — first token appears in ~1-2s
-        instead of waiting 30s for the full response.
-
-        Use in agent/UI layer:
-            for token in llm.generate_stream(prompt):
-                print(token, end="", flush=True)
-        """
+        """Yields tokens as they are produced."""
         try:
             response = requests.post(
                 self.url,
@@ -102,10 +98,10 @@ class LocalLLM:
                     "model": self.model,
                     "prompt": prompt,
                     "stream": True,
+                    "keep_alive": "10m",
                     "options": {
                         "temperature": self.temperature,
                         "num_predict": self.max_tokens,
-                        "keep_alive": "10m",
                     }
                 },
                 stream=True,
@@ -123,9 +119,11 @@ class LocalLLM:
                         break
 
         except requests.exceptions.ConnectionError:
-            raise RuntimeError("Ollama is not running. Start it with: ollama serve")
+            raise LLMError("Ollama is not running. Start it with: ollama serve")
         except requests.exceptions.Timeout:
-            raise RuntimeError(f"Ollama timed out after {self.timeout}s")
+            raise LLMError(f"Ollama timed out after {self.timeout}s")
+        except requests.exceptions.HTTPError as e:
+            raise LLMError(f"Ollama HTTP error: {e}")
 
     # ── Cache utils ───────────────────────────────────────────────────────────
 
@@ -138,3 +136,7 @@ class LocalLLM:
         now = time.time()
         valid = sum(1 for _, ts in cls._cache.values() if now - ts < cls.CACHE_TTL)
         return {"total": len(cls._cache), "valid": valid, "expired": len(cls._cache) - valid}
+
+
+# Backwards-compatible name used by older scripts/tests.
+LocalLLM = OllamaLLM

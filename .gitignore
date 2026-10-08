@@ -34,3 +34,17 @@ models/
 
 # Logs
 *.log
+
+# Local runtime data (v2)
+data/qdrant_local/
+data/jobs.db
+data/query_log.jsonl
+data/feedback.jsonl
+data/eval_runs/
+.deepeval/
+.env.*
+!.env.example
+
+# Generated ingestion cache (re-creatable from the manifest)
+data/processed_chunks/
+nohup.out

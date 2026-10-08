@@ -1,0 +1,8 @@
+-r requirements.txt
+
+# Testing
+pytest==9.0.3
+pytest-cov==7.1.0
+
+# Evaluation (LLM-as-judge via Groq; see eval/judge.py)
+deepeval==4.2.8

@@ -1,6 +1,11 @@
 """
 Shared pytest fixtures for all test modules.
 """
+import os
+
+# Never let a test talk to a real (cloud) Qdrant, whatever .env says.
+os.environ["QDRANT_FORCE_LOCAL"] = "1"
+
 import numpy as np
 import pytest
 
@@ -93,9 +98,62 @@ def sample_embeddings():
     return vecs / norms
 
 
+class FakeEmbedder:
+    """Deterministic bag-of-words hashing embedder (384-d), no model download."""
+
+    def _vec(self, text):
+        import re, zlib
+        v = np.zeros(384, dtype="float32")
+        for tok in re.findall(r"\w+", text.lower()):
+            v[zlib.crc32(tok.encode()) % 384] += 1.0
+        n = np.linalg.norm(v)
+        return v / n if n else v
+
+    def embed_documents(self, texts):
+        return np.array([self._vec(t) for t in texts])
+
+    def embed_query(self, q):
+        return self._vec(q)
+
+
+class FakeVerifier:
+    """Entails iff every hypothesis word of length>3 appears in the premise."""
+
+    def entailment_batch(self, pairs):
+        import re
+        out = []
+        for premise, hyp in pairs:
+            words = [w for w in re.findall(r"\w+", hyp.lower()) if len(w) > 3]
+            p = premise.lower()
+            out.append(0.95 if words and all(w in p for w in words) else 0.05)
+        return np.array(out)
+
+
 @pytest.fixture
-def tmp_vector_store_dir(tmp_path):
-    """Temporary directory for FAISS index and metadata."""
-    d = tmp_path / "vector_store"
-    d.mkdir()
-    return d
+def fake_embedder():
+    return FakeEmbedder()
+
+
+@pytest.fixture
+def fake_verifier():
+    return FakeVerifier()
+
+
+@pytest.fixture
+def mem_store(fake_embedder):
+    """In-memory Qdrant store loaded with provenance-rich sample chunks."""
+    from backend.app.storage.qdrant_store import QdrantStore, make_client
+    chunks = []
+    for i, t in enumerate(SAMPLE_TEXTS):
+        chunks.append({
+            "text": t, "chunk_id": f"2401.0000{i // 3}_v1_{i}",
+            "arxiv_id": f"2401.0000{i // 3}", "version": "v1",
+            "title": f"Paper {i // 3}", "author": ["Ada Lovelace"] if i % 2 else ["Alan Turing"],
+            "category": "cs.CL" if i < 5 else "cs.LG",
+            "published_date": f"2024-0{(i % 3) + 1}-15T00:00:00Z",
+            "section": "Method" if i % 2 else "Introduction", "page": i + 1,
+            "char_start": 0, "char_end": len(t),
+        })
+    store = QdrantStore(make_client(path=":memory:"), collection="test")
+    store.add_embeddings(fake_embedder.embed_documents([c["text"] for c in chunks]), chunks)
+    return store

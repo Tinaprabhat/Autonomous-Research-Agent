@@ -1,0 +1,1622 @@
+[
+  {
+    "id": "a001",
+    "question": "Which three conferences are identified as concentrating the majority of meta-reinforcement learning literature contributions post-2016?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2301.08028_v4_26"
+    ],
+    "gold_arxiv_ids": [
+      "2301.08028"
+    ],
+    "reference_answer": "The majority of meta-reinforcement learning literature contributions post-2016 are concentrated in the conferences NeurIPS, ICML, and ICLR.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 8,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a002",
+    "question": "Which specific top-k metrics are typically used to evaluate the performance of retrieval models in the context of Large Language Model (LLM) answer generation?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2402.11035_v3_5"
+    ],
+    "gold_arxiv_ids": [
+      "2402.11035"
+    ],
+    "reference_answer": "Model performance is typically evaluated based on metrics that consider the top-5, top-20, top-50, and top-100 retrieved passages.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a003",
+    "question": "How do defenses against prompt injections differ from defenses against jailbreaks in terms of their specific mechanisms?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2410.05451_v3_179"
+    ],
+    "gold_arxiv_ids": [
+      "2410.05451"
+    ],
+    "reference_answer": "Defenses against prompt injections separate instruction and input, while defenses against jailbreaks reject toxic inputs.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 12,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a004",
+    "question": "Why was the Estrogen−α dataset excluded from the experiments in the Relative Molecule Self-Attention Transformer study?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2110.05841_v1_184"
+    ],
+    "gold_arxiv_ids": [
+      "2110.05841"
+    ],
+    "reference_answer": "The Estrogen−α dataset was excluded due to GPU memory limitations, as the largest molecule in that dataset consists of over 500 atoms.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 17,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a005",
+    "question": "In the comparison between Feedforward Neural Network (FNN) and LSTM models for detecting prompt injection attacks, how many True Positives and True Negatives did the FNN model record?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2512.12583_v1_64"
+    ],
+    "gold_arxiv_ids": [
+      "2512.12583"
+    ],
+    "reference_answer": "The Feedforward Neural Network (FNN) model recorded 16,997 True Positives and 16,797 True Negatives.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 6,
+    "source_section": "Experiments"
+  },
+  {
+    "id": "a006",
+    "question": "How many online input tokens does CARROT use compared to the 8192 tokens consumed by methods like HYDE?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2411.00744_v2_178"
+    ],
+    "gold_arxiv_ids": [
+      "2411.00744"
+    ],
+    "reference_answer": "CARROT uses only 899 online input tokens, whereas methods like HYDE consume the full 8192 online input tokens.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 13,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a007",
+    "question": "What specific function does the Configuration Agent module perform in the CARROT system?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2411.00744_v2_52"
+    ],
+    "gold_arxiv_ids": [
+      "2411.00744"
+    ],
+    "reference_answer": "The Configuration Agent module automatically selects the best MCTS configuration and reranker for different query domains.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 4,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a008",
+    "question": "In the adversarial attack evaluation on the DT train dataset, what specific constraint is placed on the number of samples that can be modified?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2009.01672_v1_85"
+    ],
+    "gold_arxiv_ids": [
+      "2009.01672"
+    ],
+    "reference_answer": "The attack is allowed to modify no more than k = 1, 2, 3, or 10 samples in the DT train dataset.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 7,
+    "source_section": "Experiments"
+  },
+  {
+    "id": "a009",
+    "question": "According to Wei et al. (2023), what effect did scaling up model sizes have on tasks that previously exhibited inverse scaling trends?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2403.09832_v1_50"
+    ],
+    "gold_arxiv_ids": [
+      "2403.09832"
+    ],
+    "reference_answer": "For most tasks showing inverse scaling, further scaling up the model sizes reversed the trend, causing performance to rise again and form a U-shape scaling pattern.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 7,
+    "source_section": "Discussion"
+  },
+  {
+    "id": "a010",
+    "question": "Why has there been increased interest in gloss-free Sign Language Translation (SLT) models compared to traditional gloss-based approaches?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2510.18439_v3_26"
+    ],
+    "gold_arxiv_ids": [
+      "2510.18439"
+    ],
+    "reference_answer": "Creating gloss annotations is time-consuming, which has led to increased interest in gloss-free SLT models.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 3,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a011",
+    "question": "How many queries does the Information Asymmetry (IA) method require to perform membership inference on a Retrieval-Augmented Generation (RAG) system?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2502.00306_v2_16"
+    ],
+    "gold_arxiv_ids": [
+      "2502.00306"
+    ],
+    "reference_answer": "The IA method requires as few as 30 queries to the RAG system.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a012",
+    "question": "In the context of the universal 1-bit quantizer described in Privacy-Preserving Important Passage Retrieval, what is the width of each band when mapping the real line onto 1/0?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "1407.5416_v1_38"
+    ],
+    "gold_arxiv_ids": [
+      "1407.5416"
+    ],
+    "reference_answer": "Each band is ∆m wide.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 3,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a013",
+    "question": "How does the REALM method integrate the reader component into the training of the retriever?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2402.11035_v3_64"
+    ],
+    "gold_arxiv_ids": [
+      "2402.11035"
+    ],
+    "reference_answer": "REALM leverages feedback from the reader component to jointly train the retriever with the reader.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 6,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a014",
+    "question": "In the context of influence attacks on meta learners where direct perturbation of target class training samples is prohibited, under what specific fine-tuning condition is the decrease in accuracy for target class samples most pronounced?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2009.01672_v1_101"
+    ],
+    "gold_arxiv_ids": [
+      "2009.01672"
+    ],
+    "reference_answer": "The attacking effect is most obvious when the meta learner takes 1 step of fine tuning.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 8,
+    "source_section": "Experiments"
+  },
+  {
+    "id": "a015",
+    "question": "What specific technique does the Relative Molecule Self-Attention Transformer adapt to improve the processing of graph and distance information in molecules?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2110.05841_v1_43"
+    ],
+    "gold_arxiv_ids": [
+      "2110.05841"
+    ],
+    "reference_answer": "The method adapts positional relative encoding to the processing of molecules.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 4,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a016",
+    "question": "How many frame-caption pairs comprised the final dataset used for fine-tuning in the Hagia AI Research Collective's pipeline?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2510.27364_v1_31"
+    ],
+    "gold_arxiv_ids": [
+      "2510.27364"
+    ],
+    "reference_answer": "The final dataset comprised approximately 25,000 frame-caption pairs, which corresponds to roughly 16 minutes of total footage.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 3,
+    "source_section": "Background"
+  },
+  {
+    "id": "a017",
+    "question": "In CARE-LoRA, what specific activation signal is reconstructed to allow the projection-down matrix A to be updated during fine-tuning?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2607.11940_v1_34"
+    ],
+    "gold_arxiv_ids": [
+      "2607.11940"
+    ],
+    "reference_answer": "CARE-LoRA reconstructs the missing activation signal needed to update the projection-down matrix A, which remains fixed in standard compressed activation approaches that only store Z = XA.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 3,
+    "source_section": "Background"
+  },
+  {
+    "id": "a018",
+    "question": "Which two prominent knowledge bases are cited as efforts in the context of query expansion and learning-to-rank approaches for ad-hoc retrieval?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "1811.08772_v1_48"
+    ],
+    "gold_arxiv_ids": [
+      "1811.08772"
+    ],
+    "reference_answer": "The two prominent efforts are DBPedia and Freebase.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 7,
+    "source_section": "Background"
+  },
+  {
+    "id": "a019",
+    "question": "Which specific model configuration surpassed the performance of all previous models, including x13, in the BEV representation tests using the mmsegmentation library?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2508.20762_v1_124"
+    ],
+    "gold_arxiv_ids": [
+      "2508.20762"
+    ],
+    "reference_answer": "The SKGE-Swin (stage 1→4) + LiDAR model managed to surpass the performance of all previous models, including x13.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 9,
+    "source_section": "Method"
+  },
+  {
+    "id": "a020",
+    "question": "According to Simhi et al. (2025), on which specific type of hallucinations do uncertainty-based detectors fail?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2608.18115_v1_7"
+    ],
+    "gold_arxiv_ids": [
+      "2608.18115"
+    ],
+    "reference_answer": "Uncertainty-based detectors fail on high-confidence hallucinations.",
+    "reviewed": false,
+    "regression": true,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a021",
+    "question": "What specific problem does Primal-Attention aim to avoid compared to dual representations derived from Kernel SVD?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2305.19798_v2_17"
+    ],
+    "gold_arxiv_ids": [
+      "2305.19798"
+    ],
+    "reference_answer": "Primal-Attention avoids the expensive kernel computation found in the dual representation.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a022",
+    "question": "What specific observation regarding document fragments in embedding space does RAGPart leverage?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2512.24268_v1_17"
+    ],
+    "gold_arxiv_ids": [
+      "2512.24268"
+    ],
+    "reference_answer": "RAGPart leverages the observation that document fragments often preserve the semantic meaning of the full document in embedding space.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a023",
+    "question": "Why is the GCG optimization method considered too costly to serve as an inner optimization loop within the SecAlign fine-tuning process?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2410.05451_v3_190"
+    ],
+    "gold_arxiv_ids": [
+      "2410.05451"
+    ],
+    "reference_answer": "GCG is too costly because it requires an estimated thousands of GPU hours to run, even for the toy Alpaca dataset.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 12,
+    "source_section": "Conclusion"
+  },
+  {
+    "id": "a024",
+    "question": "What specific modification was applied to the HackAPrompt-Playground-Submissions dataset to create the modified version used in the research?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2512.12583_v1_29"
+    ],
+    "gold_arxiv_ids": [
+      "2512.12583"
+    ],
+    "reference_answer": "The dataset was modified by replacing the keyword with random strings consisting of 4-8 alphanumeric uppercase and lowercase characters.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 3,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a025",
+    "question": "What specific vulnerability does the parameter-free customization feature of Retrieval-Augmented Generation (RAG) introduce?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2502.00306_v2_9"
+    ],
+    "gold_arxiv_ids": [
+      "2502.00306"
+    ],
+    "reference_answer": "It exposes the system to adversaries aiming to extract sensitive information from the underlying set of documents.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a026",
+    "question": "Which three stability regimes do the nonasymptotic analyses by Shirani Faradonbeh et al. (2018), Simchowitz et al. (2018), and Sarkar & Rakhlin (2019) establish finite-sample error guarantees for?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2609.24117_v1_7"
+    ],
+    "gold_arxiv_ids": [
+      "2609.24117"
+    ],
+    "reference_answer": "The analyses establish finite-sample error guarantees across stable, marginally stable, and unstable regimes.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a027",
+    "question": "In the AutoHall framework, what specific condition regarding the K self-contradiction detection results indicates that a generated response Y is factual?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2310.00259_v3_63"
+    ],
+    "gold_arxiv_ids": [
+      "2310.00259"
+    ],
+    "reference_answer": "If no conflicts are found in the K pairs of self-contradiction detection results, it indicates that the response Y is factual.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 4,
+    "source_section": "Background"
+  },
+  {
+    "id": "a028",
+    "question": "How does the F1 score of FAIR-RAG on the HotpotQA dataset change when the number of refinement iterations increases from one to three?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2510.22344_v1_29"
+    ],
+    "gold_arxiv_ids": [
+      "2510.22344"
+    ],
+    "reference_answer": "The F1 score on HotpotQA improves from 0.398 for FAIR-RAG 1 to 0.447 for FAIR-RAG 3.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 3,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a029",
+    "question": "In the MAML training setup described in 'Anomaly Detection in Human Language via Meta-Learning: A Few-Shot Approach', how many anomalies and normals comprised the support set for each episode?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2507.20019_v1_120"
+    ],
+    "gold_arxiv_ids": [
+      "2507.20019"
+    ],
+    "reference_answer": "Each episode's support set contained 5 anomalies and 50 normals.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 13,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a030",
+    "question": "What is the average score of CARE-LoRA on the SuperGLUE benchmark, and how does it compare to LoRA-FA?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2607.11940_v1_76"
+    ],
+    "gold_arxiv_ids": [
+      "2607.11940"
+    ],
+    "reference_answer": "CARE-LoRA achieves an average score of 78.18 on SuperGLUE, surpassing LoRA-FA by 7.37 points.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 6,
+    "source_section": "Results"
+  },
+  {
+    "id": "a031",
+    "question": "How do dense retrieval methods utilizing pre-trained language models (PLMs) address the issue of vocabulary mismatching in information retrieval tasks?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2410.15801_v1_4"
+    ],
+    "gold_arxiv_ids": [
+      "2410.15801"
+    ],
+    "reference_answer": "They retrieve texts based on semantic relevance by matching queries and contexts using vector representations learned by PLMs.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a032",
+    "question": "How does the Long- and Short-term Hawkes Process (LSHP) model transition patterns across sessions versus within a session?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2002.00741_v1_106"
+    ],
+    "gold_arxiv_ids": [
+      "2002.00741"
+    ],
+    "reference_answer": "LSHP uses a unidimension Hawkes process to model transition patterns across sessions and a multi-dimension Hawkes process to model transition patterns within a session.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 7,
+    "source_section": "Experiments"
+  },
+  {
+    "id": "a033",
+    "question": "What specific step does the reinforcement learning query reformulation approach for Complex Answer Retrieval (CAR) perform to address low-utility facets?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "1811.08772_v1_38"
+    ],
+    "gold_arxiv_ids": [
+      "1811.08772"
+    ],
+    "reference_answer": "The query reformulation step helps the model add terms that make up for low-utility facets.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 5,
+    "source_section": "Background"
+  },
+  {
+    "id": "a034",
+    "question": "How does the re-ranking method in 'Improving Passage Retrieval with Zero-Shot Question Generation' rescore retrieved passages?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2204.07496_v4_2"
+    ],
+    "gold_arxiv_ids": [
+      "2204.07496"
+    ],
+    "reference_answer": "The re-ranker uses a zero-shot question generation model to compute the probability of the input question conditioned on a retrieved passage.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Abstract"
+  },
+  {
+    "id": "a035",
+    "question": "In the meta-learning approach for anomaly detection, what AUC score was achieved for the Spam task when it was left out during training (trained on Fake and Hate) with adaptation, compared to the baseline few-shot training score?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2507.20019_v1_176"
+    ],
+    "gold_arxiv_ids": [
+      "2507.20019"
+    ],
+    "reference_answer": "Meta-transfer to Spam with adaptation achieved an AUC of approximately 0.95, whereas baseline training on spam few-shot gave an AUC of approximately 0.93.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 20,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a036",
+    "question": "What is the iterative process used by denoising diffusion models (DDMs) to synthesize images?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2210.00939_v6_7"
+    ],
+    "gold_arxiv_ids": [
+      "2210.00939"
+    ],
+    "reference_answer": "Denoising diffusion models synthesize images from noise through an iterative denoising process.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a037",
+    "question": "Why is the approach involving explicitly gathering relative embeddings for Rt and Rp not directly scalable beyond J.S. Bach Chorales in the Music Transformer context?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "1809.04281_v3_63"
+    ],
+    "gold_arxiv_ids": [
+      "1809.04281"
+    ],
+    "reference_answer": "It results in a memory complexity of O(L2D) because relative information is computed based on content rather than content-invariant information such as position in the sequence.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 6,
+    "source_section": "Method"
+  },
+  {
+    "id": "a038",
+    "question": "What specific elements does the OpenHalDet benchmark use to assign hallucination labels in its reference-grounded annotation protocol?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2606.06959_v1_405"
+    ],
+    "gold_arxiv_ids": [
+      "2606.06959"
+    ],
+    "reference_answer": "OpenHalDet assigns hallucination labels by comparing a generated response against available references, acceptable answers, task context, and known incorrect answers when provided.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 35,
+    "source_section": "Method"
+  },
+  {
+    "id": "a039",
+    "question": "In the context of the (DR + Data augm. + CL) method, what specific combination of techniques does it consist of?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2205.02303_v1_30"
+    ],
+    "gold_arxiv_ids": [
+      "2205.02303"
+    ],
+    "reference_answer": "The (DR + Data augm. + CL) method consists of data augmentation combined with contrastive learning.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Method"
+  },
+  {
+    "id": "a040",
+    "question": "What architectural design do existing dense passage retrieval methods typically employ to balance efficiency and effectiveness?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2210.15133_v1_4"
+    ],
+    "gold_arxiv_ids": [
+      "2210.15133"
+    ],
+    "reference_answer": "Existing dense passage retrieval methods usually leverage a dual-encoder architecture.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a041",
+    "question": "In the Lugha-Llama-8B-wura model, what is the average cosine similarity for Swahili-English word pairs in Layer 2 compared to the final output representations?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2506.15415_v1_10"
+    ],
+    "gold_arxiv_ids": [
+      "2506.15415"
+    ],
+    "reference_answer": "The model achieves an average cosine similarity approaching 1.0 in Layer 2, whereas the final output representations have an average cosine similarity of around 0.32.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a042",
+    "question": "How is DocPrompting characterized in relation to EVOR regarding the evolution of queries and knowledge bases?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2402.12317_v2_53"
+    ],
+    "gold_arxiv_ids": [
+      "2402.12317"
+    ],
+    "reference_answer": "DocPrompting is viewed as a degraded version of EVOR where neither queries nor knowledge bases evolve, and the retrieval pool encompasses documentation as a single source.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 5,
+    "source_section": "Method"
+  },
+  {
+    "id": "a043",
+    "question": "What specific issue does the ROM (Retrieval Oriented Masking) strategy address regarding the standard random token masking MLM pre-training method?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2210.15133_v1_52"
+    ],
+    "gold_arxiv_ids": [
+      "2210.15133"
+    ],
+    "reference_answer": "The standard random token masking method is suboptimal because it tends to focus on stop words and punctuation, whereas ROM incorporates term importance information to improve the pre-training process.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 5,
+    "source_section": "Conclusion"
+  },
+  {
+    "id": "a044",
+    "question": "In which journal was the survey of deep meta-learning by Mike Huisman, Jan N Van Rijn, and Aske Plaat published in 2021?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2410.08355_v3_126"
+    ],
+    "gold_arxiv_ids": [
+      "2410.08355"
+    ],
+    "reference_answer": "The survey was published in Artificial Intelligence Review.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 11,
+    "source_section": "Conclusion"
+  },
+  {
+    "id": "a045",
+    "question": "How do multimodal Large Vision-Language Models (LVLMs) differ from conventional object detection models in terms of input processing?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2508.19294_v2_35"
+    ],
+    "gold_arxiv_ids": [
+      "2508.19294"
+    ],
+    "reference_answer": "Unlike conventional models that operate solely on visual input, multimodal LVLMs process and integrate various data modalities such as text, images, and even video.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 3,
+    "source_section": "Background"
+  },
+  {
+    "id": "a046",
+    "question": "Which researchers presented a concise overview of automated literature reviews emphasizing the potential for automation in systematic review stages?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2411.18583_v1_21"
+    ],
+    "gold_arxiv_ids": [
+      "2411.18583"
+    ],
+    "reference_answer": "Tauchert et al. presented a concise overview of automated literature reviews, emphasizing the potential for automation in various stages of the systematic review process.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a047",
+    "question": "How is Spearman’s Rank Correlation Coefficient applied to evaluate the consistency between personality knowledge and actions in Large Language Models?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2402.14679_v2_48"
+    ],
+    "gold_arxiv_ids": [
+      "2402.14679"
+    ],
+    "reference_answer": "The responses on two questionnaires of the LLMs are ranked separately based on their numerical values, and the difference in rankings is calculated for each personality knowledge–scenario & action pair.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 4,
+    "source_section": "Results"
+  },
+  {
+    "id": "a048",
+    "question": "How does Primal-Attention incorporate unsupervised KSVD optimization into its training process?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2305.19798_v2_124"
+    ],
+    "gold_arxiv_ids": [
+      "2305.19798"
+    ],
+    "reference_answer": "Primal-Attention incorporates unsupervised KSVD optimization by using an additional regularization loss to enforce a more informative low-rank property.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 10,
+    "source_section": "Conclusion"
+  },
+  {
+    "id": "a049",
+    "question": "Which five datasets were used to evaluate UniGuardian's detection performance against prompt injection?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2502.13141_v2_91"
+    ],
+    "gold_arxiv_ids": [
+      "2502.13141"
+    ],
+    "reference_answer": "The five datasets used were Prompt Injections, Jailbreak, SST2, Open question, and SMS Spam.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 8,
+    "source_section": "Experiments"
+  },
+  {
+    "id": "a050",
+    "question": "How many bootstrap trials are performed to calculate the 95% stratified bootstrap confidence intervals for AUROC results on Llama-3.2-3B-Instruct in the OpenHalDet benchmark?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2606.06959_v1_424"
+    ],
+    "gold_arxiv_ids": [
+      "2606.06959"
+    ],
+    "reference_answer": "The confidence intervals are calculated using 1,000 bootstrap trials where positive and negative test examples are resampled with replacement.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 37,
+    "source_section": "Method"
+  },
+  {
+    "id": "a051",
+    "question": "What hashing scheme does the Privacy-Preserving Important Passage Retrieval system use to convert key phrases and bag-of-words representations into bit strings?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "1407.5416_v1_3"
+    ],
+    "gold_arxiv_ids": [
+      "1407.5416"
+    ],
+    "reference_answer": "The system uses a hashing scheme known as Secure Binary Embeddings to convert key phrases and bag-of-words representations into bit strings, allowing for the computation of approximate distances.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Abstract"
+  },
+  {
+    "id": "a052",
+    "question": "What specific advantage does QLoRA offer over standard LoRA in the context of Human Activity Recognition (HAR) deployment?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2512.17983_v1_15"
+    ],
+    "gold_arxiv_ids": [
+      "2512.17983"
+    ],
+    "reference_answer": "QLoRA introduces quantization to reduce memory footprint and improve inference speed, enabling practical deployment on edge and IoT devices.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a053",
+    "question": "How does the FSLoRA framework manage LoRA modules to adapt to heterogeneous communication and computational constraints?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2501.19389_v4_121"
+    ],
+    "gold_arxiv_ids": [
+      "2501.19389"
+    ],
+    "reference_answer": "FSLoRA maintains large-rank LoRA modules on the server while allowing clients to selectively update submatrices based on sketching ratios.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 9,
+    "source_section": "Conclusion"
+  },
+  {
+    "id": "a054",
+    "question": "Which specific large language model is used as the paraphraser for the paraphrase-based baseline defense in RAGPart & RAGMask?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2512.24268_v1_72"
+    ],
+    "gold_arxiv_ids": [
+      "2512.24268"
+    ],
+    "reference_answer": "LLama 3.3 70B is used as the paraphraser.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 8,
+    "source_section": "Experiments"
+  },
+  {
+    "id": "a055",
+    "question": "What is the typical embedding dimension for a Conv-4 backbone in high-dimensional image vector spaces used for few-shot metric learning?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "1905.13613_v2_8"
+    ],
+    "gold_arxiv_ids": [
+      "1905.13613"
+    ],
+    "reference_answer": "The embedding dimension is usually 1600 for a Conv-4 backbone.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a056",
+    "question": "What are the approximate detection APs achieved by the TCL-C method combined with a category-based grouping mechanism for 1-shot, 2-shot, and 3-shot detection?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2007.06837_v6_21"
+    ],
+    "gold_arxiv_ids": [
+      "2007.06837"
+    ],
+    "reference_answer": "The method achieves almost 20%, 25%, and 30% detection APs for 1-shot, 2-shot, and 3-shot detection, respectively.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a057",
+    "question": "In the framework connecting meta-learning with supervised learning, what specific role does the validation set Dval play in optimizing the function g?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2002.00573_v1_13"
+    ],
+    "gold_arxiv_ids": [
+      "2002.00573"
+    ],
+    "reference_answer": "The validation set Dval evaluates h = g(Dtr) and provides the \"supervised\" signal used to optimize g.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a058",
+    "question": "What is the primary computational inefficiency associated with recent hallucination detection approaches that rely on fixed sampling budgets?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2603.22812_v1_3"
+    ],
+    "gold_arxiv_ids": [
+      "2603.22812"
+    ],
+    "reference_answer": "These approaches fail to adapt to query complexity, resulting in computational inefficiency.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Abstract"
+  },
+  {
+    "id": "a059",
+    "question": "What specific insights does echocardiography provide regarding cardiovascular conditions?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2507.01049_v1_6"
+    ],
+    "gold_arxiv_ids": [
+      "2507.01049"
+    ],
+    "reference_answer": "Echocardiography offers insights into cardiac anatomy, valve functionality, and blood flow dynamics.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a060",
+    "question": "How does the framework in 'Revisiting Meta-Learning as Supervised Learning' reduce many meta-learning algorithms to instances of supervised learning?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2002.00573_v1_3"
+    ],
+    "gold_arxiv_ids": [
+      "2002.00573"
+    ],
+    "reference_answer": "It reduces them by treating pairs of task-specific data sets and target models as (feature, label) samples.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Abstract"
+  },
+  {
+    "id": "a061",
+    "question": "In the comparison of non-catastrophic methods for few-shot identification of linear dynamical systems, which method exhibits the lowest mean rollout error in the edge-case subset?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2609.24117_v1_236"
+    ],
+    "gold_arxiv_ids": [
+      "2609.24117"
+    ],
+    "reference_answer": "PBML-LTI has the lowest mean rollout error in the edge-case subset.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 24,
+    "source_section": "Experiments"
+  },
+  {
+    "id": "a062",
+    "question": "What criteria were used to determine which prompt injections were stored in the dataset for the early categorization of prompt injection attacks on large language models?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2402.00898_v1_150"
+    ],
+    "gold_arxiv_ids": [
+      "2402.00898"
+    ],
+    "reference_answer": "Prompt injections were stored if they were sufficiently documented and demonstrated previously in multiple sources or verified by the researchers' own tests.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 7,
+    "source_section": "Method"
+  },
+  {
+    "id": "a063",
+    "question": "What specific mechanism does the method EST-LoRA use for adapter fusion?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2608.12328_v1_32"
+    ],
+    "gold_arxiv_ids": [
+      "2608.12328"
+    ],
+    "reference_answer": "EST-LoRA studies training-free adapter fusion via routing at inference.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a064",
+    "question": "What was the impact on the performance of the Human-Like-Llama-3-8B-Instruct model when IFEval was included in the evaluation?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2501.05032_v2_54"
+    ],
+    "gold_arxiv_ids": [
+      "2501.05032"
+    ],
+    "reference_answer": "The performance of the Human-Like-Llama-3-8B-Instruct model experienced slight reductions when IFEval was included.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 7,
+    "source_section": "Method"
+  },
+  {
+    "id": "a065",
+    "question": "How does common query rewriting (QR) typically address the conversational nature of retrieval tasks where queries are not standalone?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2406.18960_v1_9"
+    ],
+    "gold_arxiv_ids": [
+      "2406.18960"
+    ],
+    "reference_answer": "Commonly, query rewriting addresses this by employing neural generative models to produce a single de-contextualized query at each conversation turn, which is then fed to a retrieval pipeline.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a066",
+    "question": "In the context of dual encoders for dense retrieval, which specific combination of techniques is identified as the best performing approach across all settings when typos appear on discriminative utterances?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2205.02303_v1_44"
+    ],
+    "gold_arxiv_ids": [
+      "2205.02303"
+    ],
+    "reference_answer": "The proposed data augmentation combined with contrastive learning approach remains the best performing one across all settings.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 3,
+    "source_section": "Results"
+  },
+  {
+    "id": "a067",
+    "question": "Which two transformer architectures are identified as having been adapted for object detection to enhance contextual understanding?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2508.19294_v2_31"
+    ],
+    "gold_arxiv_ids": [
+      "2508.19294"
+    ],
+    "reference_answer": "Vision Transformer (ViT) and Swin Transformer have been adapted for object detection, leveraging the transformer architecture to significantly enhance contextual understanding.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 3,
+    "source_section": "Background"
+  },
+  {
+    "id": "a068",
+    "question": "In the FAIR-RAG framework, what is the maximum number of iterations set by the Fixed Iteration Policy, and what is the primary limitation of using this fixed limit?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2510.22344_v1_233"
+    ],
+    "gold_arxiv_ids": [
+      "2510.22344"
+    ],
+    "reference_answer": "The Fixed Iteration Policy sets a maximum of three iterations, which is an empirically derived heuristic. Its primary limitation is that it lacks the flexibility to adapt to the varying complexity of individual queries.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 20,
+    "source_section": "Discussion"
+  },
+  {
+    "id": "a069",
+    "question": "How much AUC improvement do forward-backward marginals provide over softmax scoring for Conditional Random Field models in the context of Temporal Multi-Signal Fusion for Token-Level Hallucination Detection?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2608.18115_v1_14"
+    ],
+    "gold_arxiv_ids": [
+      "2608.18115"
+    ],
+    "reference_answer": "Forward-backward marginals recover up to +17.9 AUC points compared to softmax scoring, which is severely miscalibrated.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a070",
+    "question": "What are the three key steps involved in the approach for merging attack models trained by individual attackers to enhance link stealing attacks on Graph Neural Networks?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2412.05830_v1_208"
+    ],
+    "gold_arxiv_ids": [
+      "2412.05830"
+    ],
+    "reference_answer": "The approach involves model dropping, parameter selection, and model merging.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 14,
+    "source_section": "Conclusion"
+  },
+  {
+    "id": "a071",
+    "question": "What specific limitation does the resp2ctxt method have regarding the processing of dialogue contexts compared to its handling of responses?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2301.05508_v1_104"
+    ],
+    "gold_arxiv_ids": [
+      "2301.05508"
+    ],
+    "reference_answer": "While resp2ctxt can change term weights and expand terms in responses, it is not able to perform weighting and expansion for the dialogue contexts.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 13,
+    "source_section": "Conclusion"
+  },
+  {
+    "id": "a072",
+    "question": "What specific characteristic does the Goal-guided Generative Prompt Injection Attack aim to achieve to evade active defense mechanisms in large language models?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2404.07234_v4_36"
+    ],
+    "gold_arxiv_ids": [
+      "2404.07234"
+    ],
+    "reference_answer": "The attack aims to be imperceptible by ensuring the adversarial text fits better into the problem context, making it difficult for the model's active defense mechanisms to detect the presence of the prompt injections.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 3,
+    "source_section": "Related Work"
+  },
+  {
+    "id": "a073",
+    "question": "How does incorporating multiple positive passages during training affect the retrieval accuracy of Dense Passage Retrieval (DPR) and its hardware requirements?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2508.09534_v1_1"
+    ],
+    "gold_arxiv_ids": [
+      "2508.09534"
+    ],
+    "reference_answer": "Equipping each question with multiple positive passages consistently improves retrieval accuracy and enables training on a single GPU by allowing for a significantly smaller batch size.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 1,
+    "source_section": "Abstract"
+  },
+  {
+    "id": "a074",
+    "question": "What is a potential downside of incorporating prior knowledge about task-suitable properties to reduce the size of the search space in Neural Architecture Search?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2203.08951_v1_25"
+    ],
+    "gold_arxiv_ids": [
+      "2203.08951"
+    ],
+    "reference_answer": "It can introduce a human bias that may prevent the discovery of optimal architectural building blocks that go beyond the current state-of-the-art.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 4,
+    "source_section": "Experiments"
+  },
+  {
+    "id": "a075",
+    "question": "What specific criterion does the coarse-grained evaluation strategy use to determine if a machine translation model's output is successful?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2403.09832_v1_59"
+    ],
+    "gold_arxiv_ids": [
+      "2403.09832"
+    ],
+    "reference_answer": "The strategy uses only the presence of a question mark to determine if the model output is successful.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 8,
+    "source_section": "Conclusion"
+  },
+  {
+    "id": "a076",
+    "question": "In the context of automatic prompt injection attacks, what is the specific mathematical goal regarding the victim LLM's output when the injected data S is combined with instructions I and document D?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2403.04957_v1_27"
+    ],
+    "gold_arxiv_ids": [
+      "2403.04957"
+    ],
+    "reference_answer": "The goal is to generate injected data S such that the victim LLM produces the adversary-desired response RT, expressed as LM(I ⊕D ⊕S) = RT.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Background"
+  },
+  {
+    "id": "a077",
+    "question": "How does the dual-encoder framework proposed for retrieval-augmented generation reduce maintenance costs associated with metadata?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2601.11863_v1_17"
+    ],
+    "gold_arxiv_ids": [
+      "2601.11863"
+    ],
+    "reference_answer": "Metadata embeddings are computed only once per field and fused with precomputed text embeddings, which avoids the costly re-embedding of the full corpus.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 3,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a078",
+    "question": "In the Cohort Retrieval using Dense Passage Retrieval framework, how is the model that generates 768-dimensional dense vector embeddings trained with respect to encoder architecture?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2507.01049_v1_62"
+    ],
+    "gold_arxiv_ids": [
+      "2507.01049"
+    ],
+    "reference_answer": "The model is trained in a bi-encoder fashion using a single encoder shared for both query and passage embedding generation, rather than using separate encoders.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 6,
+    "source_section": "Experiments"
+  },
+  {
+    "id": "a079",
+    "question": "How many parameters does KD-LoRA fine-tune in the RoBERTa-base model with a rank of 8, compared to the 2.9M parameters fine-tuned by standard LoRA?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2410.20777_v1_20"
+    ],
+    "gold_arxiv_ids": [
+      "2410.20777"
+    ],
+    "reference_answer": "KD-LoRA fine-tunes only 1.5M parameters with a rank of 8, whereas LoRA fine-tunes 2.9M parameters.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 2,
+    "source_section": "Introduction"
+  },
+  {
+    "id": "a080",
+    "question": "In the framework of 'Self-Attention as Distributional Projection', what is the specific nature of the connection between corpus-level co-occurrence statistics (S) and the learned projection matrices (WQ, WK)?",
+    "answerable": true,
+    "gold_chunk_ids": [
+      "2511.13780_v1_129"
+    ],
+    "gold_arxiv_ids": [
+      "2511.13780"
+    ],
+    "reference_answer": "The connection is conceptual, demonstrating that they share the same algebraic form, rather than implying that one should be initialized from the other.",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": 16,
+    "source_section": "Discussion"
+  },
+  {
+    "id": "u001",
+    "question": "Does the Federated Sketching LoRA framework maintain convergence stability when the client data distributions exhibit extreme skewness exceeding a Gini coefficient of 0.8?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u002",
+    "question": "How does the Dilated Neighborhood Attention Transformer perform on the ImageNet-1K benchmark compared to the standard Swin Transformer when using a 224x224 input resolution?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u003",
+    "question": "What is the specific latency overhead in milliseconds introduced by the RAGPart masking mechanism during the retrieval stage for a corpus of 1 million documents?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u004",
+    "question": "Does the Top-Related Meta-Learning Method for Few-Shot Object Detection outperform the Meta-RCNN baseline on the COCO dataset when limited to only 5 training samples per class?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u005",
+    "question": "How does the carbon footprint per token generated by the Noor model compare to that of the Llama 2 70B model when deployed on NVIDIA A100 GPUs?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u006",
+    "question": "What is the accuracy drop of the UniGuardian defense mechanism when tested against adaptive prompt injection attacks that use obfuscated Unicode characters?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u007",
+    "question": "Does the EVOR evolving retrieval strategy improve code generation pass@1 scores on the HumanEval benchmark by more than 5% compared to static retrieval baselines?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u008",
+    "question": "How does the Relative Molecule Self-Attention Transformer handle long-range interactions in molecules with more than 50 atoms compared to the Graphormer architecture?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u009",
+    "question": "What is the specific F1 score achieved by the AutoHall dataset generation pipeline when evaluated against human-annotated factuality labels in the TruthfulQA benchmark?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u010",
+    "question": "Does the CARROT cost-constrained retrieval optimization system reduce the total inference cost by at least 30% while maintaining a retrieval recall@10 above 0.9 on the MS MARCO dataset?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u011",
+    "question": "How does the KD-LoRA hybrid approach compare to standard LoRA in terms of perplexity on the WikiText-2 dataset when fine-tuning the Llama 3 8B model?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u012",
+    "question": "What is the success rate of the SBFA single bit flip attack in causing the Llama 2 70B model to output harmful content when targeting the 12th layer of the transformer?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u013",
+    "question": "Does the FAIR-RAG iterative refinement process converge to a stable answer within 3 iterations for 90% of questions in the Natural Questions dataset?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u014",
+    "question": "How does the performance of the Dense Passage Retrieval model change when the entailment tuning data is filtered to remove low-quality pairs using a BERTScore threshold of 0.85?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u015",
+    "question": "What is the specific impact on the BLEU score of the Lugha-Llama model when the early-layer LoRA fine-tuning is applied to the first 4 layers versus the first 8 layers?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u016",
+    "question": "Does the SecAlign preference optimization method effectively defend against prompt injection attacks that involve multi-turn conversation history poisoning?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u017",
+    "question": "How does the OpenHalDet benchmark's hallucination detection accuracy vary when the underlying language model is switched from GPT-4 to Claude 3 Opus?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u018",
+    "question": "Does the Federated Sketching LoRA framework maintain convergence stability when the client data distributions exhibit extreme skewness exceeding 0.9 in the Dirichlet distribution?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u019",
+    "question": "What is the specific F1-score of the UniGuardian defense mechanism against the GCG (Greedy Coordinate Gradient) attack on the Llama-2-70B model?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  },
+  {
+    "id": "u020",
+    "question": "Does the RAGPart method effectively mitigate corpus poisoning attacks when the poisoned documents are semantically similar to the query but contain contradictory factual claims?",
+    "answerable": false,
+    "gold_chunk_ids": [],
+    "gold_arxiv_ids": [],
+    "reference_answer": "",
+    "reviewed": false,
+    "regression": false,
+    "verification": "auto",
+    "source_page": null,
+    "source_section": null
+  }
+]

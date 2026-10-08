@@ -1,25 +1,28 @@
+# Runtime dependencies (source of truth). Eval/test deps live in requirements-dev.txt.
+
 # API server
-fastapi==0.135.1
-uvicorn==0.41.0
-pydantic==2.11.10
-python-multipart==0.0.22
+fastapi==0.141.1
+uvicorn==0.32.1
+pydantic==2.12.5
+python-dotenv==1.2.2
+requests==2.34.2
 httpx==0.28.1
-requests==2.32.5
 
 # RAG pipeline
-sentence-transformers==5.2.2
-faiss-cpu==1.13.2
-rank-bm25==0.2.2
-transformers==4.56.2
+sentence-transformers==6.0.1
+transformers==5.16.1
 torch==2.8.0
 numpy==2.3.3
+rank-bm25==0.2.2
+langchain-text-splitters==1.1.2
 
-# LLM backend
-ollama==0.6.1
+# Storage + LLM
+qdrant-client==1.19.1
+groq==0.37.1
 
-# Evaluation
-ragwatch==0.3.0
-ragas==0.4.3
-
-# Testing
-pytest==9.0.3
+# Ingestion
+arxiv==4.0.1
+PyMuPDF==1.26.7
+pillow==11.3.0
+pytesseract==0.3.13
+tqdm==4.67.3

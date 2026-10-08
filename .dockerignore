@@ -1,0 +1,14 @@
+.git
+.env
+.env.*
+!.env.example
+**/__pycache__
+.pytest_cache
+data/
+tests/
+eval/
+docs/
+*.mp4
+*.log
+backend/model/
+node_modules
