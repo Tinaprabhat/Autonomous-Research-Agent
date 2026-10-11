@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: autonomous-research-agent
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter # 512 MB free tier is too small for torch + 4 HF models
+    healthCheckPath: /health
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: QDRANT_URL
+        sync: false
+      - key: QDRANT_API_KEY
+        sync: false
+      - key: QDRANT_COLLECTION
+        value: papers
