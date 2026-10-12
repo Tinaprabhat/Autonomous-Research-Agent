@@ -77,13 +77,16 @@ deepeval test run tests/eval_gate/test_rag_quality.py           # CI regression 
   **daily token quota** is exhausted the stage exits with code 3 and **re-running the same command resumes** (quotas roll
   over after ~24 h). The latest results are in [`docs/case_study.md`](docs/case_study.md).
 
-## Deploy (Hugging Face Space, Docker SDK)
+## Run with Docker (local)
 
-1. Create a Space (Docker SDK, CPU Basic) and push this repo to it.
-2. Space secrets: `GROQ_API_KEY`, `QDRANT_URL`, `QDRANT_API_KEY`.
-3. Populate Qdrant Cloud once from your machine (no re-embedding): `python scripts/sync_to_cloud.py` (dry run) then
-   `python scripts/sync_to_cloud.py --yes`. See `deploy/DEPLOY.md` for the full checklist.
-4. In GitHub: set repo variable `SPACE_URL` so `.github/workflows/keepalive.yml` pings `/health` every 6 h.
+```
+docker build -t research-agent .
+docker run -p 7860:7860 --env-file .env research-agent
+```
+
+Set `GROQ_API_KEY`, `QDRANT_URL` and `QDRANT_API_KEY` in `.env` (leave the Qdrant vars empty for embedded local storage).
+To populate Qdrant Cloud once from your machine (no re-embedding): `python scripts/sync_to_cloud.py` (dry run), then
+`python scripts/sync_to_cloud.py --yes`. The UI is served at http://localhost:7860.
 
 ## Layout
 
@@ -104,6 +107,6 @@ eval/           evaluation code only
 scripts/        CLI utilities: ingest_papers  ask  relabel_sections  sync_to_cloud  download_models
 tests/          mirrors the packages above (test_ingestion, test_retrieval, test_citations, test_safety, ...)
                 + test_security (prompt-injection suite) + eval_gate (DeepEval CI gate)
-docs/           architecture  known_limits  case_study          deploy/   deployment checklist + Space header
+docs/           architecture  known_limits  case_study
 data/           runtime state, git-ignored (Qdrant store, PDFs, job queue, logs, eval checkpoints)
 ```

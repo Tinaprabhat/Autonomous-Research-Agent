@@ -1,5 +1,4 @@
-# Single container: FastAPI serves the API + static frontend.
-# Targets Hugging Face Spaces (Docker SDK, CPU Basic): port 7860, non-root user.
+# Single container: FastAPI serves the API + static frontend (port 7860, or $PORT).
 FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED=1 \
@@ -31,5 +30,5 @@ ENV HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 EXPOSE 7860
 HEALTHCHECK --interval=60s --timeout=10s --start-period=180s \
   CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:'+__import__('os').environ.get('PORT','7860')+'/health').status==200 else 1)"
-# Render injects $PORT; falls back to 7860 for Hugging Face Spaces.
+# Honors $PORT if set; defaults to 7860.
 CMD ["sh", "-c", "uvicorn backend.app.api:app --host 0.0.0.0 --port ${PORT:-7860}"]
