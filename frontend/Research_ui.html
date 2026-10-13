@@ -117,6 +117,14 @@
 
 <script>
 const API = location.protocol === 'file:' ? 'http://localhost:8000' : '';
+// API key (only needed when the server runs with API_KEYS set). Kept in this browser's localStorage.
+function apiKey() { try { return localStorage.getItem('ara_api_key') || ''; } catch (e) { return ''; } }
+function askKey() {
+  const k = window.prompt('This server requires an API key. Paste it here:');
+  if (k) { try { localStorage.setItem('ara_api_key', k.trim()); } catch (e) {} }
+  return !!k;
+}
+function authHeaders(extra) { const h = Object.assign({}, extra); const k = apiKey(); if (k) h['X-API-Key'] = k; return h; }
 const $ = id => document.getElementById(id);
 const EXAMPLES = ['What is meta-learning?', 'How does MAML differ from metric-based few-shot methods?',
                   'How does retrieval-augmented generation work?'];
@@ -220,9 +228,10 @@ async function search() {
   let draft = '';
   try {
     const res = await fetch(API + '/query/stream', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ query, top_k: 5, filters: filters() }) });
-    if (res.status === 429) throw new Error('Too many requests — please wait a minute.');
+    if (res.status === 401) { askKey(); throw new Error('API key required or invalid — enter it and search again.'); }
+    if (res.status === 429) { let d = ''; try { d = (await res.json()).detail; } catch (e) {} throw new Error(d || 'Too many requests — please wait a minute.'); }
     if (!res.ok) { let d = ''; try { d = (await res.json()).detail; } catch (e) {} throw new Error(d && typeof d === 'string' ? d : 'Request failed (' + res.status + ')'); }
     const reader = res.body.getReader(), dec = new TextDecoder(); let buf = '';
     for (;;) {
@@ -249,7 +258,7 @@ async function search() {
 
 async function feedback(kind, citation) {
   try {
-    await fetch(API + '/feedback', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    await fetch(API + '/feedback', { method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ query: state.query, answer: state.answer.slice(0, 4000), kind, citation: citation || null }) });
     $('fb-note').textContent = 'Thanks for the feedback.';
   } catch (e) { $('fb-note').textContent = 'Could not send feedback.'; }
@@ -262,7 +271,9 @@ $('q').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) 
   try {
     const h = await (await fetch(API + '/health')).json();
     $('status-pill').textContent = h.status === 'ok' ? h.chunks + ' chunks · ' + (h.model || '') : 'loading…';
-    const p = await (await fetch(API + '/papers')).json();
+    const pr = await fetch(API + '/papers', { headers: authHeaders() });
+    if (pr.status === 401 && askKey()) return init();
+    const p = await pr.json();
     p.categories.forEach(c => $('f-category').appendChild(new Option(c, c)));
     p.sections.forEach(s => $('f-section').appendChild(new Option(s, s)));
   } catch (e) { $('status-pill').textContent = 'offline'; }

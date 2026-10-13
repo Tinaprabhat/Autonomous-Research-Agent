@@ -14,9 +14,9 @@ class OllamaLLM:
     _cache: dict = {}
     CACHE_TTL = 3600  # cached responses expire after 1 hour
 
-    def __init__(self, model=None, temperature=0.3, max_tokens=512, timeout=60):
+    def __init__(self, model=None, temperature=0.3, max_tokens=512, timeout=60, url=None):
         self.model = model or config.OLLAMA_MODEL
-        self.url = "http://localhost:11434/api/generate"
+        self.url = url or "http://localhost:11434/api/generate"
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.timeout = timeout

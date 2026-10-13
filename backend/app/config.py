@@ -52,6 +52,13 @@ QUERY_LOG    = _env("QUERY_LOG", default="data/query_log.jsonl")
 MAX_QUERY_CHARS    = int(_env("MAX_QUERY_CHARS", default="500"))
 RATE_LIMIT_PER_MIN = int(_env("RATE_LIMIT_PER_MIN", default="20"))
 
+# -- Auth + per-user limits (backend/app/auth.py) ----------------------------
+# API_KEYS="name:key[:per_minute[:per_day]],..." - empty means auth is OFF (dev/tests).
+API_KEYS                = _env("API_KEYS", default="")
+USER_RATE_LIMIT_PER_MIN = int(_env("USER_RATE_LIMIT_PER_MIN", default="20"))
+USER_DAILY_QUOTA        = int(_env("USER_DAILY_QUOTA", default="200"))
+AUTH_FAIL_PER_MIN       = int(_env("AUTH_FAIL_PER_MIN", default="10"))   # bad-key attempts per IP per minute
+
 # ── Verification / safety models ─────────────────────────────────────────────
 NLI_MODEL       = _env("NLI_MODEL", default="MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli")
 JAILBREAK_MODEL = _env("JAILBREAK_MODEL", default="protectai/deberta-v3-base-prompt-injection-v2")

@@ -95,6 +95,10 @@ def _citation_dicts(chunks: list[dict], cited: set[int]) -> list[dict]:
     return out
 
 
+class RetrievalUnavailable(RuntimeError):
+    """The search backend (vector DB / retriever) failed; no answer can be grounded."""
+
+
 class ResearchPipeline:
 
     def __init__(self, retriever, reranker, verifier, llm, input_guard=None,
@@ -112,7 +116,11 @@ class ResearchPipeline:
 
     def _retrieve(self, question: str, top_k: int, filters: dict | None, t: dict):
         t0 = time.time()
-        cands = self.retriever.search(question, k=max(self.candidate_k, top_k), filters=filters)
+        try:
+            cands = self.retriever.search(question, k=max(self.candidate_k, top_k), filters=filters)
+        except Exception as e:                 # Qdrant down / timeout / auth: fail loudly, never fabricate
+            log.error("retrieval failed: %s: %s", type(e).__name__, e)
+            raise RetrievalUnavailable("The search backend is temporarily unavailable. Please try again shortly.") from e
         t["retrieve"] = int((time.time() - t0) * 1000)
         t0 = time.time()
         ranked = self.reranker.rerank(question, cands, top_k=top_k) if cands else []

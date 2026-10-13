@@ -1,0 +1,54 @@
+{
+  "started_utc": "2026-10-13T10:08:49+00:00",
+  "source": "papers",
+  "scratch": "papers_restore_drill",
+  "snapshot": {
+    "collection": "papers",
+    "server_snapshot_name": "papers-7190950758477097-2026-10-13-10-09-05.snapshot",
+    "file": "papers-20261013T100905Z-papers-7190950758477097-2026-10-13-10-09-05.snapshot",
+    "bytes": 99602432,
+    "sha256": "6e39568711c998c26f52eafc49ec33837d5d4890d18fe36eea392753adbdb2bd",
+    "points_at_snapshot": 19116,
+    "created_utc": "2026-10-13T10:09:26+00:00",
+    "seconds": 21.8
+  },
+  "restore": {
+    "target": "papers_restore_drill",
+    "seconds": 42.0
+  },
+  "verify": {
+    "ok": true,
+    "checks": {
+      "point_count": {
+        "ok": true,
+        "detail": "source=19116 target=19116"
+      },
+      "vector_config": {
+        "ok": true,
+        "detail": "384/Cosine vs 384/Cosine"
+      },
+      "hnsw_config": {
+        "ok": true,
+        "detail": "source m=16/ef=100 target m=16/ef=100"
+      },
+      "payload_indexes": {
+        "ok": true,
+        "detail": "['arxiv_id', 'author', 'category', 'published_date', 'section']"
+      },
+      "sampled_points_identical": {
+        "ok": true,
+        "detail": "sampled=200 missing=0 vector_mismatch=0 payload_mismatch=0"
+      },
+      "search_results_identical": {
+        "ok": true,
+        "detail": "20/20 queries return the same top-5"
+      }
+    }
+  },
+  "ok": true,
+  "scratch_deleted": true,
+  "pruned_remote_snapshots": [
+    "papers-7190950758477097-2026-10-13-09-45-21.snapshot"
+  ],
+  "finished_utc": "2026-10-13T10:10:37+00:00"
+}

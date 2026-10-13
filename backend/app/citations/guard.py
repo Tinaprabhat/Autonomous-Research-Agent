@@ -23,8 +23,10 @@ import numpy as np
 from backend.app import config
 
 _CITATION_RE = re.compile(r"\[(\d+)\]")
-_ABBREV = ["et al.", "e.g.", "i.e.", "Fig.", "Figs.", "Eq.", "Sec.", "vs.", "cf.", "No.", "approx."]
+_ABBREV = ["et al.", "e.g.", "i.e.", "Fig.", "Figs.", "Eq.", "Sec.", "vs.", "cf.", "No.", "approx.", "Dr.", "Prof.", "Mr.", "Ms.", "Ref.", "Refs.", "Tab."]
 ABSTAIN_DROP_RATIO = 0.5
+_INITIALS_END = re.compile(r"(?:^|[\s(])(?:[A-Za-z]\.){2,}$|(?:^|[\s(])[A-Z]\.$")    # "J.S." / "U.S." / "J."
+_SENTENCE_START = re.compile(r"[A-Z0-9\"'“‘(\[]")                                    # a new sentence starts like this
 
 
 # ── Data class ────────────────────────────────────────────────────────────────
@@ -104,8 +106,15 @@ def _split_sentences(text: str) -> list[str]:
     t = re.sub(r"([.!?])\s*((?:\[\d+\])+)", r" \2\1", t)
     for i, a in enumerate(_ABBREV):
         t = t.replace(a, a.replace(".", f"․"))   # protect with one-dot leader
-    parts = re.split(r"(?<=[.!?])\s+", t)
-    return [p.replace("․", ".").strip() for p in parts if p.strip()]
+    parts = [p.replace("․", ".").strip() for p in re.split(r"(?<=[.!?])\s+", t) if p.strip()]
+    # A period is not always a sentence end: re-join "J.S. | Bach", "augm. | + CL)", "Fig. | a" style splits.
+    merged: list[str] = []
+    for p in parts:
+        if merged and (_INITIALS_END.search(merged[-1]) or not _SENTENCE_START.match(p)):
+            merged[-1] += " " + p
+        else:
+            merged.append(p)
+    return merged
 
 
 def _get_text(chunk) -> str:

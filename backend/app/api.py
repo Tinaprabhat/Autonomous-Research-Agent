@@ -25,12 +25,16 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
 from backend.app import config
+from backend.app.auth import Authenticator, UserLimiter, extract_key, parse_api_keys
+from backend.app.pipeline import RetrievalUnavailable
 from backend.app.telemetry import observability
 
 FRONTEND_FILE = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "../../frontend/Research_ui.html"))
 
 RATE_LIMITED_PATHS = ("/query", "/query/stream", "/ask", "/feedback")
+QUERY_PATHS = ("/query", "/query/stream", "/ask")          # these also spend the user's daily quota
+PUBLIC_PATHS = ("/", "/health", "/docs", "/redoc", "/openapi.json")   # reachable without a key
 
 
 # ── Schemas ───────────────────────────────────────────────────────────────────
@@ -96,9 +100,14 @@ def _client_ip(request: Request) -> str:
 
 # ── App factory ───────────────────────────────────────────────────────────────
 
-def create_app(pipeline=None, store=None, rate_limit_per_min: int | None = None) -> FastAPI:
-    """Pass `pipeline` (and optionally `store`) to inject fakes in tests."""
+def create_app(pipeline=None, store=None, rate_limit_per_min: int | None = None,
+               api_keys: str | None = None) -> FastAPI:
+    """Pass `pipeline` (and optionally `store`) to inject fakes in tests.
+    `api_keys` overrides the API_KEYS env var ("name:key[:per_minute[:per_day]],..."); empty = auth off."""
     state = {"pipeline": pipeline, "store": store}
+    auth = Authenticator(parse_api_keys(config.API_KEYS if api_keys is None else api_keys))
+    user_limiter = UserLimiter()
+    auth_fail_limiter = RateLimiter(config.AUTH_FAIL_PER_MIN)
 
     @asynccontextmanager
     async def lifespan(_app: FastAPI):
@@ -115,17 +124,46 @@ def create_app(pipeline=None, store=None, rate_limit_per_min: int | None = None)
     limiter = RateLimiter(rate_limit_per_min or config.RATE_LIMIT_PER_MIN)
     app.state.limiter = limiter
 
-    app.add_middleware(
-        CORSMiddleware, allow_origins=["*"], allow_credentials=False,
-        allow_methods=["*"], allow_headers=["*"])
-
     @app.middleware("http")
-    async def rate_limit(request: Request, call_next):
-        if request.method == "POST" and request.url.path in RATE_LIMITED_PATHS:
+    async def access_control(request: Request, call_next):
+        path = request.url.path
+        if request.method == "OPTIONS" or path in PUBLIC_PATHS:
+            return await call_next(request)
+
+        if auth.enabled:
+            ip = _client_ip(request)
+            user = auth.authenticate(extract_key(request.headers))
+            if user is None:
+                # throttle bad-key guessing per IP, then reject
+                if not auth_fail_limiter.allow(ip):
+                    return JSONResponse({"detail": "Too many failed authentication attempts."},
+                                        status_code=429, headers={"Retry-After": "60"})
+                return JSONResponse({"detail": "Missing or invalid API key."}, status_code=401,
+                                    headers={"WWW-Authenticate": "Bearer"})
+            request.state.user = user
+            if request.method == "POST" and path in RATE_LIMITED_PATHS:
+                if not user_limiter.check_minute(user):
+                    return JSONResponse(
+                        {"detail": f"Rate limit exceeded ({user.per_minute}/min). Try again in a minute."},
+                        status_code=429, headers={"Retry-After": "60"})
+                if path in QUERY_PATHS and not user_limiter.consume_day(user):
+                    wait = user_limiter.seconds_until_reset()
+                    return JSONResponse(
+                        {"detail": f"Daily quota of {user.per_day} queries used. Resets in {wait // 3600}h "
+                                   f"{wait % 3600 // 60}m (00:00 UTC)."},
+                        status_code=429, headers={"Retry-After": str(wait)})
+            return await call_next(request)
+
+        if request.method == "POST" and path in RATE_LIMITED_PATHS:
             if not limiter.allow(_client_ip(request)):
                 return JSONResponse({"detail": "Rate limit exceeded. Try again in a minute."},
                                     status_code=429, headers={"Retry-After": "60"})
         return await call_next(request)
+
+    # Added last so it is the outermost layer: 401/429 responses still carry CORS headers.
+    app.add_middleware(
+        CORSMiddleware, allow_origins=["*"], allow_credentials=False,
+        allow_methods=["*"], allow_headers=["*"])
 
     def pipe():
         if state["pipeline"] is None:
@@ -144,18 +182,35 @@ def create_app(pipeline=None, store=None, rate_limit_per_min: int | None = None)
     def health():
         st = state["store"]
         p = state["pipeline"]
+        status, chunks = ("ok" if p is not None else "loading"), 0
+        if st is not None:
+            try:
+                chunks = st.count()
+            except Exception:                    # vector DB unreachable: report it, don't 500 the probe
+                status = "degraded"
         return {
-            "status": "ok" if p is not None else "loading",
-            "chunks": st.count() if st is not None else 0,
+            "status": status,
+            "chunks": chunks,
             "model": getattr(getattr(p, "llm", None), "model", None),
         }
+
+    @app.get("/me")
+    def me(request: Request):
+        user = getattr(request.state, "user", None)
+        if user is None:
+            return {"auth": "disabled"}
+        return {"auth": "api_key", "user": user.name, "per_minute": user.per_minute,
+                "per_day": user.per_day, "remaining_today": user_limiter.remaining_day(user)}
 
     @app.get("/papers")
     def papers():
         st = state["store"]
         if st is None:
             raise HTTPException(status_code=503, detail="Store not ready")
-        rows = st.list_papers()
+        try:
+            rows = st.list_papers()
+        except Exception:
+            raise HTTPException(status_code=503, detail="Vector database unavailable") from None
         return {
             "papers": rows,
             "categories": sorted({r["category"] for r in rows if r.get("category")}),
@@ -168,7 +223,10 @@ def create_app(pipeline=None, store=None, rate_limit_per_min: int | None = None)
         if not req.query.strip():
             raise HTTPException(status_code=400, detail="Query cannot be empty")
         filters = req.filters.as_dict() if req.filters else None
-        return pipe().answer(req.query, req.top_k, filters).to_dict()
+        try:
+            return pipe().answer(req.query, req.top_k, filters).to_dict()
+        except RetrievalUnavailable as e:
+            raise HTTPException(status_code=503, detail=str(e)) from None
 
     @app.post("/query/stream")
     def query_stream(req: QueryRequest):
@@ -181,6 +239,9 @@ def create_app(pipeline=None, store=None, rate_limit_per_min: int | None = None)
             try:
                 for ev in p.answer_stream(req.query, req.top_k, filters):
                     yield f"data: {json.dumps(ev, ensure_ascii=False)}\n\n"
+            except RetrievalUnavailable as e:
+                err = {"event": "error", "detail": str(e)}
+                yield f"data: {json.dumps(err)}\n\n"
             except Exception as e:  # never leave the client hanging mid-stream
                 err = {"event": "error", "detail": f"{type(e).__name__}"}
                 yield f"data: {json.dumps(err)}\n\n"
@@ -193,7 +254,10 @@ def create_app(pipeline=None, store=None, rate_limit_per_min: int | None = None)
     def ask(req: AskRequest):
         if not req.question.strip():
             raise HTTPException(status_code=400, detail="Question cannot be empty")
-        res = pipe().answer(req.question)
+        try:
+            res = pipe().answer(req.question)
+        except RetrievalUnavailable as e:
+            raise HTTPException(status_code=503, detail=str(e)) from None
         return {"question": req.question, "answer": res.answer}
 
     @app.post("/feedback")

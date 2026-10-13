@@ -102,3 +102,23 @@ def test_only_most_relevant_windows_are_scored():
     p = v.entailment_batch([(premise, "The alpha beta gamma method improves recall.")])
     assert len(seen) == NLIVerifier.MAX_WINDOWS             # not all ~60 windows
     assert p[0] > 0.9                                       # the relevant window was still found
+
+
+# -- sentence splitting: periods that are not sentence ends (found while hand-labelling, 2026-10-13) --------
+
+def test_splitter_keeps_initials_together():
+    from backend.app.citations.guard import _split_sentences
+    out = _split_sentences("It needs Rt and Rp [1]. This limits scalability beyond the small J.S. Bach Chorales dataset [1].")
+    assert len(out) == 2 and out[1].startswith("This limits") and "J.S. Bach Chorales" in out[1]
+
+
+def test_splitter_does_not_break_before_a_symbol_or_lowercase():
+    from backend.app.citations.guard import _split_sentences
+    out = _split_sentences("The (DR + Data augm. + CL) method combines augmentation with contrastive learning [1].")
+    assert len(out) == 1
+
+
+def test_splitter_still_splits_normal_sentences_and_titles_do_not_split():
+    from backend.app.citations.guard import _split_sentences
+    assert len(_split_sentences("LoRA is small [1]. It is fast [2]. Results improve [1].")) == 3
+    assert len(_split_sentences("Dr. Smith showed this [1].")) == 1

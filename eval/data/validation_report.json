@@ -1,0 +1,204 @@
+{
+  "analyses": [
+    {
+      "labeler": "claude-sonnet-5.5 (LLM, blind to NLI/judge scores; NOT a human)",
+      "labels_file": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\Autonomous-Research-Agent\\eval\\data\\labels_claude.jsonl",
+      "nli": {
+        "n_sentences": 40,
+        "n_supported": 37,
+        "n_unsupported": 3,
+        "auc": 0.527,
+        "at_guard_threshold": {
+          "threshold": 0.5,
+          "tp": 28,
+          "fp": 2,
+          "fn": 9,
+          "tn": 1,
+          "accuracy": 0.725,
+          "precision": 0.933,
+          "recall": 0.757,
+          "f1": 0.836
+        },
+        "best_f1": {
+          "threshold": 0.1,
+          "tp": 34,
+          "fp": 2,
+          "fn": 3,
+          "tn": 1,
+          "accuracy": 0.875,
+          "precision": 0.944,
+          "recall": 0.919,
+          "f1": 0.932
+        },
+        "sweep": [
+          {
+            "threshold": 0.05,
+            "tp": 34,
+            "fp": 3,
+            "fn": 3,
+            "tn": 0,
+            "accuracy": 0.85,
+            "precision": 0.919,
+            "recall": 0.919,
+            "f1": 0.919
+          },
+          {
+            "threshold": 0.1,
+            "tp": 34,
+            "fp": 2,
+            "fn": 3,
+            "tn": 1,
+            "accuracy": 0.875,
+            "precision": 0.944,
+            "recall": 0.919,
+            "f1": 0.932
+          },
+          {
+            "threshold": 0.2,
+            "tp": 31,
+            "fp": 2,
+            "fn": 6,
+            "tn": 1,
+            "accuracy": 0.8,
+            "precision": 0.939,
+            "recall": 0.838,
+            "f1": 0.886
+          },
+          {
+            "threshold": 0.3,
+            "tp": 30,
+            "fp": 2,
+            "fn": 7,
+            "tn": 1,
+            "accuracy": 0.775,
+            "precision": 0.938,
+            "recall": 0.811,
+            "f1": 0.87
+          },
+          {
+            "threshold": 0.4,
+            "tp": 30,
+            "fp": 2,
+            "fn": 7,
+            "tn": 1,
+            "accuracy": 0.775,
+            "precision": 0.938,
+            "recall": 0.811,
+            "f1": 0.87
+          },
+          {
+            "threshold": 0.5,
+            "tp": 28,
+            "fp": 2,
+            "fn": 9,
+            "tn": 1,
+            "accuracy": 0.725,
+            "precision": 0.933,
+            "recall": 0.757,
+            "f1": 0.836
+          },
+          {
+            "threshold": 0.6,
+            "tp": 26,
+            "fp": 2,
+            "fn": 11,
+            "tn": 1,
+            "accuracy": 0.675,
+            "precision": 0.929,
+            "recall": 0.703,
+            "f1": 0.8
+          },
+          {
+            "threshold": 0.7,
+            "tp": 22,
+            "fp": 2,
+            "fn": 15,
+            "tn": 1,
+            "accuracy": 0.575,
+            "precision": 0.917,
+            "recall": 0.595,
+            "f1": 0.721
+          },
+          {
+            "threshold": 0.8,
+            "tp": 21,
+            "fp": 2,
+            "fn": 16,
+            "tn": 1,
+            "accuracy": 0.55,
+            "precision": 0.913,
+            "recall": 0.568,
+            "f1": 0.7
+          },
+          {
+            "threshold": 0.9,
+            "tp": 17,
+            "fp": 2,
+            "fn": 20,
+            "tn": 1,
+            "accuracy": 0.45,
+            "precision": 0.895,
+            "recall": 0.459,
+            "f1": 0.607
+          },
+          {
+            "threshold": 0.95,
+            "tp": 15,
+            "fp": 2,
+            "fn": 22,
+            "tn": 1,
+            "accuracy": 0.4,
+            "precision": 0.882,
+            "recall": 0.405,
+            "f1": 0.556
+          }
+        ],
+        "accuracy_ci95_at_guard_threshold": [
+          0.572,
+          0.839
+        ],
+        "false_drops_at_guard_threshold": 9,
+        "false_keeps_at_guard_threshold": 2
+      },
+      "judge": {
+        "n_answers": 30,
+        "n_faithful_by_label": 27,
+        "judge_pass_threshold": 0.5,
+        "agreement": 0.9,
+        "agreement_ci95": [
+          0.744,
+          0.965
+        ],
+        "kappa": 0.0,
+        "confusion_judge_pass_vs_label_faithful": {
+          "tp": 27,
+          "fp": 3,
+          "fn": 0,
+          "tn": 0
+        },
+        "judge_misses_unfaithful": 3,
+        "judge_flags_faithful": 0,
+        "spearman_judge_vs_supported_share": NaN,
+        "mean_judge_score": 1.0,
+        "label_faithful_rate": 0.9,
+        "disagreements": [
+          {
+            "case_id": "a003",
+            "judge": 1.0,
+            "label_faithful": false
+          },
+          {
+            "case_id": "a007",
+            "judge": 1.0,
+            "label_faithful": false
+          },
+          {
+            "case_id": "a053",
+            "judge": 1.0,
+            "label_faithful": false
+          }
+        ]
+      }
+    }
+  ]
+}

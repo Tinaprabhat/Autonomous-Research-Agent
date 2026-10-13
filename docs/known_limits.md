@@ -104,7 +104,12 @@ so `eval/` checkpoints every finished case and resumes the next day (`python -m 
 * Qdrant Cloud free clusters pause after ~7 days idle and have no backup SLA; recovery path is re-ingestion from
   `data/manifest.json`. HF CPU Basic cold-starts are slow (model load ≈ 1–2 min).
 * Latency on CPU is dominated by the NLI guard and jailbreak/reranker passes (see `/metrics` p50/p95).
-* No authentication; the API is public. Abuse is limited only by the per-IP rate limit and query-length cap.
+* Auth is optional. With `API_KEYS` set, every endpoint except `/`, `/health` and the docs needs `X-API-Key` (or
+  `Authorization: Bearer`); each user has a per-minute window and a per-UTC-day query quota, and bad-key attempts are
+  throttled per IP. Keys are static strings from the environment (no signup, rotation or revocation without a restart),
+  and the limiter state is in memory, so quotas reset on restart and are not shared between workers. With `API_KEYS`
+  empty the API is public and only the per-IP limit and query-length cap apply.
+* The static UI (`/`) is served without a key; the key is entered in the browser and stored in `localStorage`.
 * Groq model availability changes: the defaults in `config.py` were verified against the account's model list on
   2026-10-08 (the originally planned `llama-3.3-70b-versatile` returned 404 for this key).
 

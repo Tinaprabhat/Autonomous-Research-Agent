@@ -48,3 +48,6 @@ data/eval_runs/
 # Generated ingestion cache (re-creatable from the manifest)
 data/processed_chunks/
 nohup.out
+
+# Qdrant snapshots (large, may contain the full corpus)
+backups/

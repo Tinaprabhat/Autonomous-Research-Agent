@@ -88,6 +88,12 @@ Set `GROQ_API_KEY`, `QDRANT_URL` and `QDRANT_API_KEY` in `.env` (leave the Qdran
 To populate Qdrant Cloud once from your machine (no re-embedding): `python scripts/sync_to_cloud.py` (dry run), then
 `python scripts/sync_to_cloud.py --yes`. The UI is served at http://localhost:7860.
 
+**Auth (optional):** set `API_KEYS="name:key[:per_minute[:per_day]],..."` to require an `X-API-Key` header and enforce
+per-user limits (see `.env.example`). **Backups:** `python scripts/qdrant_backup.py drill` snapshots the Qdrant collection,
+restores it into a scratch collection, verifies it and cleans up; `snapshot` / `restore` / `verify` are available separately.
+**Judge/NLI validation:** `python -m eval.label_sentences --labeler <name>` to hand-label, then
+`python -m eval.label_validation report --labels eval/data/labels_human.jsonl`. Full report: [`info.md`](info.md).
+
 ## Layout
 
 ```
