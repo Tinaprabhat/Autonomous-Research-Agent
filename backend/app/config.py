@@ -60,5 +60,11 @@ USER_DAILY_QUOTA        = int(_env("USER_DAILY_QUOTA", default="200"))
 AUTH_FAIL_PER_MIN       = int(_env("AUTH_FAIL_PER_MIN", default="10"))   # bad-key attempts per IP per minute
 
 # ── Verification / safety models ─────────────────────────────────────────────
-NLI_MODEL       = _env("NLI_MODEL", default="MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli")
+# Citation guard (layered; see backend/app/citations/guard.py and info.md section 11.5):
+#   Layer A (free, deterministic): [N] validity, hedge passthrough, specifics gate (numbers / acronyms / names of a
+#            sentence must occur in the cited chunk), word-overlap floor.
+#   Layer B (entailment): GUARD_ENTAILMENT = llm (one batched LLM call per answer; no fallback verifier) | off
+GUARD_ENTAILMENT        = (_env("GUARD_ENTAILMENT", default="llm") or "llm").lower()
+GUARD_OVERLAP_THRESHOLD = float(_env("GUARD_OVERLAP_THRESHOLD", default="0.3"))     # loose floor: catches wrong-chunk citations
+GUARD_SPECIFICS_MIN     = float(_env("GUARD_SPECIFICS_MIN", default="1.0"))         # share of anchors that must be in the chunk
 JAILBREAK_MODEL = _env("JAILBREAK_MODEL", default="protectai/deberta-v3-base-prompt-injection-v2")

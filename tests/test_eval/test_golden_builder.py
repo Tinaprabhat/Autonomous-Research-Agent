@@ -63,11 +63,6 @@ def both(replies):
     return llm, llm
 
 
-class Verifier:
-    def __init__(self, p): self.p = p
-    def entailment_batch(self, pairs): return [self.p] * len(pairs)
-
-
 @pytest.fixture(autouse=True)
 def no_sleep(monkeypatch):
     monkeypatch.setattr("time.sleep", lambda s: None)
@@ -79,13 +74,9 @@ OK = json.dumps({"answerable_from_passage": True, "answer_correct_and_supported"
 
 
 def test_answerable_case_kept_when_all_checks_pass():
-    cases = build_answerable(ScriptLLM([Q]), ScriptLLM([OK]), Verifier(0.9), [chunk()], 1, lambda m: None)
+    cases = build_answerable(ScriptLLM([Q]), ScriptLLM([OK]), [chunk()], 1, lambda m: None)
     assert len(cases) == 1 and cases[0].gold_chunk_ids == ["2401.00001_v1_0"]
     assert cases[0].verification == "auto" and cases[0].regression and cases[0].source_page == 3
-
-
-def test_answerable_rejected_by_nli():
-    assert build_answerable(ScriptLLM([Q]), ScriptLLM([]), Verifier(0.1), [chunk()], 1, lambda m: None) == []
 
 
 @pytest.mark.parametrize("bad", [
@@ -94,11 +85,11 @@ def test_answerable_rejected_by_nli():
     {"answerable_from_passage": True, "answer_correct_and_supported": True, "standalone": False},
 ])
 def test_answerable_rejected_by_llm_crosscheck(bad):
-    assert build_answerable(ScriptLLM([Q]), ScriptLLM([json.dumps(bad)]), Verifier(0.9), [chunk()], 1, lambda m: None) == []
+    assert build_answerable(ScriptLLM([Q]), ScriptLLM([json.dumps(bad)]), [chunk()], 1, lambda m: None) == []
 
 
 def test_llm_garbage_does_not_crash_the_run():
-    cases = build_answerable(*both(["not json", Q, OK]), Verifier(0.9),
+    cases = build_answerable(*both(["not json", Q, OK]),
                              [chunk(0), chunk(1, aid="2401.00002")], 1, lambda m: None)
     assert len(cases) == 1
 
@@ -111,12 +102,12 @@ def test_at_most_two_cases_per_paper():
     for q in qs:
         replies += [json.dumps({"question": q, "answer": "x"}), OK]
     chunks = [chunk(i) for i in range(3)]          # same paper
-    assert len(build_answerable(*both(replies), Verifier(0.9), chunks, 5, lambda m: None)) == 2
+    assert len(build_answerable(*both(replies), chunks, 5, lambda m: None)) == 2
 
 
 def test_duplicate_questions_dropped():
     replies = [Q, OK, Q, OK]
-    cases = build_answerable(*both(replies), Verifier(0.9),
+    cases = build_answerable(*both(replies),
                              [chunk(0, aid="a.1"), chunk(1, aid="b.2")], 2, lambda m: None)
     assert len(cases) == 1
 
@@ -148,7 +139,7 @@ def test_checkpoint_persists_cases_and_tried_chunks(tmp_path):
     from eval.build_golden_set import Checkpoint
     path = str(tmp_path / "partial.jsonl")
     ck = Checkpoint(path)
-    build_answerable(*both([Q, OK]), Verifier(0.9), [chunk()], 1, lambda m: None, ck)
+    build_answerable(*both([Q, OK]), [chunk()], 1, lambda m: None, ck)
     ck2 = Checkpoint(path)
     assert [c.id for c in ck2.cases] == ["a001"] and "2401.00001_v1_0" in ck2.tried
 
@@ -156,11 +147,11 @@ def test_checkpoint_persists_cases_and_tried_chunks(tmp_path):
 def test_resume_skips_tried_chunks_and_keeps_existing_cases(tmp_path):
     from eval.build_golden_set import Checkpoint
     path = str(tmp_path / "partial.jsonl")
-    build_answerable(*both([Q, OK]), Verifier(0.9), [chunk(0)], 1, lambda m: None, Checkpoint(path))
+    build_answerable(*both([Q, OK]), [chunk(0)], 1, lambda m: None, Checkpoint(path))
     # second run wants 2 cases; chunk 0 is already done, only chunk 1 (another paper) may be spent
     q2 = json.dumps({"question": "Which benchmarks demonstrate faster convergence for Reptile with warm restarts?",
                      "answer": "x"})
-    cases = build_answerable(*both([q2, OK]), Verifier(0.9), [chunk(0), chunk(1, aid="b.2")], 2,
+    cases = build_answerable(*both([q2, OK]), [chunk(0), chunk(1, aid="b.2")], 2,
                              lambda m: None, Checkpoint(path))
     assert [c.id for c in cases] == ["a001", "a002"]
 
@@ -186,7 +177,7 @@ def test_daily_quota_raises_budget_exhausted_without_losing_progress(tmp_path):
     llm = Quota([Q, OK])
     chunks = [chunk(0), chunk(1, aid="b.2")]
     with pytest.raises(BudgetExhausted):
-        build_answerable(llm, llm, Verifier(0.9), chunks, 5, lambda m: None, Checkpoint(path))
+        build_answerable(llm, llm, chunks, 5, lambda m: None, Checkpoint(path))
     assert len(Checkpoint(path).cases) == 1          # the first verified case survived
 
 

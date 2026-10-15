@@ -1,10 +1,11 @@
 """
-generation.py — resumable DeepEval generation-quality evaluation.
+generation.py — resumable RAGAS generation-quality evaluation.
 
 For each answerable golden case the same retrieved context is answered twice:
   * "hybrid+rerank (no guard)": raw LLM answer, no citation verification
-  * "+guard (full)":            the production pipeline (NLI citation guard, abstention, output guard)
-and scored with DeepEval metrics (Groq judge). Unanswerable cases only measure abstention behaviour.
+  * "+guard (full)":            the production pipeline (citation guard, abstention, output guard)
+and scored with RAGAS metrics (faithfulness, hallucination, correctness, completeness; Groq judge, see eval/ragas_metrics.py).
+Unanswerable cases only measure abstention behaviour.
 
 Every finished case is appended (fsync'd) to a checkpoint JSONL, so a crash, Ctrl-C, or an exhausted
 free-tier DAILY judge quota never loses finished work; re-running resumes. When the judge quota runs
@@ -20,8 +21,7 @@ CHECKPOINT = "data/eval_runs/generation_ckpt.jsonl"
 CFG_RAW, CFG_FULL = "hybrid+rerank (no guard)", "+guard (full)"
 
 
-class JudgeBudgetExhausted(RuntimeError):
-    """The judge model's daily quota is used up."""
+from eval.ragas_metrics import EvalCase, JudgeBudgetExhausted      # noqa: E402  (JudgeBudgetExhausted re-exported)
 
 
 def is_budget_error(e: BaseException) -> bool:
@@ -98,7 +98,9 @@ def aggregate(records: list[dict]) -> dict:
     for r in records:
         if r["answerable"]:
             beh["answerable_total"] += 1
-            beh["answerable_answered"] += int(r["status"] == "ok")
+            hedged = bool(r.get("hedged"))
+            beh["answerable_answered"] += int(r["status"] == "ok" and not hedged)
+            beh["answerable_hedged"] = beh.get("answerable_hedged", 0) + int(r["status"] == "ok" and hedged)
             for cfg in all_cfg:
                 sc = r.get("scores", {}).get(cfg)
                 if sc is not None:
@@ -111,6 +113,8 @@ def aggregate(records: list[dict]) -> dict:
     ab, ub = beh["answerable_total"], beh["unanswerable_total"]
     beh["answer_rate_on_answerable"] = round(beh["answerable_answered"] / ab, 3) if ab else None
     beh["abstention_rate_on_unanswerable"] = round(beh["unanswerable_abstained"] / ub, 3) if ub else None
+    # an answerable question answered only with "the sources don't say" is a false refusal, not a success
+    beh["false_refusal_rate_on_answerable"] = round(beh.get("answerable_hedged", 0) / ab, 3) if ab else None
     return {"metrics": {c: _summarise(r) for c, r in ans_cfg.items()},
             "metrics_all_cases": {c: _summarise(r) for c, r in all_cfg.items()},
             "behaviour": beh, "per_case": ans_cfg}
@@ -152,11 +156,12 @@ def eval_generation(pipeline, cases, k: int = 5, limit: int | None = None,
                     wanted_metrics: list[str] | None = None, judge=None,
                     dump_answers: str | None = None, checkpoint: str = CHECKPOINT,
                     log=print) -> dict:
-    from deepeval.test_case import LLMTestCase
     from eval import runner as R
 
-    judge = judge or __import__("eval.judge", fromlist=["GroqJudge"]).GroqJudge()
-    metrics = R.deepeval_metrics(judge)
+    if judge is None:
+        from eval.ragas_metrics import RagasJudge
+        judge = RagasJudge()
+    metrics = judge.metrics() if hasattr(judge, "metrics") else R.ragas_metrics(judge)
     answerable = [c for c in cases if c.answerable][:limit]
     unanswerable = [c for c in cases if not c.answerable][:limit]
     done = load_checkpoint(checkpoint)
@@ -175,17 +180,14 @@ def eval_generation(pipeline, cases, k: int = 5, limit: int | None = None,
                 full = pipeline.answer(c.question, top_k=k)
                 scores = {}
                 for label, text in ((CFG_RAW, raw), (CFG_FULL, full.answer)):
-                    tc = LLMTestCase(input=c.question, actual_output=text,
-                                     expected_output=c.reference_answer or None, retrieval_context=ctx)
+                    tc = EvalCase(question=c.question, response=text, contexts=ctx, reference=c.reference_answer or "")
                     wanted = list(wanted_metrics or metrics)
-                    if label == CFG_RAW:
-                        # Contextual metrics depend only on retrieval (identical in both configs): once is enough.
-                        wanted = [m for m in wanted if not m.startswith("contextual")]
-                    if not c.reference_answer:
-                        wanted = [m for m in wanted if m not in ("contextual_precision", "contextual_recall")]
+                    if not c.reference_answer:                 # correctness / completeness are relative to a reference answer
+                        wanted = [m for m in wanted if m not in ("correctness", "completeness")]
                     scores[label] = score_case(metrics, tc, wanted)
                 rec = {"case_id": c.id, "question": c.question, "answerable": True, "context": ctx,
-                       "answer": full.answer, "raw_answer": raw, "status": full.status, "scores": scores}
+                       "answer": full.answer, "raw_answer": raw, "status": full.status, "hedged": bool(getattr(full, "hedged", False)),
+                       "scores": scores}
             else:
                 full = pipeline.answer(c.question, top_k=k)
                 rec = {"case_id": c.id, "question": c.question, "answerable": False, "context": [],

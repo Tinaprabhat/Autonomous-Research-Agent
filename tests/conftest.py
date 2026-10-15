@@ -117,16 +117,18 @@ class FakeEmbedder:
 
 
 class FakeVerifier:
-    """Entails iff every hypothesis word of length>3 appears in the premise."""
+    """Entailment-chain stand-in: a claim is supported iff every claim word of length>3 appears in the cited chunks."""
 
-    def entailment_batch(self, pairs):
+    name = "fake"
+
+    def verify(self, items):
         import re
-        out = []
-        for premise, hyp in pairs:
-            words = [w for w in re.findall(r"\w+", hyp.lower()) if len(w) > 3]
-            p = premise.lower()
-            out.append(0.95 if words and all(w in p for w in words) else 0.05)
-        return np.array(out)
+        flags = []
+        for texts, claim in items:
+            words = [w for w in re.findall(r"\w+", claim.lower()) if len(w) > 3]
+            blob = " ".join(texts).lower()
+            flags.append(bool(words) and all(w in blob for w in words))
+        return flags, "fake"
 
 
 @pytest.fixture

@@ -1,0 +1,130 @@
+{
+  "thresholds_chosen_on_real_supported": {
+    "nli": 0.4,
+    "sim": 0.45,
+    "overlap": 0.45,
+    "specifics": 1.0
+  },
+  "n_real_supported": 36,
+  "n_real_unsupported": 4,
+  "n_by_category": {
+    "number_swap": 11,
+    "antonym_flip": 6,
+    "negation": 36,
+    "qualifier": 36,
+    "conflation": 36,
+    "wrong_chunk": 36
+  },
+  "methods": {
+    "nli (guard v1, removed; frozen scores)": {
+      "false_drop_real_supported": 0.194,
+      "caught_real_unsupported": "2/4",
+      "number_swap": 0.909,
+      "antonym_flip": 0.667,
+      "negation": 0.833,
+      "qualifier": 0.972,
+      "conflation": 0.778,
+      "wrong_chunk": 1.0,
+      "synthetic_overall": 0.888
+    },
+    "cosine (retired v2 stage)": {
+      "false_drop_real_supported": 0.194,
+      "caught_real_unsupported": "0/4",
+      "number_swap": 0.273,
+      "antonym_flip": 0.0,
+      "negation": 0.194,
+      "qualifier": 0.194,
+      "conflation": 0.25,
+      "wrong_chunk": 1.0,
+      "synthetic_overall": 0.385
+    },
+    "overlap": {
+      "false_drop_real_supported": 0.194,
+      "caught_real_unsupported": "2/4",
+      "number_swap": 0.091,
+      "antonym_flip": 0.167,
+      "negation": 0.278,
+      "qualifier": 0.417,
+      "conflation": 0.889,
+      "wrong_chunk": 1.0,
+      "synthetic_overall": 0.59
+    },
+    "cosine AND overlap (guard v2)": {
+      "false_drop_real_supported": 0.306,
+      "caught_real_unsupported": "2/4",
+      "number_swap": 0.273,
+      "antonym_flip": 0.167,
+      "negation": 0.389,
+      "qualifier": 0.472,
+      "conflation": 0.889,
+      "wrong_chunk": 1.0,
+      "synthetic_overall": 0.64
+    },
+    "specifics (all anchors found)": {
+      "false_drop_real_supported": 0.056,
+      "caught_real_unsupported": "0/4",
+      "number_swap": 1.0,
+      "antonym_flip": 0.167,
+      "negation": 0.056,
+      "qualifier": 0.194,
+      "conflation": 1.0,
+      "wrong_chunk": 0.611,
+      "synthetic_overall": 0.491
+    },
+    "overlap AND specifics": {
+      "false_drop_real_supported": 0.25,
+      "caught_real_unsupported": "2/4",
+      "number_swap": 1.0,
+      "antonym_flip": 0.333,
+      "negation": 0.333,
+      "qualifier": 0.528,
+      "conflation": 1.0,
+      "wrong_chunk": 1.0,
+      "synthetic_overall": 0.72
+    },
+    "nli AND overlap (frozen)": {
+      "false_drop_real_supported": 0.333,
+      "caught_real_unsupported": "2/4",
+      "number_swap": 0.909,
+      "antonym_flip": 0.667,
+      "negation": 0.889,
+      "qualifier": 1.0,
+      "conflation": 0.972,
+      "wrong_chunk": 1.0,
+      "synthetic_overall": 0.95
+    },
+    "nli AND overlap AND specifics (frozen)": {
+      "false_drop_real_supported": 0.389,
+      "caught_real_unsupported": "2/4",
+      "number_swap": 1.0,
+      "antonym_flip": 0.833,
+      "negation": 0.889,
+      "qualifier": 1.0,
+      "conflation": 1.0,
+      "wrong_chunk": 1.0,
+      "synthetic_overall": 0.969
+    },
+    "llm per-claim": {
+      "false_drop_real_supported": 0.083,
+      "caught_real_unsupported": "2/4",
+      "number_swap": 1.0,
+      "antonym_flip": 1.0,
+      "negation": 1.0,
+      "qualifier": 1.0,
+      "conflation": 1.0,
+      "wrong_chunk": 1.0,
+      "synthetic_overall": 1.0
+    },
+    "llm per-claim AND overlap": {
+      "false_drop_real_supported": 0.278,
+      "caught_real_unsupported": "2/4",
+      "number_swap": 1.0,
+      "antonym_flip": 1.0,
+      "negation": 1.0,
+      "qualifier": 1.0,
+      "conflation": 1.0,
+      "wrong_chunk": 1.0,
+      "synthetic_overall": 1.0
+    }
+  }
+}

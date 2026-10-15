@@ -1,0 +1,430 @@
+{
+  "n_cases": 30,
+  "validation_raw_answers_vs_human_labels": {
+    "n_scored_raw": 30,
+    "n_human_unfaithful": 5,
+    "n_human_faithful": 25,
+    "faithfulness_unfaithful_answers": {
+      "a023": 0.75,
+      "a037": 1.0,
+      "a047": 1.0,
+      "a048": 1.0,
+      "a053": 0.9
+    },
+    "mean_faithfulness_unfaithful": 0.93,
+    "mean_faithfulness_faithful": 0.948,
+    "unfaithful_flagged_by_score_below_1": {
+      "k": 2,
+      "n": 5,
+      "rate": 0.4,
+      "ci95": [
+        0.118,
+        0.769
+      ]
+    },
+    "faithful_wrongly_flagged_by_score_below_1": {
+      "k": 3,
+      "n": 25,
+      "rate": 0.12,
+      "ci95": [
+        0.042,
+        0.3
+      ]
+    },
+    "auroc_faithful_answers_outscore_unfaithful": {
+      "auroc": 0.632,
+      "ci95": [
+        0.42,
+        0.872
+      ]
+    },
+    "deepeval_same_cases_for_contrast": {
+      "cases": 10,
+      "unfaithful_flagged_default": 1,
+      "unfaithful_flagged_penalize_ambiguous": 2,
+      "n_unfaithful": 5
+    }
+  },
+  "guarded_responses": {
+    "faithfulness": {
+      "mean": 0.937,
+      "ci95": [
+        0.862,
+        0.995
+      ],
+      "n": 30
+    },
+    "hallucination": {
+      "mean": 0.063,
+      "ci95": [
+        0.005,
+        0.138
+      ],
+      "n": 30
+    },
+    "correctness": {
+      "mean": 0.532,
+      "ci95": [
+        0.372,
+        0.708
+      ],
+      "n": 30
+    },
+    "completeness": {
+      "mean": 0.783,
+      "ci95": [
+        0.65,
+        0.9
+      ],
+      "n": 30
+    },
+    "responses_with_any_unsupported_statement": {
+      "k": 4,
+      "n": 30,
+      "rate": 0.133,
+      "ci95": [
+        0.053,
+        0.297
+      ]
+    }
+  },
+  "ragas_recall_legacy_for_contrast": {
+    "mean": 0.589,
+    "ci95": [
+      0.422,
+      0.767
+    ],
+    "n": 30,
+    "zeros": 12
+  },
+  "precision_vs_reference": {
+    "mean": 0.522,
+    "ci95": [
+      0.367,
+      0.7
+    ],
+    "n": 30,
+    "zeros": 12
+  },
+  "coverage": {
+    "cases": 30,
+    "with_faithfulness_and_hallucination": 30,
+    "with_correctness_and_completeness": 30,
+    "pending_because_judge_daily_quota": []
+  },
+  "guarded_by_label": {
+    "answered": {
+      "n": 25,
+      "faithfulness": 0.97,
+      "hallucination": 0.03,
+      "correctness": 0.599,
+      "completeness": 0.82,
+      "n_faithfulness": 25,
+      "n_correctness": 25
+    },
+    "false_refusal": {
+      "n": 1,
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.0,
+      "completeness": 0.0,
+      "n_faithfulness": 1,
+      "n_correctness": 1
+    },
+    "low_confidence": {
+      "n": 4,
+      "faithfulness": 0.714,
+      "hallucination": 0.286,
+      "correctness": 0.25,
+      "completeness": 0.75,
+      "n_faithfulness": 4,
+      "n_correctness": 4
+    }
+  },
+  "guarded_faithfulness_vs_human_unsupported_shown": {
+    "n_clean": 27,
+    "n_with_unsupported": 3,
+    "auroc": {
+      "auroc": 0.605,
+      "ci95": [
+        0.407,
+        0.926
+      ]
+    }
+  },
+  "per_case": {
+    "a001": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a002": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 0.0
+    },
+    "a003": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.5,
+      "completeness": 0.5,
+      "ragas_recall_legacy": 0.67
+    },
+    "a004": {
+      "status": "false_refusal",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.0,
+      "completeness": 0.0,
+      "ragas_recall_legacy": 0.0
+    },
+    "a005": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a006": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.6666666666666666,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a007": {
+      "status": "low_confidence",
+      "faithfulness_source": "judged",
+      "faithfulness": 0.8571428571428571,
+      "hallucination": 0.1428571428571429,
+      "correctness": 0.0,
+      "completeness": 0.0,
+      "ragas_recall_legacy": 0.0
+    },
+    "a008": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.6666666666666666,
+      "completeness": 0.5,
+      "ragas_recall_legacy": 1.0
+    },
+    "a009": {
+      "status": "low_confidence",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a010": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a011": {
+      "status": "low_confidence",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 0.0
+    },
+    "a014": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.0,
+      "completeness": 0.0,
+      "ragas_recall_legacy": 0.0
+    },
+    "a018": {
+      "status": "low_confidence",
+      "faithfulness_source": "judged",
+      "faithfulness": 0.0,
+      "hallucination": 1.0,
+      "correctness": 0.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 0.0
+    },
+    "a023": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 0.75,
+      "hallucination": 0.25,
+      "correctness": 0.6666666666666666,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a026": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.8023952095808384,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a028": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a033": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 0.0
+    },
+    "a037": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.0,
+      "completeness": 0.5,
+      "ragas_recall_legacy": 0.0
+    },
+    "a038": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a039": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a043": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.0,
+      "completeness": 0.5,
+      "ragas_recall_legacy": 0.0
+    },
+    "a044": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 0.0
+    },
+    "a047": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.0,
+      "completeness": 0.0,
+      "ragas_recall_legacy": 0.0
+    },
+    "a048": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 0.0,
+      "completeness": 0.5,
+      "ragas_recall_legacy": 0.0
+    },
+    "a053": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 0.5,
+      "hallucination": 0.5,
+      "correctness": 0.6666666666666666,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a057": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a063": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a064": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a076": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    },
+    "a078": {
+      "status": "answered",
+      "faithfulness_source": "judged",
+      "faithfulness": 1.0,
+      "hallucination": 0.0,
+      "correctness": 1.0,
+      "completeness": 1.0,
+      "ragas_recall_legacy": 1.0
+    }
+  },
+  "judge_models": [
+    "openai/gpt-oss-120b"
+  ]
+}

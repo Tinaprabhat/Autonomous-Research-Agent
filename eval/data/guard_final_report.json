@@ -1,0 +1,45 @@
+{
+  "layer_a": {
+    "overlap_floor": 0.3,
+    "specifics_min": 1.0
+  },
+  "sample_size_llm": 105,
+  "methods": {
+    "A only (overlap floor + specifics)": {
+      "false_drop_real_supported": 0.056,
+      "caught_real_unsupported": "0/4",
+      "number_swap": 1.0,
+      "antonym_flip": 0.167,
+      "negation": 0.056,
+      "qualifier": 0.278,
+      "conflation": 1.0,
+      "wrong_chunk": 1.0,
+      "synthetic_overall": 0.596,
+      "n_real_supported": 36
+    },
+    "A + LLM batched (shipped default)": {
+      "false_drop_real_supported": 0.167,
+      "caught_real_unsupported": "2/4",
+      "number_swap": 1.0,
+      "antonym_flip": 1.0,
+      "negation": 1.0,
+      "qualifier": 1.0,
+      "conflation": 1.0,
+      "wrong_chunk": 1.0,
+      "synthetic_overall": 1.0,
+      "n_real_supported": 36
+    },
+    "LLM batched only (for reference)": {
+      "false_drop_real_supported": 0.111,
+      "caught_real_unsupported": "2/4",
+      "number_swap": 1.0,
+      "antonym_flip": 1.0,
+      "negation": 1.0,
+      "qualifier": 1.0,
+      "conflation": 1.0,
+      "wrong_chunk": 0.917,
+      "synthetic_overall": 0.985,
+      "n_real_supported": 36
+    }
+  }
+}

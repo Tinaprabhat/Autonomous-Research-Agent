@@ -32,8 +32,8 @@ from backend.app.telemetry import observability
 FRONTEND_FILE = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "../../frontend/Research_ui.html"))
 
-RATE_LIMITED_PATHS = ("/query", "/query/stream", "/ask", "/feedback")
-QUERY_PATHS = ("/query", "/query/stream", "/ask")          # these also spend the user's daily quota
+RATE_LIMITED_PATHS = ("/query", "/query/stream", "/feedback")
+QUERY_PATHS = ("/query", "/query/stream")          # these also spend the user's daily quota
 PUBLIC_PATHS = ("/", "/health", "/docs", "/redoc", "/openapi.json")   # reachable without a key
 
 
@@ -58,8 +58,9 @@ class QueryRequest(BaseModel):
     filters: Filters | None = None
 
 
-class AskRequest(BaseModel):
-    question: str = Field(..., min_length=1, max_length=config.MAX_QUERY_CHARS)
+# [DEAD CODE] legacy `/ask` request model (checked 2026-10-15): the UI uses /query/stream; only tests called /ask.
+# class AskRequest(BaseModel):
+#     question: str = Field(..., min_length=1, max_length=config.MAX_QUERY_CHARS)
 
 
 class FeedbackRequest(BaseModel):
@@ -249,16 +250,16 @@ def create_app(pipeline=None, store=None, rate_limit_per_min: int | None = None,
         return StreamingResponse(gen(), media_type="text/event-stream",
                                  headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
-    # Legacy endpoint — kept so old scripts still work
-    @app.post("/ask")
-    def ask(req: AskRequest):
-        if not req.question.strip():
-            raise HTTPException(status_code=400, detail="Question cannot be empty")
-        try:
-            res = pipe().answer(req.question)
-        except RetrievalUnavailable as e:
-            raise HTTPException(status_code=503, detail=str(e)) from None
-        return {"question": req.question, "answer": res.answer}
+    # [DEAD CODE] legacy `/ask` endpoint (checked 2026-10-15): nothing but two tests called it; /query replaces it.
+    # @app.post("/ask")
+    # def ask(req: AskRequest):
+    #     if not req.question.strip():
+    #         raise HTTPException(status_code=400, detail="Question cannot be empty")
+    #     try:
+    #         res = pipe().answer(req.question)
+    #     except RetrievalUnavailable as e:
+    #         raise HTTPException(status_code=503, detail=str(e)) from None
+    #     return {"question": req.question, "answer": res.answer}
 
     @app.post("/feedback")
     def feedback(req: FeedbackRequest):

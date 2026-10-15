@@ -31,7 +31,7 @@ th{color:var(--m);font-weight:500;font-size:12px}tr:last-child td{border-bottom:
 <h1>Evaluation dashboard</h1><div class="sub" id="sub"></div>
 <div class="cards" id="cards"></div>
 <h2>Retrieval ablation</h2><div id="retr"></div>
-<h2>Generation quality (DeepEval, Groq judge)</h2>
+<h2>Generation quality (RAGAS, Groq judge)</h2>
 <div class="sub" id="gennote"></div><div id="gen"></div>
 <h2>Answerable vs unanswerable</h2><div id="beh"></div>
 <h2>Serving latency &amp; cost</h2><div id="ops"></div>
@@ -54,7 +54,7 @@ function card(label, v, frac) { const d = document.createElement('div'); d.class
 if (!R) { $('sub').textContent = 'No report yet — run: python -m eval.runner all'; }
 else {
   $('sub').textContent = R.timestamp + ' · ' + R.n_cases + ' cases (' + R.n_answerable + ' answerable, ' + R.n_unanswerable + ' unanswerable) · k=' + R.k;
-  if (R.composite != null) $('cards').appendChild(card('Composite (faith · relevancy · citation)', R.composite, R.composite));
+  if (R.composite != null) $('cards').appendChild(card('Composite (faithfulness · correctness · completeness)', R.composite, R.composite));
   if (R.retrieval) { const hr = R.retrieval['hybrid+rerank']; const k = R.k;
     $('cards').appendChild(card('Recall@' + k + ' (hybrid+rerank)', hr['chunk_recall@' + k], hr['chunk_recall@' + k]));
     $('cards').appendChild(card('MRR (hybrid+rerank)', hr.chunk_mrr, hr.chunk_mrr));
@@ -63,7 +63,7 @@ else {
   if (R.generation) { const g0 = R.generation; $('gennote').textContent = 'Scored on cases the guarded pipeline answered (abstentions are reported below as a recall cost, not as unfaithful answers). ' + (g0.cases_scored != null ? g0.cases_scored + ' of ' + g0.cases_planned + ' golden cases evaluated (' + (g0.answerable_scored_with_judge != null ? g0.answerable_scored_with_judge : '?') + ' answerable scored with DeepEval; unanswerable measure abstention only)' : '') + (g0.stopped_early ? ' — stopped early: ' + g0.stopped_early : '') + '.';
     const m = R.generation.metrics, cols = [...new Set(Object.values(m).flatMap(o => Object.keys(o)))].filter(c => c !== 'n');
     $('gen').appendChild(table(m, cols, 'config')); $('beh').appendChild(table({ 'behaviour': R.generation.behaviour },
-      ['answer_rate_on_answerable', 'abstention_rate_on_unanswerable', 'answerable_total', 'unanswerable_total'], '')); }
+      ['answer_rate_on_answerable', 'false_refusal_rate_on_answerable', 'abstention_rate_on_unanswerable', 'answerable_total', 'unanswerable_total'], '')); }
   else { $('gen').innerHTML = '<span class="empty">not run</span>'; $('beh').innerHTML = '<span class="empty">not run</span>'; }
 }
 if (OPS && OPS.queries) { $('ops').appendChild(table({ 'live traffic': OPS }, ['queries', 'latency_ms_p50', 'latency_ms_p95', 'avg_cost_usd', 'total_cost_usd'], '')); }

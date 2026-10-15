@@ -69,4 +69,7 @@ def summarize(path: str | None = None) -> dict:
         "total_cost_usd": round(sum(r.get("cost_usd", 0) for r in rows), 6),
         "avg_cost_usd": round(sum(r.get("cost_usd", 0) for r in rows) / len(rows), 6) if rows else 0.0,
         "status_counts": statuses,
+        # a hedge-only answer is status "ok" but gives the user nothing: watch this rate for false refusals
+        "hedged_answers": sum(1 for r in rows if r.get("hedged")),
+        "hedged_rate": round(sum(1 for r in rows if r.get("hedged")) / len(rows), 3) if rows else 0.0,
     }

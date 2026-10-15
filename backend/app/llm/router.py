@@ -53,11 +53,11 @@ class LLMRouter:
             wait = e.retry_after if e.retry_after else 60
             self._cooldown[name] = time.monotonic() + min(max(wait, 30), 900)
 
-    def generate(self, prompt: str, use_cache: bool = True) -> str:
+    def generate(self, prompt: str, use_cache: bool = True, max_tokens: int | None = None) -> str:
         errors = []
         for name, llm in self._providers():
             try:
-                out = llm.generate(prompt)
+                out = llm.generate(prompt) if max_tokens is None else llm.generate(prompt, max_tokens=max_tokens)
                 if not out or not out.strip():
                     raise LLMError(f"{name} returned an empty response")
                 self.last_provider = name

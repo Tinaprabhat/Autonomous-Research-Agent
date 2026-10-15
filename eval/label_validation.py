@@ -1,5 +1,5 @@
 """
-label_validation.py - validate the LLM judge and the NLI citation threshold against hand labels.
+label_validation.py - validate the LLM judge (and, historically, the NLI citation threshold) against hand labels.
 
     python -m eval.label_validation build  [--n 30] [--local]     # run 30 answerable golden cases, save blind label set
     python -m eval.label_validation show                          # print the blind items (no scores) for labelling
@@ -11,7 +11,8 @@ What is labelled (per answer, on the UNGUARDED model answer, so wrong sentences 
   * answer label    "faithful":  every factual claim in the whole answer is supported by the retrieved passages
                     (the question DeepEval's Faithfulness metric is meant to answer).
 The label set (eval/data/label_set.jsonl) deliberately contains NO model scores, so labelling is blind.
-Scores live in eval/data/label_scores.jsonl: the NLI entailment per sentence and the DeepEval faithfulness
+Scores live in eval/data/label_scores.jsonl: the NLI entailment per sentence (FROZEN: measured with guard v1; the NLI
+model has since been removed, so `build` no longer produces it) and the DeepEval faithfulness
 per answer (judge: Groq gpt-oss-20b). `report` joins labels with scores and computes:
   * NLI threshold sweep: precision / recall / F1 / accuracy per threshold, the guard's 0.5 operating point, best F1, AUC
   * judge agreement: accuracy, Cohen's kappa, confusion matrix vs the answer labels, Spearman vs share of supported sentences
@@ -31,7 +32,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 DATA = os.path.join(os.path.dirname(__file__), "data")
 LABEL_SET = os.path.join(DATA, "label_set.jsonl")
 SCORES = os.path.join(DATA, "label_scores.jsonl")
-CKPT = "data/eval_runs/generation_ckpt.jsonl"
+CKPT = "data/eval_runs/generation_ckpt_deepeval_legacy.jsonl"   # DeepEval-era checkpoint (history); the first 9 labelled cases came from it
 RAW_CFG = "hybrid+rerank (no guard)"
 SEED = 13
 THRESHOLDS = [round(x, 2) for x in [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95]]
@@ -71,7 +72,7 @@ def build(n: int = 30, local: bool = True):
         os.environ["QDRANT_FORCE_LOCAL"] = "1"
     from eval import golden, runner as R
     from eval.generation import JudgeBudgetExhausted, score_case
-    from eval.judge import GroqJudge
+    from eval.ragas_metrics import EvalCase, RagasJudge
     from backend.app.services import build_pipeline
 
     cases = [c for c in golden.load(only_reviewed=True) if c.answerable]
@@ -88,9 +89,8 @@ def build(n: int = 30, local: bool = True):
         return
 
     pipeline, _ = build_pipeline(use_rewriter=False)
-    judge = GroqJudge()
-    faith = R.deepeval_metrics(judge)["faithfulness"]
-    from deepeval.test_case import LLMTestCase
+    judge = RagasJudge()
+    faith = judge.metrics()["faithfulness"]
     for cid in todo:
         c = by_id[cid]
         if cid in ckpt:
@@ -103,29 +103,21 @@ def build(n: int = 30, local: bool = True):
             raw = R.raw_answer(pipeline, c.question, chunks)
             judge_score, src = None, "fresh"
         if judge_score is None:
-            tc = LLMTestCase(input=c.question, actual_output=raw, retrieval_context=ctx)
+            tc = EvalCase(question=c.question, response=raw, contexts=ctx)
             try:
                 judge_score = score_case({"faithfulness": faith}, tc, ["faithfulness"]).get("faithfulness")
             except JudgeBudgetExhausted as e:
                 print(f"STOPPED: judge daily quota exhausted ({e}); re-run to resume")
                 return
         sents = split_cited(raw, len(ctx))
-        pairs, owner = [], []
-        for si, (_, hyp, refs) in enumerate(sents):
-            for r in refs:
-                pairs.append((ctx[r - 1], hyp))
-                owner.append((si, r))
-        probs = pipeline.verifier.entailment_batch(pairs) if pairs else []
-        per_sent = {}
-        for (si, r), p in zip(owner, probs):
-            per_sent.setdefault(si, {})[r] = round(float(p), 4)
+        per_sent = {}          # NLI scores are no longer produced (the NLI model was removed); see label_scores.jsonl history
         items, scores = [], []
         for si, (sent, hyp, refs) in enumerate(sents):
             if not refs:
                 continue
             iid = f"{cid}#{si}"
             items.append({"id": iid, "sentence": hyp, "refs": refs})
-            scores.append({"id": iid, "nli_by_ref": per_sent[si], "nli": max(per_sent[si].values())})
+            scores.append({"id": iid})
         _append(LABEL_SET, {"case_id": cid, "question": c.question, "context": ctx, "answer": raw, "items": items})
         _append(SCORES, {"case_id": cid, "source": src, "judge_faithfulness": judge_score,
                          "n_sentences": len(sents), "n_cited": len(items), "sentences": scores})

@@ -1,5 +1,5 @@
 """
-label_sentences.py - terminal tool for the human labelling that validates the judge and the NLI threshold.
+label_sentences.py - terminal tool for the human labelling that validates the judge (and, historically, the NLI threshold).
 
     python -m eval.label_sentences --labeler yourname [--out eval/data/labels_human.jsonl]
 

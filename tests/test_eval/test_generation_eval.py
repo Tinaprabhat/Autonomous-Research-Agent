@@ -28,14 +28,13 @@ class Pipe:
         return Pipe.R("ok", "An answer [1].") if "answerable" in q else Pipe.R("abstained", "Not enough evidence")
 
 
-NAMES = ["faithfulness", "answer_relevancy", "contextual_precision", "contextual_recall",
-         "contextual_relevancy", "citation_correctness"]
+NAMES = ["faithfulness", "hallucination", "correctness", "completeness"]
 
 
 @pytest.fixture
 def setup(monkeypatch):
     metrics = {n: FakeMetric(0.8) for n in NAMES}
-    monkeypatch.setattr(runner, "deepeval_metrics", lambda judge: metrics)
+    monkeypatch.setattr(runner, "ragas_metrics", lambda judge: metrics)
     monkeypatch.setattr(runner, "retrieve_for_config", lambda p, c, q, k: [{"text": "ctx one"}, {"text": "ctx two"}])
     monkeypatch.setattr(runner, "raw_answer", lambda p, q, ch: "raw answer [1].")
     cases = [golden.GoldenCase(id=f"a{i}", question=f"answerable q{i}?", gold_chunk_ids=["x"], reference_answer="r")
@@ -44,13 +43,20 @@ def setup(monkeypatch):
     return metrics, cases
 
 
-def test_scores_both_configs_and_computes_contextual_once(setup, tmp_path):
+def test_scores_both_configs_with_every_metric(setup, tmp_path):
     metrics, cases = setup
     out = G.eval_generation(Pipe(), cases[:1], judge=object(), checkpoint=str(tmp_path / "c.jsonl"), log=lambda *a: None)
     raw, full = out["metrics"][G.CFG_RAW], out["metrics"][G.CFG_FULL]
-    assert "contextual_precision" not in raw and "contextual_precision" in full
-    assert raw["faithfulness"] == full["faithfulness"] == 0.8
-    assert metrics["contextual_precision"].calls == 1 and metrics["faithfulness"].calls == 2
+    for name in NAMES:
+        assert raw[name] == full[name] == 0.8 and metrics[name].calls == 2          # one call per config
+
+
+def test_cases_without_a_reference_skip_correctness_and_completeness(setup, tmp_path):
+    metrics, _ = setup
+    case = golden.GoldenCase(id="a9", question="answerable q9?", gold_chunk_ids=["x"], reference_answer="")
+    out = G.eval_generation(Pipe(), [case], judge=object(), checkpoint=str(tmp_path / "c.jsonl"), log=lambda *a: None)
+    assert metrics["faithfulness"].calls == 2 and metrics["correctness"].calls == 0 and metrics["completeness"].calls == 0
+    assert "correctness" not in out["metrics"][G.CFG_FULL]
 
 
 def test_unanswerable_measures_abstention_only(setup, tmp_path):
@@ -90,10 +96,10 @@ def test_daily_judge_quota_stops_cleanly_and_keeps_finished_work(setup, tmp_path
 
 def test_single_metric_failure_is_recorded_not_fatal(setup, tmp_path):
     metrics, cases = setup
-    metrics["answer_relevancy"].exc = ValueError("bad json from judge")
+    metrics["correctness"].exc = ValueError("bad json from judge")
     out = G.eval_generation(Pipe(), cases[:1], judge=object(), checkpoint=str(tmp_path / "c.jsonl"), log=lambda *a: None)
     assert out["stopped_early"] is None
-    assert out["metrics"][G.CFG_FULL]["faithfulness"] == 0.8 and out["metrics"][G.CFG_FULL]["answer_relevancy"] is None
+    assert out["metrics"][G.CFG_FULL]["faithfulness"] == 0.8 and out["metrics"][G.CFG_FULL]["correctness"] is None
 
 
 def test_is_budget_error_walks_cause_chain():
@@ -102,7 +108,7 @@ def test_is_budget_error_walks_cause_chain():
         try:
             raise inner
         except Exception as e:
-            raise RuntimeError("deepeval wrapper") from e
+            raise RuntimeError("ragas wrapper") from e
     except RuntimeError as outer:
         assert G.is_budget_error(outer)
     assert not G.is_budget_error(ValueError("nope"))

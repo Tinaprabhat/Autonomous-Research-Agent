@@ -180,7 +180,6 @@ def test_api_returns_503_when_qdrant_is_down(fake_embedder, fake_verifier, tmp_p
     c = api_over(dead_store(), fake_embedder, fake_verifier, tmp_path)
     r = c.post("/query", json={"query": Q})
     assert r.status_code == 503 and "unavailable" in r.json()["detail"].lower()
-    assert c.post("/ask", json={"question": Q}).status_code == 503
     assert c.get("/papers").status_code == 503
 
 

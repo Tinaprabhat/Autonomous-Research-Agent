@@ -104,8 +104,9 @@ def test_stream_errors_become_error_event(pipe):
     assert "kaput" not in json.dumps(events)        # no internals leaked
 
 
-def test_legacy_ask(client):
-    assert client.post("/ask", json={"question": "q"}).json()["answer"] == "An answer [1]."
+# [DEAD CODE] test of the commented-out legacy /ask endpoint (checked 2026-10-15)
+# def test_legacy_ask(client):
+#     assert client.post("/ask", json={"question": "q"}).json()["answer"] == "An answer [1]."
 
 
 def test_papers_endpoint(client):

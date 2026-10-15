@@ -1,0 +1,139 @@
+{
+  "n_cases": 30,
+  "faithfulness": {
+    "raw_answer_faithful_by_human": {
+      "k": 25,
+      "n": 30,
+      "rate": 0.833,
+      "ci95": [
+        0.664,
+        0.927
+      ]
+    },
+    "post_guard_response_free_of_unsupported_claims_by_human": {
+      "k": 27,
+      "n": 30,
+      "rate": 0.9,
+      "ci95": [
+        0.744,
+        0.965
+      ]
+    },
+    "deepeval_judge_for_contrast": {
+      "deepeval_faithfulness_mean": 1.0,
+      "deepeval_faithfulness_min": 1.0,
+      "n": 30
+    }
+  },
+  "label_calibration": {
+    "fraction_of_responses_with_no_unsupported_claim_by_label": {
+      "answered": {
+        "k": 22,
+        "n": 25,
+        "rate": 0.88,
+        "ci95": [
+          0.7,
+          0.958
+        ]
+      },
+      "low_confidence": {
+        "k": 4,
+        "n": 4,
+        "rate": 1.0,
+        "ci95": [
+          0.51,
+          1.0
+        ]
+      },
+      "false_refusal": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "ci95": [
+          0.207,
+          1.0
+        ]
+      }
+    },
+    "n_responses_with_an_unsupported_claim": 3,
+    "guard_score_predicts_correctness": {
+      "auroc": 0.494,
+      "ci95": [
+        0.278,
+        0.778
+      ]
+    },
+    "guard_score_mean_correct": 0.778,
+    "guard_score_mean_with_error": 0.833,
+    "flagged_low_confidence_among_responses_with_error": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.562
+      ]
+    }
+  },
+  "relevance_completeness": {
+    "judge_model": "openai/gpt-oss-20b",
+    "real": {
+      "n_unusable": 0,
+      "completeness": {
+        "mean": 0.892,
+        "ci95": [
+          0.767,
+          0.992
+        ],
+        "n": 30
+      },
+      "relevance": {
+        "mean": 0.933,
+        "ci95": [
+          0.833,
+          1.0
+        ],
+        "n": 30
+      }
+    },
+    "reference": {
+      "n_unusable": 0,
+      "completeness": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 30
+      },
+      "relevance": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 30
+      }
+    },
+    "shuffled": {
+      "n_unusable": 0,
+      "completeness": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n": 30
+      },
+      "relevance": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n": 30
+      }
+    },
+    "judge_discriminates": true
+  }
+}

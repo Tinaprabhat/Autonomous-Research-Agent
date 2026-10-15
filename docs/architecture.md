@@ -20,7 +20,7 @@ cluster, Hugging Face CPU Space).
  │ generate (Groq gpt-oss-120b → Ollama fallback); on error/empty output retry ONCE          │
  │   ├─ 2nd failure ─▶ status "unverified" + "⚠ uncited answer — citation verification        │
  │   │                 unavailable" (never silently presented as verified)                    │
- │   └─ success ─▶ NLI citation guard (per sentence: needs valid [N] AND entailment ≥ 0.5)    │
+ │   └─ success ─▶ citation guard (per sentence: valid [N] → overlap + specifics screen → LLM entailment)    │
  │                   ├─ >50% of sentences fail ─▶ status "low_confidence": the model's answer  │
  │                   │     is still shown, tagged "⚠ Not sure — this answer could be wrong"     │
  │                   └─ else ─▶ status "ok": verified, cited; unsupported sentences removed     │
@@ -48,11 +48,11 @@ needs the full answer, so verification cannot happen token-by-token.
 | Rerank | `retrieval/reranker.py` | `ms-marco-MiniLM-L-6-v2` cross-encoder after RRF |
 | Guardrails | `safety/guardrails.py` | see below |
 | Generation | `llm/groq_llm.py`, `local_llm.py`, `router.py` | chain `gpt-oss-120b → gpt-oss-20b → qwen3.8-27b → Ollama` in the router (each Groq model has its own daily quota; 429s are classified as per-minute vs daily); call-level retry once in the pipeline |
-| Verification | `citations/guard.py` | `MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli`, 3-sentence sliding windows over the cited chunk, max entailment |
-| Orchestration | `pipeline.py`, `services.py` | one code path for API, streaming and `ResearchAgent` |
+| Verification | `citations/guard.py`, `llm_verifier.py` | layered: hedge passthrough, `[N]` check, overlap floor 0.3 + specifics gate, then a batched LLM entailment check (`GUARD_ENTAILMENT=llm`); no fallback verifier; visible `lexical_only` warning if the LLM check cannot run |
+| Orchestration | `pipeline.py`, `services.py` | one code path for API, streaming and the evaluation harness |
 | API | `api.py` | `/query`, `/query/stream`, `/papers`, `/feedback`, `/health`, `/metrics`; serves the static UI |
 | Observability | `telemetry/observability.py` | JSONL log: stage timings, tokens, cost (default $0), p50/p95 via `/metrics` |
-| Eval | `eval/` | DeepEval + Groq judge, retrieval ablation, hand-label CLI, static dashboard |
+| Eval | `eval/` | RAGAS + Groq judge (DeepEval dropped, see info.md 11.8), retrieval ablation, hand-label CLI, static dashboard |
 
 ## Why these choices
 

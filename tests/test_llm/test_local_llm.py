@@ -23,9 +23,9 @@ def _mock_response(text: str, status_code: int = 200):
 
 @pytest.fixture(autouse=True)
 def clear_llm_cache():
-    LocalLLM.clear_cache()
+    LocalLLM._cache.clear()
     yield
-    LocalLLM.clear_cache()
+    LocalLLM._cache.clear()
 
 
 @pytest.fixture
@@ -106,21 +106,22 @@ def test_cache_key_differs_for_different_prompts(mock_post, llm_zero_temp):
     assert mock_post.call_count == 2
 
 
-def test_cache_stats_structure(llm_zero_temp):
-    stats = LocalLLM.cache_stats()
-    assert "total" in stats
-    assert "valid" in stats
-    assert "expired" in stats
-
-
-@patch("backend.app.llm.local_llm.requests.post")
-def test_cache_stats_counts_entries(mock_post, llm_zero_temp):
-    mock_post.return_value = _mock_response("answer")
-    llm_zero_temp.generate("prompt A", use_cache=True)
-    llm_zero_temp.generate("prompt B", use_cache=True)
-    stats = LocalLLM.cache_stats()
-    assert stats["total"] == 2
-    assert stats["valid"] == 2
+# [DEAD CODE] tests of the commented-out OllamaLLM.cache_stats (checked 2026-10-15)
+# def test_cache_stats_structure(llm_zero_temp):
+#     stats = LocalLLM.cache_stats()
+#     assert "total" in stats
+#     assert "valid" in stats
+#     assert "expired" in stats
+#
+#
+# @patch("backend.app.llm.local_llm.requests.post")
+# def test_cache_stats_counts_entries(mock_post, llm_zero_temp):
+#     mock_post.return_value = _mock_response("answer")
+#     llm_zero_temp.generate("prompt A", use_cache=True)
+#     llm_zero_temp.generate("prompt B", use_cache=True)
+#     stats = LocalLLM.cache_stats()
+#     assert stats["total"] == 2
+#     assert stats["valid"] == 2
 
 
 # ── Error handling ────────────────────────────────────────────────────────────

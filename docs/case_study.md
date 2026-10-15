@@ -1,5 +1,8 @@
 # Case study: a citation-grounded research assistant on a $0 stack
 
+> **Note (2026-10-14):** the results and the verification row below describe citation guard v1 (a local NLI model). That model
+> has since been removed; the guard is now a layered screen plus an LLM entailment check. See `info.md` §6 and §11.5.
+
 ## Problem
 Answer questions about ~100 arXiv papers so that every claim can be traced to a passage. The failure to design
 against is not "no answer" but a *confident answer with a plausible citation that doesn't support it*.

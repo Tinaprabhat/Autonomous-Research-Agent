@@ -1,0 +1,149 @@
+{
+  "generation": {
+    "metrics": {
+      "hybrid+rerank (no guard)": {
+        "answer_relevancy": 1.0,
+        "citation_correctness": 1.0,
+        "faithfulness": 1.0,
+        "n": 7
+      },
+      "+guard (full)": {
+        "answer_relevancy": 0.952,
+        "citation_correctness": 0.9,
+        "contextual_precision": 0.957,
+        "contextual_recall": 1.0,
+        "contextual_relevancy": 0.318,
+        "faithfulness": 1.0,
+        "n": 7
+      }
+    },
+    "metrics_all_cases": {
+      "hybrid+rerank (no guard)": {
+        "answer_relevancy": 0.889,
+        "citation_correctness": 0.778,
+        "faithfulness": 1.0,
+        "n": 9
+      },
+      "+guard (full)": {
+        "answer_relevancy": 0.852,
+        "citation_correctness": 0.7,
+        "contextual_precision": 0.828,
+        "contextual_recall": 0.778,
+        "contextual_relevancy": 0.293,
+        "faithfulness": 0.778,
+        "n": 9
+      }
+    },
+    "behaviour": {
+      "answerable_answered": 7,
+      "answerable_total": 9,
+      "unanswerable_abstained": 19,
+      "unanswerable_total": 20,
+      "answer_rate_on_answerable": 0.778,
+      "abstention_rate_on_unanswerable": 0.95
+    },
+    "per_case": {
+      "hybrid+rerank (no guard)": [
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "citation_correctness": 1.0
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "citation_correctness": 1.0
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "citation_correctness": 1.0
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "citation_correctness": 1.0
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "citation_correctness": 1.0
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "citation_correctness": 1.0
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "citation_correctness": 1.0
+        }
+      ],
+      "+guard (full)": [
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "contextual_precision": 1.0,
+          "contextual_recall": 1.0,
+          "contextual_relevancy": 0.091,
+          "citation_correctness": 1.0
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "contextual_precision": 0.75,
+          "contextual_recall": 1.0,
+          "contextual_relevancy": 0.273,
+          "citation_correctness": 1.0
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "contextual_precision": 1.0,
+          "contextual_recall": 1.0,
+          "contextual_relevancy": 0.538,
+          "citation_correctness": 0.3
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "contextual_precision": 1.0,
+          "contextual_recall": 1.0,
+          "contextual_relevancy": 0.091,
+          "citation_correctness": 1.0
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "contextual_precision": 1.0,
+          "contextual_recall": 1.0,
+          "contextual_relevancy": 0.3,
+          "citation_correctness": 1.0
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 1.0,
+          "contextual_precision": 0.95,
+          "contextual_recall": 1.0,
+          "contextual_relevancy": 0.231,
+          "citation_correctness": 1.0
+        },
+        {
+          "faithfulness": 1.0,
+          "answer_relevancy": 0.667,
+          "contextual_precision": 1.0,
+          "contextual_recall": 1.0,
+          "contextual_relevancy": 0.7,
+          "citation_correctness": 1.0
+        }
+      ]
+    },
+    "stopped_early": null,
+    "cases_scored": 29,
+    "cases_planned": 100,
+    "answerable_scored_with_judge": 9
+  },
+  "composite": 0.951,
+  "_note": "Produced on 2026-10-08 with DeepEval (faithfulness scored every answer 1.0; see info.md section 11.8). Kept as history only; the evaluation now uses RAGAS and a fresh checkpoint."
+}

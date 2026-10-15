@@ -25,7 +25,8 @@ def main():
 
     from qdrant_client import models
     from backend.app import config
-    from backend.app.storage.qdrant_store import QdrantStore, make_client, point_id
+    # [DEAD CODE] unused import `point_id` (checked 2026-10-15)
+    from backend.app.storage.qdrant_store import QdrantStore, make_client
 
     if not config.QDRANT_URL:
         sys.exit("QDRANT_URL is not set — nothing to sync to.")

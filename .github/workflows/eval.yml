@@ -1,4 +1,4 @@
-# DeepEval regression gate. Needs repo secrets: GROQ_API_KEY, QDRANT_URL, QDRANT_API_KEY.
+# RAGAS regression gate. Needs repo secrets: GROQ_API_KEY, QDRANT_URL, QDRANT_API_KEY.
 name: eval-gate
 on:
   pull_request:
@@ -12,12 +12,11 @@ jobs:
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       QDRANT_URL: ${{ secrets.QDRANT_URL }}
       QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
-      DEEPEVAL_TELEMETRY_OPT_OUT: "YES"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12", cache: pip }
       - run: pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
       - run: pip install -r requirements-dev.txt
-      - name: DeepEval regression gate
-        run: deepeval test run tests/eval_gate/test_rag_quality.py
+      - name: RAGAS regression gate
+        run: python -m pytest -m eval tests/eval_gate/test_rag_quality.py -q

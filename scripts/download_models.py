@@ -13,7 +13,6 @@ def main():
 
     SentenceTransformer("all-MiniLM-L6-v2")
     CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
-    CrossEncoder(config.NLI_MODEL)
     pipeline("text-classification", model=config.JAILBREAK_MODEL)
     print("models cached")
 

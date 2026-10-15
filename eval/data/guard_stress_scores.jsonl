@@ -1,0 +1,201 @@
+{"item": "a001#0", "category": "real_supported", "label": "supported", "sim": 0.7373403937090959, "overlap": 0.7333333333333333, "specifics": 1.0, "nli": 0.9883456042003722, "llm": true}
+{"item": "a002#0", "category": "real_supported", "label": "supported", "sim": 0.8218664611197444, "overlap": 0.6666666666666666, "specifics": 1.0, "nli": 0.9873008720437215, "llm": true}
+{"item": "a003#0", "category": "real_supported", "label": "supported", "sim": 0.6037853790485985, "overlap": 0.47058823529411764, "specifics": 1.0, "nli": 0.1987104814024012, "llm": true}
+{"item": "a003#1", "category": "real_supported", "label": "supported", "sim": 0.6651430032000428, "overlap": 0.35714285714285715, "specifics": 1.0, "nli": 0.10406651802608233, "llm": true}
+{"item": "a003#2", "category": "real_supported", "label": "supported", "sim": 0.7225814272135782, "overlap": 0.42857142857142855, "specifics": 1.0, "nli": 0.9818604396964425, "llm": true}
+{"item": "a005#0", "category": "real_supported", "label": "supported", "sim": 0.564529281229841, "overlap": 0.8571428571428571, "specifics": 1.0, "nli": 0.9975573743655166, "llm": true}
+{"item": "a005#1", "category": "real_supported", "label": "supported", "sim": 0.41597116345357693, "overlap": 0.6, "specifics": 1.0, "nli": 0.9884462989765415, "llm": true}
+{"item": "a006#0", "category": "real_supported", "label": "supported", "sim": 0.5499797348753234, "overlap": 0.8, "specifics": 1.0, "nli": 0.960919965367165, "llm": true}
+{"item": "a008#0", "category": "real_supported", "label": "supported", "sim": 0.44951263282914095, "overlap": 0.5384615384615384, "specifics": 1.0, "nli": 0.9156948500683758, "llm": true}
+{"item": "a009#0", "category": "real_supported", "label": "supported", "sim": 0.7156307189872431, "overlap": 0.6666666666666666, "specifics": 0.0, "nli": 0.9888685977355876, "llm": true}
+{"item": "a010#0", "category": "real_supported", "label": "supported", "sim": 0.7936772889619079, "overlap": 0.631578947368421, "specifics": 1.0, "nli": 0.0007822400724737112, "llm": true}
+{"item": "a010#1", "category": "real_supported", "label": "supported", "sim": 0.8114872079547416, "overlap": 0.6086956521739131, "specifics": 1.0, "nli": 0.5888737662128204, "llm": false}
+{"item": "a011#0", "category": "real_supported", "label": "supported", "sim": 0.5397012147805826, "overlap": 0.5384615384615384, "specifics": 0.6, "nli": 0.6788128306033109, "llm": true}
+{"item": "a014#0", "category": "real_supported", "label": "supported", "sim": 0.5601121389971953, "overlap": 0.7647058823529411, "specifics": 1.0, "nli": 0.991602536220653, "llm": true}
+{"item": "a018#0", "category": "real_supported", "label": "supported", "sim": 0.8245672467651859, "overlap": 0.7647058823529411, "specifics": 1.0, "nli": 0.9895493676705474, "llm": false}
+{"item": "a023#0", "category": "real_supported", "label": "supported", "sim": 0.42828687837981927, "overlap": 0.5384615384615384, "specifics": 1.0, "nli": 0.9897311165272598, "llm": true}
+{"item": "a026#0", "category": "real_supported", "label": "supported", "sim": 0.6364569904156208, "overlap": 0.6363636363636364, "specifics": 1.0, "nli": 0.00888118394182776, "llm": true}
+{"item": "a026#1", "category": "real_supported", "label": "supported", "sim": 0.2738156051021513, "overlap": 0.375, "specifics": 1.0, "nli": 0.7292961706257691, "llm": true}
+{"item": "a026#2", "category": "real_supported", "label": "supported", "sim": 0.40923373658317896, "overlap": 0.375, "specifics": 1.0, "nli": 0.036489114944617075, "llm": true}
+{"item": "a028#0", "category": "real_supported", "label": "supported", "sim": 0.6485802335040582, "overlap": 0.7142857142857143, "specifics": 1.0, "nli": 0.9869830498421033, "llm": true}
+{"item": "a033#0", "category": "real_supported", "label": "supported", "sim": 0.4917588424047902, "overlap": 0.7333333333333333, "specifics": 1.0, "nli": 0.8780097008927173, "llm": true}
+{"item": "a037#0", "category": "real_supported", "label": "supported", "sim": 0.5529368866236981, "overlap": 0.5333333333333333, "specifics": 1.0, "nli": 0.9819235164203911, "llm": true}
+{"item": "a038#0", "category": "real_supported", "label": "supported", "sim": 0.8852736248070094, "overlap": 0.6896551724137931, "specifics": 1.0, "nli": 0.6390282562856212, "llm": true}
+{"item": "a043#0", "category": "real_supported", "label": "supported", "sim": 0.8407108072351709, "overlap": 0.6818181818181818, "specifics": 1.0, "nli": 0.9880143500093118, "llm": true}
+{"item": "a043#1", "category": "real_supported", "label": "supported", "sim": 0.7063908615468706, "overlap": 0.7894736842105263, "specifics": 1.0, "nli": 0.8326139387223074, "llm": true}
+{"item": "a044#0", "category": "real_supported", "label": "supported", "sim": 0.4143641043976396, "overlap": 0.7647058823529411, "specifics": 1.0, "nli": 0.9672673273250821, "llm": true}
+{"item": "a047#0", "category": "real_supported", "label": "supported", "sim": 0.8632840602858728, "overlap": 0.5652173913043478, "specifics": 1.0, "nli": 0.4177051849922318, "llm": true}
+{"item": "a048#0", "category": "real_supported", "label": "supported", "sim": 0.8383024926081706, "overlap": 0.6470588235294118, "specifics": 1.0, "nli": 0.28376885492043696, "llm": true}
+{"item": "a048#1", "category": "real_supported", "label": "supported", "sim": 0.7122204005350972, "overlap": 0.5, "specifics": 1.0, "nli": 0.00653826056016426, "llm": false}
+{"item": "a053#0", "category": "real_supported", "label": "supported", "sim": 0.6605443930538235, "overlap": 0.5789473684210527, "specifics": 1.0, "nli": 0.9700984206884427, "llm": true}
+{"item": "a053#1", "category": "real_supported", "label": "supported", "sim": 0.6176594182481029, "overlap": 0.4, "specifics": 1.0, "nli": 0.8173125411894616, "llm": true}
+{"item": "a057#0", "category": "real_supported", "label": "supported", "sim": 0.43142399936340103, "overlap": 0.3888888888888889, "specifics": 1.0, "nli": 0.6601704814904705, "llm": true}
+{"item": "a063#0", "category": "real_supported", "label": "supported", "sim": 0.6430104475193605, "overlap": 0.5714285714285714, "specifics": 1.0, "nli": 0.7414556282984025, "llm": true}
+{"item": "a064#0", "category": "real_supported", "label": "supported", "sim": 0.8262236257191304, "overlap": 0.8333333333333334, "specifics": 1.0, "nli": 0.980242815546305, "llm": true}
+{"item": "a076#0", "category": "real_supported", "label": "supported", "sim": 0.675381999425666, "overlap": 0.3125, "specifics": 1.0, "nli": 0.4819481901255708, "llm": true}
+{"item": "a078#0", "category": "real_supported", "label": "supported", "sim": 0.7637139216981592, "overlap": 0.9375, "specifics": 1.0, "nli": 0.9898901842212348, "llm": true}
+{"item": "a023#1", "category": "real_unsupported", "label": "unsupported", "sim": 0.5840621045007846, "overlap": 0.5263157894736842, "specifics": 1.0, "nli": 0.5861117893898566, "llm": true}
+{"item": "a047#1", "category": "real_unsupported", "label": "unsupported", "sim": 0.8892797075903872, "overlap": 0.625, "specifics": 1.0, "nli": 0.9426280662787293, "llm": true}
+{"item": "a048#2", "category": "real_unsupported", "label": "unsupported", "sim": 0.6901636708318226, "overlap": 0.3333333333333333, "specifics": 1.0, "nli": 0.064550364406998, "llm": false}
+{"item": "a053#2", "category": "real_unsupported", "label": "unsupported", "sim": 0.5546717114428585, "overlap": 0.4444444444444444, "specifics": 1.0, "nli": 0.04038941313068881, "llm": false}
+{"item": "a001#0~number_swap", "category": "number_swap", "label": "unsupported", "sim": 0.6103420645382207, "overlap": 0.6666666666666666, "specifics": 0.75, "nli": 0.4800887426435405, "llm": false}
+{"item": "a001#0~negation", "category": "negation", "label": "unsupported", "sim": 0.7504496664255123, "overlap": 0.6666666666666666, "specifics": 1.0, "nli": 0.007744749364374935, "llm": false}
+{"item": "a001#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.7106527085256051, "overlap": 0.5909090909090909, "specifics": 1.0, "nli": 0.001152168267184895, "llm": false}
+{"item": "a001#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.49579106255277466, "overlap": 0.4, "specifics": 0.4444444444444444, "nli": 0.2495046315114288, "llm": false}
+{"item": "a001#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.14374287237700645, "overlap": 0.06666666666666667, "specifics": 0.0, "nli": 0.025167415829111965, "llm": false}
+{"item": "a002#0~number_swap", "category": "number_swap", "label": "unsupported", "sim": 0.8149138358297949, "overlap": 0.6666666666666666, "specifics": 0.8, "nli": 0.21997425458140576, "llm": false}
+{"item": "a002#0~negation", "category": "negation", "label": "unsupported", "sim": 0.824055252266046, "overlap": 0.6190476190476191, "specifics": 1.0, "nli": 0.3589332317036418, "llm": false}
+{"item": "a002#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.8408694489559163, "overlap": 0.5, "specifics": 1.0, "nli": 0.001956504790228582, "llm": false}
+{"item": "a002#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.7293457799322465, "overlap": 0.3870967741935484, "specifics": 0.7272727272727273, "nli": 0.9068829057710647, "llm": false}
+{"item": "a002#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.09040886983614287, "overlap": 0.05555555555555555, "specifics": 0.0, "nli": 0.05242699565369228, "llm": false}
+{"item": "a003#0~negation", "category": "negation", "label": "unsupported", "sim": 0.5368914472542643, "overlap": 0.4, "specifics": 1.0, "nli": 0.7105253382808829, "llm": false}
+{"item": "a003#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.593801272280175, "overlap": 0.391304347826087, "specifics": 0.0, "nli": 0.0020638145275087326, "llm": false}
+{"item": "a003#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.5462613975895944, "overlap": 0.2571428571428571, "specifics": 0.0, "nli": 0.008686267835300032, "llm": false}
+{"item": "a003#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": -0.021283041556635726, "overlap": 0.058823529411764705, "specifics": 1.0, "nli": 0.07343299353671069, "llm": false}
+{"item": "a003#1~negation", "category": "negation", "label": "unsupported", "sim": 0.6675031134871683, "overlap": 0.3333333333333333, "specifics": 1.0, "nli": 0.12981810390487078, "llm": false}
+{"item": "a003#1~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.6607440553243227, "overlap": 0.3333333333333333, "specifics": 1.0, "nli": 0.0022322469834345246, "llm": false}
+{"item": "a003#1~conflation", "category": "conflation", "label": "unsupported", "sim": 0.4264608277696389, "overlap": 0.14705882352941177, "specifics": 0.0, "nli": 0.012177754417149595, "llm": false}
+{"item": "a003#1~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.11156581057352677, "overlap": 0.0, "specifics": 1.0, "nli": 0.0050380064928117994, "llm": false}
+{"item": "a003#2~antonym_flip", "category": "antonym_flip", "label": "unsupported", "sim": 0.7200022125332317, "overlap": 0.38095238095238093, "specifics": 1.0, "nli": 0.0989174168884986, "llm": false}
+{"item": "a003#2~negation", "category": "negation", "label": "unsupported", "sim": 0.7123758962092939, "overlap": 0.375, "specifics": 1.0, "nli": 0.01870920060970396, "llm": false}
+{"item": "a003#2~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.7075448797434283, "overlap": 0.32142857142857145, "specifics": 1.0, "nli": 0.6316098841013674, "llm": false}
+{"item": "a003#2~conflation", "category": "conflation", "label": "unsupported", "sim": 0.6149027888356138, "overlap": 0.20454545454545456, "specifics": 0.0, "nli": 0.9711722248059543, "llm": false}
+{"item": "a003#2~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.11856920741942764, "overlap": 0.09523809523809523, "specifics": 1.0, "nli": 0.008955997172609574, "llm": false}
+{"item": "a005#0~number_swap", "category": "number_swap", "label": "unsupported", "sim": 0.5637485946233181, "overlap": 0.7142857142857143, "specifics": 0.75, "nli": 0.03643251966591923, "llm": false}
+{"item": "a005#0~negation", "category": "negation", "label": "unsupported", "sim": 0.5754157835447018, "overlap": 0.7, "specifics": 1.0, "nli": 0.44508382419888687, "llm": false}
+{"item": "a005#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.5057324151049879, "overlap": 0.5333333333333333, "specifics": 1.0, "nli": 0.0006907814794383923, "llm": false}
+{"item": "a005#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.41563892974253525, "overlap": 0.3, "specifics": 0.4, "nli": 0.022912434828726968, "llm": false}
+{"item": "a005#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.15292740875230942, "overlap": 0.14285714285714285, "specifics": 0.0, "nli": 0.008672332566201982, "llm": false}
+{"item": "a005#1~number_swap", "category": "number_swap", "label": "unsupported", "sim": 0.3491140392127595, "overlap": 0.4, "specifics": 0.6666666666666666, "nli": 0.04261633776507287, "llm": false}
+{"item": "a005#1~negation", "category": "negation", "label": "unsupported", "sim": 0.38146361904256254, "overlap": 0.5555555555555556, "specifics": 1.0, "nli": 0.2309199535583255, "llm": false}
+{"item": "a005#1~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.4625660992046778, "overlap": 0.2727272727272727, "specifics": 1.0, "nli": 0.005342717690801694, "llm": false}
+{"item": "a005#1~conflation", "category": "conflation", "label": "unsupported", "sim": 0.5454224927704017, "overlap": 0.17391304347826086, "specifics": 0.8, "nli": 0.02297498988430973, "llm": false}
+{"item": "a005#1~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.11590337737090667, "overlap": 0.0, "specifics": 0.0, "nli": 0.0019387336606809648, "llm": false}
+{"item": "a006#0~number_swap", "category": "number_swap", "label": "unsupported", "sim": 0.5557838173882051, "overlap": 0.7333333333333333, "specifics": 0.75, "nli": 0.06080074132231998, "llm": false}
+{"item": "a006#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.5439733682392446, "overlap": 0.5454545454545454, "specifics": 0.8, "nli": 0.008630552575217328, "llm": false}
+{"item": "a006#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.7428984879415161, "overlap": 0.45454545454545453, "specifics": 0.5714285714285714, "nli": 0.6883799679154692, "llm": false}
+{"item": "a006#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.035924676337683176, "overlap": 0.06666666666666667, "specifics": 0.0, "nli": 0.009906789469119881, "llm": false}
+{"item": "a008#0~number_swap", "category": "number_swap", "label": "unsupported", "sim": 0.4462976667643981, "overlap": 0.5384615384615384, "specifics": 0.8, "nli": 0.3586016360003649, "llm": false}
+{"item": "a008#0~antonym_flip", "category": "antonym_flip", "label": "unsupported", "sim": 0.46794805048863547, "overlap": 0.5384615384615384, "specifics": 1.0, "nli": 0.9014356832639785, "llm": false}
+{"item": "a008#0~negation", "category": "negation", "label": "unsupported", "sim": 0.45692802922731657, "overlap": 0.4375, "specifics": 1.0, "nli": 0.06268414488230455, "llm": false}
+{"item": "a008#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.4345515681011174, "overlap": 0.3888888888888889, "specifics": 1.0, "nli": 0.001434189717459256, "llm": false}
+{"item": "a008#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.44121627927623264, "overlap": 0.25925925925925924, "specifics": 0.5555555555555556, "nli": 0.14916232231662094, "llm": false}
+{"item": "a008#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.276649256105033, "overlap": 0.3076923076923077, "specifics": 0.0, "nli": 0.060512860884778294, "llm": false}
+{"item": "a009#0~antonym_flip", "category": "antonym_flip", "label": "unsupported", "sim": 0.6900150040512202, "overlap": 0.6111111111111112, "specifics": 0.0, "nli": 0.817732099039532, "llm": false}
+{"item": "a009#0~negation", "category": "negation", "label": "unsupported", "sim": 0.7480454814832277, "overlap": 0.6190476190476191, "specifics": 0.0, "nli": 0.007248622747282721, "llm": false}
+{"item": "a009#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.7154144415886998, "overlap": 0.52, "specifics": 0.0, "nli": 0.0005160512216554713, "llm": false}
+{"item": "a009#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.623628948117355, "overlap": 0.41379310344827586, "specifics": 0.0, "nli": 0.021828778309444397, "llm": false}
+{"item": "a009#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.12472583966595999, "overlap": 0.1111111111111111, "specifics": 0.0, "nli": 0.01225298465037026, "llm": false}
+{"item": "a010#0~negation", "category": "negation", "label": "unsupported", "sim": 0.7770659777493882, "overlap": 0.5714285714285714, "specifics": 1.0, "nli": 0.0014824392497917614, "llm": false}
+{"item": "a010#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.791487063823723, "overlap": 0.52, "specifics": 1.0, "nli": 0.00036671938281321266, "llm": false}
+{"item": "a010#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.7710246078108774, "overlap": 0.42857142857142855, "specifics": 0.0, "nli": 0.000948906177991335, "llm": false}
+{"item": "a010#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": -0.0035084649983259525, "overlap": 0.05263157894736842, "specifics": 1.0, "nli": 0.007466085978431617, "llm": false}
+{"item": "a010#1~negation", "category": "negation", "label": "unsupported", "sim": 0.7909808881589347, "overlap": 0.5769230769230769, "specifics": 1.0, "nli": 0.00113998289264841, "llm": false}
+{"item": "a010#1~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.8188739553896809, "overlap": 0.5, "specifics": 1.0, "nli": 0.0007327855098310813, "llm": false}
+{"item": "a010#1~conflation", "category": "conflation", "label": "unsupported", "sim": 0.7112657619645925, "overlap": 0.4375, "specifics": 0.5, "nli": 0.0020233659868547377, "llm": false}
+{"item": "a010#1~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.06291049720959277, "overlap": 0.043478260869565216, "specifics": 0.0, "nli": 0.05812677129484902, "llm": false}
+{"item": "a011#0~number_swap", "category": "number_swap", "label": "unsupported", "sim": 0.5323618906310715, "overlap": 0.5384615384615384, "specifics": 0.4, "nli": 0.015187387604227484, "llm": false}
+{"item": "a011#0~negation", "category": "negation", "label": "unsupported", "sim": 0.48772701662613693, "overlap": 0.5625, "specifics": 0.6, "nli": 0.11698527261698262}
+{"item": "a011#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.523742550510617, "overlap": 0.35, "specifics": 0.5, "nli": 0.001189207622107773}
+{"item": "a011#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.5064272681558033, "overlap": 0.2692307692307692, "specifics": 0.2727272727272727, "nli": 0.05140937237509054}
+{"item": "a011#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.3169860683341428, "overlap": 0.15384615384615385, "specifics": 0.2, "nli": 0.00620152225316177}
+{"item": "a014#0~number_swap", "category": "number_swap", "label": "unsupported", "sim": 0.5534829802088198, "overlap": 0.7647058823529411, "specifics": 0.0, "nli": 0.004211815819877127, "llm": false}
+{"item": "a014#0~antonym_flip", "category": "antonym_flip", "label": "unsupported", "sim": 0.5861945293877933, "overlap": 0.7058823529411765, "specifics": 1.0, "nli": 0.04227693197444304, "llm": false}
+{"item": "a014#0~negation", "category": "negation", "label": "unsupported", "sim": 0.5635469235416302, "overlap": 0.75, "specifics": 1.0, "nli": 0.45302549486196964}
+{"item": "a014#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.5666936180475692, "overlap": 0.5652173913043478, "specifics": 1.0, "nli": 0.001050593221095222}
+{"item": "a014#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.5347847360775951, "overlap": 0.43333333333333335, "specifics": 0.5, "nli": 0.19842831347840756}
+{"item": "a014#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.08286533542911018, "overlap": 0.17647058823529413, "specifics": 1.0, "nli": 0.01753922152474057}
+{"item": "a018#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.7985484295068657, "overlap": 0.625, "specifics": 1.0, "nli": 0.002796737404135331}
+{"item": "a018#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.814087781657736, "overlap": 0.4838709677419355, "specifics": 0.6, "nli": 0.015583031157851118}
+{"item": "a018#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.09537390841779336, "overlap": 0.11764705882352941, "specifics": 0.0, "nli": 0.14368896753455634}
+{"item": "a023#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.42262840999372475, "overlap": 0.3333333333333333, "specifics": 1.0, "nli": 0.046565989485896186}
+{"item": "a023#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.3077991042050155, "overlap": 0.20930232558139536, "specifics": 0.6, "nli": 0.9857860400779943}
+{"item": "a023#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.1552851289891, "overlap": 0.0, "specifics": 0.0, "nli": 0.005187745022146136}
+{"item": "a026#0~negation", "category": "negation", "label": "unsupported", "sim": 0.6022324171036719, "overlap": 0.5333333333333333, "specifics": 1.0, "nli": 0.01067255510637814}
+{"item": "a026#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.6118745858518937, "overlap": 0.4117647058823529, "specifics": 1.0, "nli": 0.0004891163405111752}
+{"item": "a026#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.4395600610944511, "overlap": 0.29411764705882354, "specifics": 0.0, "nli": 0.001649805528951915}
+{"item": "a026#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.0027806013454232635, "overlap": 0.09090909090909091, "specifics": 1.0, "nli": 0.072655043194784}
+{"item": "a026#1~negation", "category": "negation", "label": "unsupported", "sim": 0.3184120640031106, "overlap": 0.3333333333333333, "specifics": 1.0, "nli": 0.002038493114923633}
+{"item": "a026#1~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.28760832362166205, "overlap": 0.3125, "specifics": 1.0, "nli": 0.06837996913016504}
+{"item": "a026#1~conflation", "category": "conflation", "label": "unsupported", "sim": 0.22469745385795345, "overlap": 0.14285714285714285, "specifics": 0.0, "nli": 0.0037926327519150855}
+{"item": "a026#1~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": -0.013736136223355934, "overlap": 0.0, "specifics": 1.0, "nli": 0.0019142305681184037}
+{"item": "a026#2~negation", "category": "negation", "label": "unsupported", "sim": 0.4164305866287581, "overlap": 0.3333333333333333, "specifics": 1.0, "nli": 0.011279584081214178}
+{"item": "a026#2~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.41053808948189624, "overlap": 0.3333333333333333, "specifics": 1.0, "nli": 0.0007872744521917651}
+{"item": "a026#2~conflation", "category": "conflation", "label": "unsupported", "sim": 0.4745211766590058, "overlap": 0.19230769230769232, "specifics": 0.0, "nli": 0.005550039434541077}
+{"item": "a026#2~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.13019942910938181, "overlap": 0.0, "specifics": 1.0, "nli": 0.0011930497508614588}
+{"item": "a028#0~number_swap", "category": "number_swap", "label": "unsupported", "sim": 0.63813488648358, "overlap": 0.6428571428571429, "specifics": 0.8, "nli": 0.007931730087892733, "llm": false}
+{"item": "a028#0~antonym_flip", "category": "antonym_flip", "label": "unsupported", "sim": 0.6178783911089282, "overlap": 0.7142857142857143, "specifics": 1.0, "nli": 0.04004010512533086, "llm": false}
+{"item": "a028#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.6740812242633729, "overlap": 0.5, "specifics": 1.0, "nli": 0.0006703911047399348}
+{"item": "a028#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.5127008192423621, "overlap": 0.32432432432432434, "specifics": 0.6, "nli": 0.8491556784648098}
+{"item": "a028#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.2027197520285547, "overlap": 0.07142857142857142, "specifics": 0.0, "nli": 0.010414166166572543}
+{"item": "a033#0~negation", "category": "negation", "label": "unsupported", "sim": 0.44363497274233393, "overlap": 0.6666666666666666, "specifics": 1.0, "nli": 0.022956707145711183}
+{"item": "a033#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.4426742778945513, "overlap": 0.6086956521739131, "specifics": 1.0, "nli": 0.001407456152444687}
+{"item": "a033#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.5345395384551574, "overlap": 0.375, "specifics": 0.0, "nli": 0.08346954136587444}
+{"item": "a033#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.27297280445862177, "overlap": 0.06666666666666667, "specifics": 1.0, "nli": 0.061953622420570675}
+{"item": "a037#0~negation", "category": "negation", "label": "unsupported", "sim": 0.5485730975179164, "overlap": 0.5, "specifics": 1.0, "nli": 0.043152974105060055}
+{"item": "a037#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.5324010717490154, "overlap": 0.38095238095238093, "specifics": 1.0, "nli": 0.004933196174630105}
+{"item": "a037#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.4024742348536592, "overlap": 0.2647058823529412, "specifics": 0.5, "nli": 0.006669322714417435}
+{"item": "a037#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.29250224189055773, "overlap": 0.2, "specifics": 1.0, "nli": 0.004578651719791917}
+{"item": "a038#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.8652740541991201, "overlap": 0.5555555555555556, "specifics": 0.5, "nli": 0.010878670714054083}
+{"item": "a038#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.781947631225882, "overlap": 0.4166666666666667, "specifics": 0.25, "nli": 0.5341403486320402}
+{"item": "a038#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.14749978468107428, "overlap": 0.06896551724137931, "specifics": 0.0, "nli": 0.11011224648544103}
+{"item": "a043#0~negation", "category": "negation", "label": "unsupported", "sim": 0.7993023543422437, "overlap": 0.64, "specifics": 1.0, "nli": 0.01243424170885393}
+{"item": "a043#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.8095470845829519, "overlap": 0.5555555555555556, "specifics": 1.0, "nli": 0.0002676042607771486}
+{"item": "a043#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.734466673364508, "overlap": 0.375, "specifics": 0.5, "nli": 0.9736179650288599}
+{"item": "a043#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": -0.045064181399523305, "overlap": 0.13636363636363635, "specifics": 0.0, "nli": 0.002637148994686564}
+{"item": "a043#1~negation", "category": "negation", "label": "unsupported", "sim": 0.6579914687983937, "overlap": 0.7619047619047619, "specifics": 1.0, "nli": 0.014514148317882707}
+{"item": "a043#1~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.6330572254644427, "overlap": 0.6153846153846154, "specifics": 1.0, "nli": 0.0006246500092329873}
+{"item": "a043#1~conflation", "category": "conflation", "label": "unsupported", "sim": 0.4668308147051705, "overlap": 0.4594594594594595, "specifics": 0.0, "nli": 0.016589862064756652}
+{"item": "a043#1~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.14724583023058627, "overlap": 0.10526315789473684, "specifics": 1.0, "nli": 0.0034981136987341536}
+{"item": "a044#0~number_swap", "category": "number_swap", "label": "unsupported", "sim": 0.4117774703548001, "overlap": 0.7058823529411765, "specifics": 0.9090909090909091, "nli": 0.008669157386391409, "llm": false}
+{"item": "a044#0~negation", "category": "negation", "label": "unsupported", "sim": 0.27474848493783177, "overlap": 0.65, "specifics": 1.0, "nli": 0.010360287524201624}
+{"item": "a044#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.3764578373739683, "overlap": 0.5652173913043478, "specifics": 1.0, "nli": 0.000624726832034324}
+{"item": "a044#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.2771304835668106, "overlap": 0.40625, "specifics": 0.8461538461538461, "nli": 0.4776276076245662}
+{"item": "a044#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.24067856150031586, "overlap": 0.058823529411764705, "specifics": 0.0, "nli": 0.013266170203458065}
+{"item": "a047#0~negation", "category": "negation", "label": "unsupported", "sim": 0.8781074522238547, "overlap": 0.5, "specifics": 1.0, "nli": 0.055648096850767194}
+{"item": "a047#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.8803807352257166, "overlap": 0.4642857142857143, "specifics": 1.0, "nli": 0.0004218314901604628}
+{"item": "a047#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.824387444586362, "overlap": 0.37142857142857144, "specifics": 0.4444444444444444, "nli": 0.03268400851503935}
+{"item": "a047#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.2000812387790495, "overlap": 0.13043478260869565, "specifics": 0.0, "nli": 0.02799341304368275}
+{"item": "a048#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.8533352037145474, "overlap": 0.5, "specifics": 0.6666666666666666, "nli": 0.0059163173633053874}
+{"item": "a048#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.7589953016965048, "overlap": 0.36363636363636365, "specifics": 0.6, "nli": 0.07064943998291047}
+{"item": "a048#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.1621270034969018, "overlap": 0.058823529411764705, "specifics": 0.0, "nli": 0.10743697705165922}
+{"item": "a048#1~negation", "category": "negation", "label": "unsupported", "sim": 0.6783073670999715, "overlap": 0.5217391304347826, "specifics": 1.0, "nli": 0.0016620555561154817}
+{"item": "a048#1~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.7379257394357606, "overlap": 0.46153846153846156, "specifics": 1.0, "nli": 0.00035267254868212935}
+{"item": "a048#1~conflation", "category": "conflation", "label": "unsupported", "sim": 0.6875276563342086, "overlap": 0.37142857142857144, "specifics": 0.5, "nli": 0.003410882711585044}
+{"item": "a048#1~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.14870713770138325, "overlap": 0.15, "specifics": 0.0, "nli": 0.005814612195160296}
+{"item": "a053#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.6355175938006687, "overlap": 0.46153846153846156, "specifics": 1.0, "nli": 0.0017712002885929032}
+{"item": "a053#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.6075945786208896, "overlap": 0.35294117647058826, "specifics": 0.2857142857142857, "nli": 0.17387780156549665}
+{"item": "a053#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.1346724746146349, "overlap": 0.21052631578947367, "specifics": 0.0, "nli": 0.05595584360791266}
+{"item": "a053#1~negation", "category": "negation", "label": "unsupported", "sim": 0.583563198174035, "overlap": 0.34782608695652173, "specifics": 1.0, "nli": 0.007311252876707018}
+{"item": "a053#1~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.6028904203789288, "overlap": 0.2962962962962963, "specifics": 1.0, "nli": 0.0007065402015242427}
+{"item": "a053#1~conflation", "category": "conflation", "label": "unsupported", "sim": 0.506784907907922, "overlap": 0.21621621621621623, "specifics": 0.0, "nli": 0.14179617752250423}
+{"item": "a053#1~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.21387061075313724, "overlap": 0.1, "specifics": 1.0, "nli": 0.03231923134347087}
+{"item": "a057#0~negation", "category": "negation", "label": "unsupported", "sim": 0.39977214451725596, "overlap": 0.35, "specifics": 1.0, "nli": 0.13517341301367883}
+{"item": "a057#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.4111908323474067, "overlap": 0.2916666666666667, "specifics": 1.0, "nli": 0.0006622075770191427}
+{"item": "a057#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.411896671165659, "overlap": 0.2, "specifics": 0.0, "nli": 0.05407705830774528}
+{"item": "a057#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.13077964182603297, "overlap": 0.1111111111111111, "specifics": 1.0, "nli": 0.03961576682032922}
+{"item": "a063#0~antonym_flip", "category": "antonym_flip", "label": "unsupported", "sim": 0.6471108146475602, "overlap": 0.6428571428571429, "specifics": 1.0, "nli": 0.019196470280582766, "llm": false}
+{"item": "a063#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.6504752680768177, "overlap": 0.36363636363636365, "specifics": 0.5, "nli": 0.001015875935403765}
+{"item": "a063#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.4605408767968101, "overlap": 0.27586206896551724, "specifics": 0.5, "nli": 0.0701090098246788}
+{"item": "a063#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.0582826054573156, "overlap": 0.0, "specifics": 0.0, "nli": 0.07294908776434374}
+{"item": "a064#0~number_swap", "category": "number_swap", "label": "unsupported", "sim": 0.8117246466453185, "overlap": 0.8333333333333334, "specifics": 0.5, "nli": 0.11987084498209123, "llm": false}
+{"item": "a064#0~negation", "category": "negation", "label": "unsupported", "sim": 0.8058484785623037, "overlap": 0.6666666666666666, "specifics": 1.0, "nli": 0.05096972833155886}
+{"item": "a064#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.7686583802748743, "overlap": 0.5555555555555556, "specifics": 1.0, "nli": 0.00025502195321127355}
+{"item": "a064#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.564731114967826, "overlap": 0.3333333333333333, "specifics": 0.8, "nli": 0.023997395974503174}
+{"item": "a064#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.2616802592672794, "overlap": 0.08333333333333333, "specifics": 0.5, "nli": 0.019242281679520835}
+{"item": "a076#0~negation", "category": "negation", "label": "unsupported", "sim": 0.6677092466518333, "overlap": 0.3333333333333333, "specifics": 1.0, "nli": 0.9115121083530833}
+{"item": "a076#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.6448403294538367, "overlap": 0.3333333333333333, "specifics": 1.0, "nli": 0.03055925448878771}
+{"item": "a076#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.5920237838436029, "overlap": 0.22727272727272727, "specifics": 0.2857142857142857, "nli": 0.07894656190911463}
+{"item": "a076#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.2107611338752039, "overlap": 0.125, "specifics": 0.5, "nli": 0.014909487793014216}
+{"item": "a078#0~negation", "category": "negation", "label": "unsupported", "sim": 0.7177153915150952, "overlap": 0.8333333333333334, "specifics": 1.0, "nli": 0.018932701473526135}
+{"item": "a078#0~qualifier", "category": "qualifier", "label": "unsupported", "sim": 0.7127035502694805, "overlap": 0.7272727272727273, "specifics": 1.0, "nli": 0.001698456137801367}
+{"item": "a078#0~conflation", "category": "conflation", "label": "unsupported", "sim": 0.6804742439952387, "overlap": 0.6818181818181818, "specifics": 0.0, "nli": 0.0012086191187122312}
+{"item": "a078#0~wrong_chunk", "category": "wrong_chunk", "label": "unsupported", "sim": 0.16078608545867829, "overlap": 0.25, "specifics": 1.0, "nli": 0.03289977964984945}
+{"item": "a006#0~negation", "category": "negation", "label": "unsupported", "sim": 0.5596828799502187, "overlap": 0.6666666666666666, "specifics": 1.0, "nli": 0.6515994312498901, "llm": false}
+{"item": "a018#0~negation", "category": "negation", "label": "unsupported", "sim": 0.7990272970760945, "overlap": 0.7142857142857143, "specifics": 1.0, "nli": 0.10599800782841547}
+{"item": "a023#0~negation", "category": "negation", "label": "unsupported", "sim": 0.4196462717774598, "overlap": 0.47058823529411764, "specifics": 1.0, "nli": 0.03743980025908807}
+{"item": "a028#0~negation", "category": "negation", "label": "unsupported", "sim": 0.678042629044548, "overlap": 0.6111111111111112, "specifics": 1.0, "nli": 0.00785171880052644}
+{"item": "a038#0~negation", "category": "negation", "label": "unsupported", "sim": 0.8747544980531683, "overlap": 0.6875, "specifics": 1.0, "nli": 0.00542162843615925}
+{"item": "a048#0~negation", "category": "negation", "label": "unsupported", "sim": 0.7768342396753299, "overlap": 0.6, "specifics": 1.0, "nli": 0.0044582985309445065}
+{"item": "a053#0~negation", "category": "negation", "label": "unsupported", "sim": 0.6450336479311704, "overlap": 0.5454545454545454, "specifics": 1.0, "nli": 0.6199445633596324}
+{"item": "a063#0~negation", "category": "negation", "label": "unsupported", "sim": 0.6096477042476345, "overlap": 0.4444444444444444, "specifics": 1.0, "nli": 0.39406258207469935}

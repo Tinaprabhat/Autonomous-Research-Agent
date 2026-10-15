@@ -245,3 +245,54 @@ def test_query_log_written(make, tmp_path):
     p.answer(Q, top_k=3)
     line = json.loads((tmp_path / "q.jsonl").read_text().splitlines()[0])
     assert line["status"] == "ok" and line["latency_ms"] >= 0 and "timings_ms" in line
+
+
+def test_honest_hedge_answer_is_returned_ok_without_a_citation_nudge(make):
+    p, llm = make(["The provided sources do not mention that dataset."])      # one scripted reply: a nudge would pop a 2nd
+    r = p.answer(Q, top_k=3)
+    assert r.status == "ok" and "do not mention" in r.answer and r.warning is None
+    assert r.hedged                                                           # tracked: it answered nothing
+    assert len(llm.prompts) == 1                                              # no "you must cite" retry
+
+
+def test_a_verified_answer_is_not_marked_hedged(make):
+    r = make([GOOD])[0].answer(Q, top_k=3)
+    assert r.status == "ok" and not r.hedged and r.guardrail["guard"]["kept"] == 1
+
+
+def _pipe_with(verifier, mem_store, fake_embedder, tmp_path, script):
+    llm = ScriptedLLM(script)
+    return ResearchPipeline(HybridRetriever(mem_store, fake_embedder), IdentityReranker(), verifier, llm,
+                            log_path=str(tmp_path / "q.jsonl")), llm
+
+
+def test_no_entailment_verifier_means_a_visible_lexical_only_warning(mem_store, fake_embedder, tmp_path, monkeypatch):
+    from backend.app import config
+    from backend.app.citations.guard import EntailmentChain
+    from backend.app.pipeline import LEXICAL_ONLY_WARNING
+    monkeypatch.setattr(config, "GUARD_ENTAILMENT", "llm")
+    p, _ = _pipe_with(EntailmentChain(llm=None, mode="llm"), mem_store, fake_embedder, tmp_path, [GOOD])
+    r = p.answer(Q, top_k=3)
+    assert r.status == "ok" and r.verification == "lexical_only" and r.warning == LEXICAL_ONLY_WARNING
+
+
+def test_entailment_off_by_configuration_is_not_reported_as_a_failure(mem_store, fake_embedder, tmp_path, monkeypatch):
+    from backend.app import config
+    from backend.app.citations.guard import EntailmentChain
+    monkeypatch.setattr(config, "GUARD_ENTAILMENT", "off")
+    p, _ = _pipe_with(EntailmentChain(mode="off"), mem_store, fake_embedder, tmp_path, [GOOD])
+    r = p.answer(Q, top_k=3)
+    assert r.status == "ok" and r.verification == "lexical_only" and r.warning is None
+
+
+def test_verification_source_is_reported_on_a_verified_answer(mem_store, fake_embedder, tmp_path):
+    from backend.app.citations.guard import EntailmentChain
+
+    class Yes:
+        name = "llm"
+        def verify(self, items):
+            return [True] * len(items)
+
+    p, _ = _pipe_with(EntailmentChain(llm=Yes(), mode="llm"), mem_store, fake_embedder, tmp_path, [GOOD])
+    r = p.answer(Q, top_k=3)
+    assert r.status == "ok" and r.verification == "llm" and r.warning is None

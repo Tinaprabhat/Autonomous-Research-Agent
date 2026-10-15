@@ -31,7 +31,7 @@ class GoldenCase:
     reference_answer: str = ""
     reviewed: bool = False        # a human checked it
     regression: bool = False
-    verification: str = "none"    # "auto" = machine-verified (NLI + LLM cross-check), no human review
+    verification: str = "none"    # "auto" = machine-verified (LLM cross-check; earlier sets also used an NLI check), no human review
     source_page: int | None = None
     source_section: str | None = None
 

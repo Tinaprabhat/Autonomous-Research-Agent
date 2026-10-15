@@ -2,7 +2,7 @@
 
 Citation-grounded question answering over a curated set of ~100 arXiv papers.
 Every sentence in an answer must carry a `[N]` citation that links to the arXiv paper (and PDF page),
-and is checked against the cited passage with an NLI model — unsupported sentences are removed. If most of an answer
+and is screened against the cited passage (matching numbers, names and words, then an LLM entailment check) — unsupported sentences are removed. If most of an answer
 fails the check you still get the answer, but tagged **"⚠ Not sure — this answer could be wrong"** with its sources
 listed so you can check them yourself.
 
@@ -11,7 +11,7 @@ listed so you can check them yourself.
 * Generation: Groq `gpt-oss-120b` → `gpt-oss-20b` → `qwen3.8-27b` (each has its own free daily quota) → Ollama; streamed to the UI over SSE.
 * Safety: jailbreak/prompt-injection screening (queries **and** retrieved paper text), secret blocking and PII
   redaction on output, per-IP rate limit and query-length cap.
-* Evaluation: DeepEval (Groq judge) + recall@k/MRR ablation + a terminal hand-labelling tool.
+* Evaluation: RAGAS (Groq judge; DeepEval was dropped, see info.md section 11.8) + recall@k/MRR ablation + a terminal hand-labelling tool.
 
 Details: [`docs/architecture.md`](docs/architecture.md) · limits: [`docs/known_limits.md`](docs/known_limits.md)
 · write-up: [`docs/case_study.md`](docs/case_study.md)
@@ -68,11 +68,11 @@ python -m eval.runner report --local          # re-aggregate from checkpoints (n
 python -m eval.runner abstention --local      # unanswerable cases only (no judge tokens)
 python -m eval.dashboard                      # bakes eval/reports/dashboard.html from eval/reports/latest.json
 python -m eval.hand_label data/eval_runs/answers_latest.jsonl   # optional y/n human spot-check, resumable
-deepeval test run tests/eval_gate/test_rag_quality.py           # CI regression gate (needs keys)
+python -m pytest -m eval tests/eval_gate/test_rag_quality.py     # CI regression gate (RAGAS; needs keys)
 ```
 
 * `eval/data/golden_set.json` (100 cases: 80 answerable with gold chunk + reference answer, 20 unanswerable) is **machine-verified
-  (NLI + a second LLM), not human-reviewed**; timestamped backups live in `data/eval_runs/`.
+  (an NLI check, since removed, + a second LLM), not human-reviewed**; timestamped backups live in `data/eval_runs/`.
 * Everything long-running checkpoints per item (`data/eval_runs/*_ckpt.jsonl`, `golden_partial.jsonl`). If a Groq model's
   **daily token quota** is exhausted the stage exits with code 3 and **re-running the same command resumes** (quotas roll
   over after ~24 h). The latest results are in [`docs/case_study.md`](docs/case_study.md).
@@ -91,7 +91,8 @@ To populate Qdrant Cloud once from your machine (no re-embedding): `python scrip
 **Auth (optional):** set `API_KEYS="name:key[:per_minute[:per_day]],..."` to require an `X-API-Key` header and enforce
 per-user limits (see `.env.example`). **Backups:** `python scripts/qdrant_backup.py drill` snapshots the Qdrant collection,
 restores it into a scratch collection, verifies it and cleans up; `snapshot` / `restore` / `verify` are available separately.
-**Judge/NLI validation:** `python -m eval.label_sentences --labeler <name>` to hand-label, then
+**Citation guard:** layered (number/name/overlap screen, then an LLM entailment check; no fallback verifier); set `GUARD_ENTAILMENT=llm|off`. It filters, it does not guarantee faithfulness: see `info.md` §6 and §11.5, and `python -m eval.guard_stress` for the stress test.
+**Judge validation:** `python -m eval.label_sentences --labeler <name>` to hand-label, then
 `python -m eval.label_validation report --labels eval/data/labels_human.jsonl`. Full report: [`info.md`](info.md).
 
 ## Layout
@@ -102,7 +103,7 @@ backend/app/                 service code (one concern per package)
   ingestion/    arxiv_fetcher  pdf_parser  chunking  job_queue  worker
   storage/      qdrant_store
   retrieval/    embedder  hybrid_retriever  reranker  query_rewriter
-  citations/    guard (NLI verification)  formatter (numbered context + arXiv links)
+  citations/    guard + llm_verifier (citation checks)  formatter (numbered context + arXiv links)
   llm/          groq_llm  local_llm (Ollama)  router (model fallback chain)
   safety/       guardrails (injection screen, secret/PII output guard)
   telemetry/    observability (query log, p50/p95)
@@ -110,9 +111,9 @@ frontend/       Research_ui.html (served by the API)
 eval/           evaluation code only
   data/         golden_set.json            reports/   latest.json + dashboard.html
   runner  generation  judge  golden  metrics  hand_label  dashboard  build_golden_set  run_all
-scripts/        CLI utilities: ingest_papers  ask  relabel_sections  sync_to_cloud  download_models
+scripts/        CLI utilities: ingest_papers  ask  sync_to_cloud  qdrant_backup  download_models
 tests/          mirrors the packages above (test_ingestion, test_retrieval, test_citations, test_safety, ...)
-                + test_security (prompt-injection suite) + eval_gate (DeepEval CI gate)
+                + test_security (prompt-injection suite) + eval_gate (RAGAS CI gate)
 docs/           architecture  known_limits  case_study
 data/           runtime state, git-ignored (Qdrant store, PDFs, job queue, logs, eval checkpoints)
 ```

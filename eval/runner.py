@@ -2,12 +2,12 @@
 runner.py — ablation + generation-quality evaluation against the golden set.
 
     python -m eval.runner retrieval [--k 5] [--local]              # no LLM: recall@k / MRR per config
-    python -m eval.runner generation [--limit 40] [--local]        # DeepEval metrics, with vs without guard
+    python -m eval.runner generation [--limit 40] [--local]        # RAGAS metrics, with vs without guard
     python -m eval.runner all --limit 40 --dump-answers            # both + answers file for hand_label.py
 
 Configs (ablation table): dense / bm25 / hybrid / hybrid+rerank / +guard (full pipeline).
 Retrieval metrics (recall@k, MRR) are non-LLM and reuse eval/metrics.py. Generation metrics
-use DeepEval with a Groq judge (eval/judge.py). Answerable-vs-unanswerable behaviour is scored
+use RAGAS with a Groq judge (eval/ragas_metrics.py). Answerable-vs-unanswerable behaviour is scored
 separately (abstention rate on unanswerable, answer rate on answerable).
 """
 from __future__ import annotations
@@ -17,10 +17,10 @@ import json
 import os
 import statistics
 import sys
-import time
+# [DEAD CODE] unused import (checked 2026-10-15)
+# import time
 from datetime import datetime, timezone
 
-os.environ.setdefault("DEEPEVAL_TELEMETRY_OPT_OUT", "YES")
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from eval import golden
@@ -72,36 +72,11 @@ def eval_retrieval(pipeline, cases, k: int = 5) -> dict:
     return out
 
 
-# ── generation metrics (DeepEval) ────────────────────────────────────────────
+# ── generation metrics (RAGAS, see eval/ragas_metrics.py) ─────────────────────────────────────────────────
 
-def citation_metric(judge):
-    from deepeval.metrics import GEval
-    from deepeval.test_case import LLMTestCaseParams
-    return GEval(
-        name="Citation correctness",
-        evaluation_steps=[
-            "The retrieval context is a numbered list: marker [1] is the first passage, [2] the second, and so on.",
-            "For every sentence in the actual output that carries a [N] marker, check whether passage N supports that sentence.",
-            "Give a high score when all cited sentences are supported by the passages they cite and the answer contains citations.",
-            "Give a low score when markers point at passages that do not support the sentence, or when the answer makes factual claims with no [N] markers at all.",
-        ],
-        evaluation_params=[LLMTestCaseParams.ACTUAL_OUTPUT, LLMTestCaseParams.RETRIEVAL_CONTEXT],
-        model=judge, async_mode=False, verbose_mode=False)
-
-
-def deepeval_metrics(judge):
-    from deepeval.metrics import (AnswerRelevancyMetric, ContextualPrecisionMetric,
-                                  ContextualRecallMetric, ContextualRelevancyMetric,
-                                  FaithfulnessMetric)
-    kw = dict(model=judge, threshold=0.5, async_mode=False, include_reason=False)
-    return {
-        "faithfulness": FaithfulnessMetric(**kw),
-        "answer_relevancy": AnswerRelevancyMetric(**kw),
-        "contextual_precision": ContextualPrecisionMetric(**kw),
-        "contextual_recall": ContextualRecallMetric(**kw),
-        "contextual_relevancy": ContextualRelevancyMetric(**kw),
-        "citation_correctness": citation_metric(judge),
-    }
+def ragas_metrics(judge):
+    """{name: metric} for a RagasJudge (faithfulness, hallucination, correctness, completeness)."""
+    return judge.metrics()
 
 
 def raw_answer(pipeline, question: str, chunks: list[dict]) -> str:
@@ -113,15 +88,15 @@ def raw_answer(pipeline, question: str, chunks: list[dict]) -> str:
 
 
 def eval_generation(*args, **kwargs):
-    """Resumable DeepEval generation eval (implemented in eval/generation.py)."""
+    """Resumable RAGAS generation eval (implemented in eval/generation.py)."""
     from eval import generation
     return generation.eval_generation(*args, **kwargs)
 
 
 def composite(generation: dict, config: str = "+guard (full)") -> float | None:
-    """Mean of faithfulness / answer_relevancy / citation_correctness — the CI gate value."""
+    """Mean of faithfulness / correctness / completeness — the CI gate value."""
     m = generation["metrics"].get(config, {})
-    vals = [m[k] for k in ("faithfulness", "answer_relevancy", "citation_correctness") if m.get(k) is not None]
+    vals = [m[k] for k in ("faithfulness", "correctness", "completeness") if m.get(k) is not None]
     return round(statistics.mean(vals), 3) if vals else None
 
 

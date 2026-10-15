@@ -40,13 +40,14 @@ class OllamaLLM:
 
     # ── Generate (blocking) ───────────────────────────────────────────────────
 
-    def generate(self, prompt: str, use_cache: bool = True) -> str:
+    def generate(self, prompt: str, use_cache: bool = True, max_tokens: int | None = None) -> str:
         """
         Returns full response as a string.
         Caches deterministic calls (temperature=0) automatically.
         keep_alive tells Ollama to keep the model in RAM between calls.
         """
-        key = self._cache_key(prompt)
+        budget = max_tokens or self.max_tokens
+        key = self._cache_key(prompt) + f":{budget}"
         if use_cache and self.temperature == 0.0:
             cached = self._get_cached(key)
             if cached is not None:
@@ -62,7 +63,7 @@ class OllamaLLM:
                     "keep_alive": "10m",
                     "options": {
                         "temperature": self.temperature,
-                        "num_predict": self.max_tokens,
+                        "num_predict": budget,
                     }
                 },
                 timeout=self.timeout
@@ -125,17 +126,18 @@ class OllamaLLM:
         except requests.exceptions.HTTPError as e:
             raise LLMError(f"Ollama HTTP error: {e}")
 
+    # [DEAD CODE] cache utilities (checked 2026-10-15): no production code called them; only their own tests did.
     # ── Cache utils ───────────────────────────────────────────────────────────
-
-    @classmethod
-    def clear_cache(cls):
-        cls._cache.clear()
-
-    @classmethod
-    def cache_stats(cls) -> dict:
-        now = time.time()
-        valid = sum(1 for _, ts in cls._cache.values() if now - ts < cls.CACHE_TTL)
-        return {"total": len(cls._cache), "valid": valid, "expired": len(cls._cache) - valid}
+    #
+    # @classmethod
+    # def clear_cache(cls):
+    #     cls._cache.clear()
+    #
+    # @classmethod
+    # def cache_stats(cls) -> dict:
+    #     now = time.time()
+    #     valid = sum(1 for _, ts in cls._cache.values() if now - ts < cls.CACHE_TTL)
+    #     return {"total": len(cls._cache), "valid": valid, "expired": len(cls._cache) - valid}
 
 
 # Backwards-compatible name used by older scripts/tests.

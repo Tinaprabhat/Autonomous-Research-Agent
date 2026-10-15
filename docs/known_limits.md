@@ -3,8 +3,20 @@
 Honest list of what this system does not do well. Numbers come from runs on this repo's corpus
 (see `eval/reports/latest.json` once generated).
 
-## Verification is strict, so it over-abstains on abstractive answers
-The NLI guard asks "does the cited passage *entail* this sentence?". Models paraphrase and combine facts
+## The citation guard filters, it does not guarantee
+Measured on a human-labelled sample (info.md section 11.4, 11.5): 5 of 30 unguarded answers (17%) contained a claim the
+cited passages do not support, and the best guard variant caught 2 of the 4 real unsupported sentences. Both the LLM
+verifier caught two of them (an earlier local NLI model, since removed, caught the same two) and missed an unstated
+inference and a conflation of two facts.
+The guard is layered: a free screen (overlap floor, numbers/acronyms/names must occur in the cited chunks), then an
+entailment check (one batched LLM call; there is no fallback verifier). If the LLM check cannot run, sentences are kept
+but flagged `lexical_only` with a visible warning. Caveats: the LLM verifier is the generator's own model family; thresholds
+were set on the same 40 labelled sentences (in-sample); the mutation stress set is mechanical; the verifier adds an API call
+per answer (estimated, not measured). A hedge-only answer is returned as `ok` (`hedged: true`) and tracked as a possible
+false refusal; the false-refusal rate on answerable questions has not been measured yet.
+
+## (history, NLI guard v1, since removed) Verification is strict, so it over-abstains on abstractive answers
+The original NLI guard asked "does the cited passage *entail* this sentence?". Models paraphrase and combine facts
 across passages, and NLI scores long multi-fact sentences near zero even when a human would call them
 supported. Observed during development (12-paper corpus, 4 answerable + 1 off-corpus question): the first NLI model
 (`cross-encoder/nli-deberta-v3-base`) scored almost every correct sentence ≈0.00 — it abstained on 3 of the 4
@@ -40,13 +52,13 @@ Generation runs at temperature 0 so abstain/answer decisions don't flip between 
   quarantined.
 
 ## Judge bias
-DeepEval needs an LLM judge. We use Groq (`openai/gpt-oss-120b`) — the same provider and family that generates the
+The generation metrics need an LLM judge (RAGAS now; DeepEval was dropped, info.md 11.8). We use Groq (`openai/gpt-oss-120b`) — the same provider and family that generates the
 answers — to avoid a second API key / cost. Mild self-preference bias is possible; absolute scores are
 optimistic, relative comparisons (ablation, regressions) are more trustworthy. The hand-labelling CLI
 (`eval/hand_label.py`) exists to spot-check the judge against human faithfulness verdicts.
 
 ## Evaluation scope
-* The DeepEval generation numbers in `case_study.md` cover **9 answerable cases** (7 answered) because the judge's free-tier
+* The (old, DeepEval) generation numbers in `case_study.md` cover **9 answerable cases** (7 answered) because the judge's free-tier
   daily quota ran out; the other 71 answerable cases are not yet scored. Resume with `python -m eval.run_all --local`.
 * Ground truth is machine-verified (NLI + a cross-checking LLM), not human-labelled; a few questions are mildly
   context-dependent, and `u020`-style "unanswerable" labels can be partially answerable. Relative comparisons are more
@@ -56,9 +68,10 @@ optimistic, relative comparisons (ablation, regressions) are more trustworthy. T
   cases the sample does not stress.
 
 ## Latency
-Uncontended on a CPU laptop: median ≈ 8.6 s, worst ≈ 15 s (NLI verification ≈ 6 s median, the bottleneck; injection screen
-≈ 1.2 s). Expect roughly 2× on a 2-vCPU Hugging Face CPU Basic Space. Further speedups: smaller NLI model, fewer windows,
-or verifying only the sentences that carry numbers/entities.
+Measured on 2026-10-08 with the old local-NLI guard, uncontended on a CPU laptop: median ≈ 8.6 s, worst ≈ 15 s (NLI
+verification ≈ 6 s median, the bottleneck; injection screen ≈ 1.2 s). The NLI model has since been removed; the guard now
+adds one LLM call (about the cost of the generation call) plus negligible CPU work, but end-to-end latency has not been
+re-measured.
 
 ## Golden set
 `eval/build_golden_set.py` drafts questions from corpus chunks with the gold chunk set to the source chunk.
@@ -72,7 +85,7 @@ reported. Drafts are `reviewed: false` until a human checks them; the runner onl
 * Back-matter heuristic: text that follows a *Conclusion* heading is relabelled `Appendix` once the Conclusion exceeds
   ~3,500 characters, and any unrecognised heading after the Conclusion is also `Appendix`. This fixed appendices being
   mislabelled `Conclusion` (16% → 3.5% of chunks), but a long genuine conclusion could be cut short, and `Appendix` is now
-  a large (~27%) catch-all. `scripts/relabel_sections.py` re-applies labelling rules to stored chunks without re-embedding.
+  a large (~27%) catch-all. (The one-off script that re-labelled stored chunks without re-embedding was removed in the 2026-10-15 cleanup.)
 * Math and tables extract poorly (symbols become `?`/garbled glyphs, tables become number soup). Numeric table
   chunks are stored but rarely useful; they are excluded from the prose-only injection classifier.
 * OCR needs the Tesseract binary (installed in the Docker image; not on a typical Windows dev box). Without it,
@@ -94,7 +107,7 @@ model serves only ~100 queries/day. The router therefore chains `gpt-oss-120b �
 (`GROQ_FALLBACK_MODELS`), each with its own quota, for roughly 3x headroom; every answer still passes the same citation
 guard, but quality may drop on the smaller models. On a Hugging Face Space there is no Ollama, so once all three Groq
 models are exhausted queries fail with a visible error until the quotas roll over. For more than a handful of daily
-users, use a paid Groq tier. The same quotas make the DeepEval run slow/staged: it costs ~15-20k judge tokens per case,
+users, use a paid Groq tier. The same quotas make the RAGAS run slow/staged: it costs ~15-20k judge tokens per case,
 so `eval/` checkpoints every finished case and resumes the next day (`python -m eval.run_all --local`).
 
 ## Operations
@@ -103,7 +116,7 @@ so `eval/` checkpoints every finished case and resumes the next day (`python -m 
   later removed. This is labelled in the UI.
 * Qdrant Cloud free clusters pause after ~7 days idle and have no backup SLA; recovery path is re-ingestion from
   `data/manifest.json`. HF CPU Basic cold-starts are slow (model load ≈ 1–2 min).
-* Latency on CPU is dominated by the NLI guard and jailbreak/reranker passes (see `/metrics` p50/p95).
+* Local CPU latency is now dominated by the jailbreak classifier and reranker passes, plus the LLM calls (see `/metrics` p50/p95).
 * Auth is optional. With `API_KEYS` set, every endpoint except `/`, `/health` and the docs needs `X-API-Key` (or
   `Authorization: Bearer`); each user has a per-minute window and a per-UTC-day query quota, and bad-key attempts are
   throttled per IP. Keys are static strings from the environment (no signup, rotation or revocation without a restart),

@@ -9,8 +9,7 @@ Answerable (gold = the source chunk, so each case is a cited ground truth):
   1. sample a prose chunk from a main paper section (<=2 per paper, so coverage is spread),
   2. an LLM writes a self-contained question + a short answer using ONLY that passage,
   3. reject questions that lean on context ("this paper", "the passage", ...) or duplicate another,
-  4. NLI check: the passage must ENTAIL the reference answer (same verifier family as the runtime guard),
-  5. a DIFFERENT LLM cross-checks: answerable from the passage alone? answer correct? question standalone?
+  4. a DIFFERENT LLM cross-checks: answerable from the passage alone? answer correct? question standalone?
 Unanswerable:
   1. an LLM proposes on-topic, corpus-specific questions the papers likely do not cover,
   2. the hybrid retriever fetches top passages for each and the checker LLM judges whether ANY of them
@@ -189,7 +188,7 @@ def jaccard(a: str, b: str) -> float:
     return len(A & B) / max(len(A | B), 1)
 
 
-def build_answerable(gen_llm, check_llm, verifier, chunks, target: int, log,
+def build_answerable(gen_llm, check_llm, chunks, target: int, log,
                      ck: Checkpoint | None = None) -> list[golden.GoldenCase]:
     ck = ck or Checkpoint(os.devnull)
     cases = [c for c in ck.cases if c.answerable]
@@ -197,7 +196,7 @@ def build_answerable(gen_llm, check_llm, verifier, chunks, target: int, log,
     for c in cases:
         for a in c.gold_arxiv_ids:
             per_paper[a] = per_paper.get(a, 0) + 1
-    stats = {"tried": 0, "ctx_leak": 0, "dup": 0, "nli": 0, "llm": 0, "err": 0, "resumed": len(cases)}
+    stats = {"tried": 0, "ctx_leak": 0, "dup": 0, "llm": 0, "err": 0, "resumed": len(cases)}
     for c in chunks:
         if len(cases) >= target:
             break
@@ -213,10 +212,6 @@ def build_answerable(gen_llm, check_llm, verifier, chunks, target: int, log,
                 continue
             if any(jaccard(q, x.question) > 0.7 for x in cases):
                 stats["dup"] += 1
-                ck.mark_tried(c["chunk_id"])
-                continue
-            if float(verifier.entailment_batch([(c["text"], ans)])[0]) < 0.5:
-                stats["nli"] += 1
                 ck.mark_tried(c["chunk_id"])
                 continue
             v = jparse(call(check_llm, CHECK_PROMPT.format(passage=c["text"], question=q, answer=ans)))
@@ -308,7 +303,6 @@ def main():
 
     from backend.app import config
     from backend.app.llm.groq_llm import GroqLLM
-    from backend.app.citations.guard import NLIVerifier
     from backend.app.retrieval.embedder import get_embedder
     from backend.app.retrieval.hybrid_retriever import HybridRetriever
     from backend.app.storage.qdrant_store import QdrantStore
@@ -329,7 +323,7 @@ def main():
 
     exhausted = None
     try:
-        answerable = build_answerable(gen_llm, check_llm, NLIVerifier(), chunks, a.answerable, log, ck)
+        answerable = build_answerable(gen_llm, check_llm, chunks, a.answerable, log, ck)
         titles = sorted({c["title"] for c in all_chunks if c.get("title")})
         random.Random(a.seed).shuffle(titles)
         unanswerable = build_unanswerable(gen_llm, check_llm, HybridRetriever(store, get_embedder(), all_chunks),

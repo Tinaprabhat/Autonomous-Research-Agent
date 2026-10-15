@@ -84,8 +84,8 @@ def test_unknown_config_raises(pipe):
 
 
 def test_composite_is_mean_of_headline_metrics():
-    gen = {"metrics": {"+guard (full)": {"faithfulness": 0.9, "answer_relevancy": 0.8,
-                                         "citation_correctness": 0.7, "contextual_recall": 0.1}}}
+    gen = {"metrics": {"+guard (full)": {"faithfulness": 0.9, "correctness": 0.8,
+                                         "completeness": 0.7, "hallucination": 0.1}}}
     assert runner.composite(gen) == pytest.approx(0.8)
     assert runner.composite({"metrics": {}}) is None
 

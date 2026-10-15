@@ -1,8 +1,8 @@
 """
-pipeline.py — the end-to-end query path, shared by the API and ResearchAgent.
+pipeline.py — the end-to-end query path, shared by the API, the streaming endpoint and the evaluation harness.
 
     input guard -> (rewrite) -> hybrid retrieve (RRF) -> rerank
-    -> generate (retry once) -> NLI citation guard -> low-confidence tag? -> output guard
+    -> generate (retry once) -> citation guard -> low-confidence tag? -> output guard
 
 An answer is ALWAYS returned (except for rejected / blocked queries):
 Statuses returned in `PipelineResult.status`:
@@ -21,6 +21,7 @@ import re
 import time
 from dataclasses import dataclass, field, asdict
 
+from backend.app import config
 from backend.app.telemetry import observability
 from backend.app.llm.groq_llm import LLMError
 from backend.app.citations.formatter import (
@@ -45,6 +46,8 @@ Answer (cite every claim with [N]):"""
 _NUDGE_SUFFIX = "\n(You must cite at least one source using [1], [2], etc.)\nAnswer:"
 
 UNCITED_WARNING = "⚠ uncited answer — citation verification unavailable"
+LEXICAL_ONLY_WARNING = ("⚠ Entailment check unavailable — citations were screened only for matching words, numbers "
+                        "and names, so unstated inferences may remain.")
 ABSTAIN_MESSAGE = "No relevant sources were found in the corpus for this question."
 LOW_CONFIDENCE_WARNING = ("⚠ Not sure — this answer could be wrong. It could not be verified against the "
                           "cited sources, so treat it as a lead and check the sources yourself.")
@@ -68,6 +71,8 @@ class PipelineResult:
     # rewritten_query: str | None = None
     guardrail: dict = field(default_factory=dict)
     timings_ms: dict = field(default_factory=dict)
+    hedged: bool = False        # the answer consists only of "the sources don't say this" sentences (no verified claim)
+    verification: str = ""      # which entailment check backed the citations: llm | lexical_only
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -176,7 +181,7 @@ class ResearchPipeline:
     def _verify(self, answer: str, chunks: list[dict], prompt: str, t: dict):
         t0 = time.time()
         guard = check_citations(answer, chunks, self.verifier)
-        if not guard.has_citations:       # one-shot nudge, not a failure retry
+        if not guard.has_citations and not guard.passthrough_sentences:   # one-shot nudge, not a failure retry
             try:
                 again = self.llm.generate(prompt + _NUDGE_SUFFIX)
                 if self._valid(again):
@@ -212,6 +217,7 @@ class ResearchPipeline:
             "prompt_tokens": prompt_tokens, "completion_tokens": comp,
             "cost_usd": observability.cost_usd(prompt_tokens, comp),
             "faithfulness": res.faithfulness_score,
+            "hedged": res.hedged,
             "sources": res.sources_used,
         }, self.log_path)
         return res
@@ -260,20 +266,27 @@ class ResearchPipeline:
 
         answer, guard = self._verify(raw, chunks, prompt, t)
         cited = {int(m) for s in guard.kept_sentences for m in re.findall(r"\[(\d+)\]", s)}
+        degraded = (LEXICAL_ONLY_WARNING if guard.verification == "lexical_only" and config.GUARD_ENTAILMENT != "off"
+                    else None)
         if guard.abstain:
             # Failed verification: still answer, but tag it. Show the model's own answer (its [N] markers
             # are unverified), and list which sources it pointed at.
             asked = {int(m) for m in re.findall(r"\[(\d+)\]", answer)}
             return PipelineResult(
-                status="low_confidence", answer=answer, warning=LOW_CONFIDENCE_WARNING,
+                status="low_confidence", answer=answer,
+                warning=LOW_CONFIDENCE_WARNING + (" " + degraded if degraded else ""),
                 faithfulness_score=guard.faithfulness_score,
                 dropped_sentences=guard.dropped_sentences,
-                citations=_citation_dicts(chunks, asked), sources_used=len(chunks))
+                citations=_citation_dicts(chunks, asked), sources_used=len(chunks),
+                verification=guard.verification)
         return PipelineResult(
-            status="ok", answer=guard.cited_answer,
+            status="ok", answer=guard.cited_answer, warning=degraded, verification=guard.verification,
             faithfulness_score=guard.faithfulness_score,
             dropped_sentences=guard.dropped_sentences,
-            citations=_citation_dicts(chunks, cited), sources_used=len(chunks))
+            citations=_citation_dicts(chunks, cited), sources_used=len(chunks),
+            hedged=bool(guard.passthrough_sentences) and not guard.kept_sentences,
+            guardrail={"guard": {"kept": len(guard.kept_sentences), "dropped": len(guard.dropped_sentences),
+                                 "passthrough": len(guard.passthrough_sentences)}})
 
     @staticmethod
     def _extractive_fallback(chunks: list[dict]) -> str:

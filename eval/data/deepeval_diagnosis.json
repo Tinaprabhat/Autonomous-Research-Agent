@@ -1,0 +1,212 @@
+[
+ {
+  "case": "a023",
+  "human_faithful": false,
+  "default_score": 1.0,
+  "strict_score_yes_only": 1.0,
+  "verdicts": [
+   [
+    "yes",
+    ""
+   ],
+   [
+    "yes",
+    ""
+   ]
+  ],
+  "claims": [
+   "GCG requires extensive computation, with estimates of thousands of GPU hours even on a small Alpaca dataset.",
+   "Because SecAlign fine-tuning would need to run this optimization repeatedly as an inner loop, the cost becomes prohibitive for practical training."
+  ]
+ },
+ {
+  "case": "a037",
+  "human_faithful": false,
+  "default_score": 1.0,
+  "strict_score_yes_only": 1.0,
+  "verdicts": [
+   [
+    "yes",
+    ""
+   ],
+   [
+    "yes",
+    ""
+   ]
+  ],
+  "claims": [
+   "The method requires explicitly gathering relative embeddings for Rt and Rp, which makes memory usage grow as O(L\u00b2D) [1].",
+   "This quadratic memory cost arises because the relative information is computed from content rather than from fixed, position-invariant data, limiting scalability beyond the small J.S. Bach Chorales dataset [1]."
+  ]
+ },
+ {
+  "case": "a047",
+  "human_faithful": false,
+  "default_score": 0.667,
+  "strict_score_yes_only": 0.667,
+  "verdicts": [
+   [
+    "no",
+    "The context states that Spearman\u2019s Rank Correlation Coefficient is used to compare ranked responses of LLMs on two questionnaires of LLMs, n"
+   ],
+   [
+    "yes",
+    ""
+   ],
+   [
+    "yes",
+    ""
+   ]
+  ],
+  "claims": [
+   "Spearman\u2019s Rank Correlation Coefficient is used to compare the ranked responses of LLMs on two questionnaires\u2014one measuring claimed personality knowledge and the other measuring actions in scenario-action pairs [1].",
+   "The questionnaires are split into two equal-length sections with matching numbers of statements per dimension.",
+   "The Spearman coefficient is computed between the scores of these sections to assess consistency [2]."
+  ]
+ },
+ {
+  "case": "a048",
+  "human_faithful": false,
+  "default_score": 1.0,
+  "strict_score_yes_only": 0.667,
+  "verdicts": [
+   [
+    "yes",
+    ""
+   ],
+   [
+    "borderline",
+    "The context confirms that the regularization loss promotes a low\u2011rank property, but it does not explicitly state that it satisfies KSVD stat"
+   ],
+   [
+    "yes",
+    ""
+   ]
+  ],
+  "claims": [
+   "Primal-Attention embeds unsupervised KSVD optimization by adding a regularization term to the training loss, avoiding any extra decomposition operations [2][5].",
+   "This regularization loss promotes a low-rank property of the attention kernel and satisfies the KSVD stationarity conditions when its objective reaches zero [3][1].",
+   "Thus, the KSVD optimization is efficiently integrated into training through a simple auxiliary loss rather than explicit kernel-matrix computation [4]."
+  ]
+ },
+ {
+  "case": "a053",
+  "human_faithful": false,
+  "default_score": 1.0,
+  "strict_score_yes_only": 1.0,
+  "verdicts": [
+   [
+    "yes",
+    ""
+   ],
+   [
+    "yes",
+    ""
+   ],
+   [
+    "yes",
+    ""
+   ]
+  ],
+  "claims": [
+   "FSLoRA keeps the full-rank LoRA modules on the central server while clients only update selected submatrices of these modules according to sketching ratios [1][2].",
+   "By tuning the sketching ratios, which set the rank of each client\u2019s submatrix, the framework lets each client match its own communication bandwidth and computational capacity [2][3].",
+   "Clients with more resources can choose larger submatrix ranks, leading to faster convergence, whereas limited clients use smaller ranks to reduce overhead [4]."
+  ]
+ },
+ {
+  "case": "a001",
+  "human_faithful": true,
+  "default_score": 1.0,
+  "strict_score_yes_only": 1.0,
+  "verdicts": [
+   [
+    "yes",
+    ""
+   ]
+  ],
+  "claims": [
+   "The majority of meta-reinforcement learning literature after 2016 is concentrated in three conferences: NeurIPS, ICML, and ICLR."
+  ]
+ },
+ {
+  "case": "a002",
+  "human_faithful": true,
+  "default_score": 1.0,
+  "strict_score_yes_only": 1.0,
+  "verdicts": [
+   [
+    "yes",
+    ""
+   ],
+   [
+    "yes",
+    ""
+   ]
+  ],
+  "claims": [
+   "Top-5, top-20, top-50, and top-100 retrieved passages are the common metrics used to evaluate retrieval-model performance for LLM answer generation.",
+   "These metrics measure how often the correct information appears within the highest-ranked set of retrieved documents."
+  ]
+ },
+ {
+  "case": "a003",
+  "human_faithful": true,
+  "default_score": 1.0,
+  "strict_score_yes_only": 1.0,
+  "verdicts": [
+   [
+    "yes",
+    ""
+   ],
+   [
+    "yes",
+    ""
+   ],
+   [
+    "yes",
+    ""
+   ]
+  ],
+  "claims": [
+   "Defenses against prompt injections typically separate the system\u2019s trusted instruction from the user-provided data, isolating the two inputs [1].",
+   "Defenses against jailbreaks instead focus on rejecting toxic or malicious instructions, filtering out harmful user prompts [1].",
+   "Prompt-injection defenses rely on more complex, many-shot demonstration strategies to enforce \u201cresponding to injection,\u201d which is harder than the simpler rejection used for jailbreaks [5]."
+  ]
+ },
+ {
+  "case": "a005",
+  "human_faithful": true,
+  "default_score": 1.0,
+  "strict_score_yes_only": 1.0,
+  "verdicts": [
+   [
+    "yes",
+    ""
+   ],
+   [
+    "yes",
+    ""
+   ]
+  ],
+  "claims": [
+   "The FNN model recorded 16,997 True Positives.",
+   "It also recorded 16,797 True Negatives."
+  ]
+ },
+ {
+  "case": "a006",
+  "human_faithful": true,
+  "default_score": 1.0,
+  "strict_score_yes_only": 1.0,
+  "verdicts": [
+   [
+    "yes",
+    ""
+   ]
+  ],
+  "claims": [
+   "CARROT uses only 899 online input tokens, whereas methods such as HYDE consume the full 8192 tokens [1]."
+  ]
+ }
+]

@@ -7,7 +7,7 @@ Stages (each logged to data/eval_runs/run_all_status.json so progress survives i
 re-run resumes where it stopped; a failed stage is recorded, not fatal, unless later stages need it):
   1. golden   build the 100-case verified golden set        (skipped if eval/data/golden_set.json exists)
   2. retrieval  recall@k / MRR ablation                     (no LLM cost)
-  3. generation DeepEval metrics: with vs without the guard (Groq judge)
+  3. generation RAGAS metrics (faithfulness, hallucination, correctness, completeness): with vs without the guard (Groq judge)
   4. dashboard  bake eval/reports/dashboard.html
 Each stage runs in its own subprocess so the embedded Qdrant lock is released between stages.
 """

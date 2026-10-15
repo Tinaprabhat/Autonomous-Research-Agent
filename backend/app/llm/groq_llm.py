@@ -69,20 +69,21 @@ class GroqLLM:
             self._client = Groq(api_key=self._api_key, timeout=self.timeout, max_retries=0)
         return self._client
 
-    def _kwargs(self, prompt: str, stream: bool) -> dict:
+    def _kwargs(self, prompt: str, stream: bool, max_tokens: int | None = None) -> dict:
         extra = {"reasoning_effort": "low"} if "gpt-oss" in self.model else {}
         return dict(
             **extra,
             model=self.model,
             messages=[{"role": "user", "content": prompt}],
             temperature=self.temperature,
-            max_tokens=self.max_tokens,
+            max_tokens=max_tokens or self.max_tokens,
             stream=stream,
         )
 
-    def generate(self, prompt: str, use_cache: bool = True) -> str:
+    def generate(self, prompt: str, use_cache: bool = True, max_tokens: int | None = None) -> str:
+        """`max_tokens` overrides the default output budget for this call (it also covers hidden reasoning tokens)."""
         try:
-            resp = self._get_client().chat.completions.create(**self._kwargs(prompt, False))
+            resp = self._get_client().chat.completions.create(**self._kwargs(prompt, False, max_tokens))
             text = _normalise(resp.choices[0].message.content or "")
         except LLMError:
             raise
