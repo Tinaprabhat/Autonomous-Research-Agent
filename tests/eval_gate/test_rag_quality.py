@@ -7,7 +7,7 @@ Runs the live pipeline (Qdrant + Groq) on the golden set's `regression` subset, 
 (faithfulness, correctness, completeness; see eval/ragas_metrics.py), asserts per-case floors, then a composite gate.
 Skipped automatically when keys or a reviewed golden set are unavailable, so it never breaks the offline unit-test job.
 Thresholds can be tuned with env vars: GATE_FAITHFULNESS, GATE_CORRECTNESS, GATE_COMPLETENESS, GATE_COMPOSITE.
-The defaults are provisional floors, not measured targets: see info.md section 11.8 for the scores they should be tightened to.
+The defaults are provisional floors, not measured targets: see docs/case_study.md section 3.2 for the scores they should be tightened to.
 """
 import os
 import statistics

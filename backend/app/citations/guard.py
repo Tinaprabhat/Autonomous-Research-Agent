@@ -13,7 +13,7 @@ For each answer sentence, in order:
 Layer B is where meaning is checked. If neither verifier can run, the sentences that passed layer A are kept but the
 result is marked verification="lexical_only" and the pipeline shows a warning: it is never presented as fully verified.
 
-What this does NOT do (measured, info.md section 11.5): on the 4 real human-labelled unsupported sentences, both
+What this does NOT do (measured, docs/case_study.md section 3.3): on the 4 real human-labelled unsupported sentences, both
 entailment verifiers caught the same 2 and missed an unstated inference and a conflation of two facts. Layer A stops
 cheap errors (wrong numbers, foreign names, wrong-chunk citations); layer B stops contradictions and added claims.
 Subtle over-reach still gets through.

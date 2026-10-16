@@ -1,7 +1,7 @@
 """
 ragas_metrics.py - RAGAS generation metrics behind the interface the evaluation loop already uses (replaces DeepEval).
 
-Why DeepEval was dropped (info.md section 11.8): its faithfulness metric scored every answer 1.0 in our runs. Two causes:
+Why DeepEval was dropped (docs/case_study.md section 3.2): its faithfulness metric scored every answer 1.0 in our runs. Two causes:
 (1) by default it counts "borderline" claims as faithful (`penalize_ambiguous_claims=False`) and (2) with the Groq judge it
 marked every claim of 3 of the 5 human-labelled unfaithful answers "yes", and it changed its mind between identical runs.
 Setting (1) is a one-line fix but (2) is judge leniency, so the metric was replaced.

@@ -60,7 +60,7 @@ USER_DAILY_QUOTA        = int(_env("USER_DAILY_QUOTA", default="200"))
 AUTH_FAIL_PER_MIN       = int(_env("AUTH_FAIL_PER_MIN", default="10"))   # bad-key attempts per IP per minute
 
 # ── Verification / safety models ─────────────────────────────────────────────
-# Citation guard (layered; see backend/app/citations/guard.py and info.md section 11.5):
+# Citation guard (layered; see backend/app/citations/guard.py and docs/case_study.md section 3.3):
 #   Layer A (free, deterministic): [N] validity, hedge passthrough, specifics gate (numbers / acronyms / names of a
 #            sentence must occur in the cited chunk), word-overlap floor.
 #   Layer B (entailment): GUARD_ENTAILMENT = llm (one batched LLM call per answer; no fallback verifier) | off

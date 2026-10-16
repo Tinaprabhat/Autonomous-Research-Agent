@@ -11,9 +11,9 @@ listed so you can check them yourself.
 * Generation: Groq `gpt-oss-120b` → `gpt-oss-20b` → `qwen3.8-27b` (each has its own free daily quota) → Ollama; streamed to the UI over SSE.
 * Safety: jailbreak/prompt-injection screening (queries **and** retrieved paper text), secret blocking and PII
   redaction on output, per-IP rate limit and query-length cap.
-* Evaluation: RAGAS (Groq judge; DeepEval was dropped, see info.md section 11.8) + recall@k/MRR ablation + a terminal hand-labelling tool.
+* Evaluation: RAGAS (Groq judge; DeepEval was dropped, see docs/case_study.md section 3.2) + recall@k/MRR ablation + a terminal hand-labelling tool.
 
-Details: [`docs/architecture.md`](docs/architecture.md) · limits: [`docs/known_limits.md`](docs/known_limits.md)
+Details: [`docs/architecture.md`](docs/architecture.md) · limits: [`docs/case_study.md`](docs/case_study.md)
 · write-up: [`docs/case_study.md`](docs/case_study.md)
 
 ## Quick start (local, no Docker needed)
@@ -91,9 +91,9 @@ To populate Qdrant Cloud once from your machine (no re-embedding): `python scrip
 **Auth (optional):** set `API_KEYS="name:key[:per_minute[:per_day]],..."` to require an `X-API-Key` header and enforce
 per-user limits (see `.env.example`). **Backups:** `python scripts/qdrant_backup.py drill` snapshots the Qdrant collection,
 restores it into a scratch collection, verifies it and cleans up; `snapshot` / `restore` / `verify` are available separately.
-**Citation guard:** layered (number/name/overlap screen, then an LLM entailment check; no fallback verifier); set `GUARD_ENTAILMENT=llm|off`. It filters, it does not guarantee faithfulness: see `info.md` §6 and §11.5, and `python -m eval.guard_stress` for the stress test.
+**Citation guard:** layered (number/name/overlap screen, then an LLM entailment check; no fallback verifier); set `GUARD_ENTAILMENT=llm|off`. It filters, it does not guarantee faithfulness: see `docs/info.md` §7 and `docs/case_study.md` §3.3, and `python -m eval.guard_stress` for the stress test.
 **Judge validation:** `python -m eval.label_sentences --labeler <name>` to hand-label, then
-`python -m eval.label_validation report --labels eval/data/labels_human.jsonl`. Full report: [`info.md`](info.md).
+`python -m eval.label_validation report --labels eval/data/labels_human.jsonl`. Full report: [`docs/info.md`](docs/info.md).
 
 ## Layout
 
@@ -114,6 +114,6 @@ eval/           evaluation code only
 scripts/        CLI utilities: ingest_papers  ask  sync_to_cloud  qdrant_backup  download_models
 tests/          mirrors the packages above (test_ingestion, test_retrieval, test_citations, test_safety, ...)
                 + test_security (prompt-injection suite) + eval_gate (RAGAS CI gate)
-docs/           architecture  known_limits  case_study
+docs/           architecture  info  case_study
 data/           runtime state, git-ignored (Qdrant store, PDFs, job queue, logs, eval checkpoints)
 ```

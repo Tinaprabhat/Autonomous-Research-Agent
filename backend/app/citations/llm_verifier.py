@@ -5,7 +5,7 @@ Each (cited passage, claim) pair is judged strictly: the passage must state or d
 number, name, qualifier and comparison direction; extra detail, an unstated inference, a merge of facts from different
 places, or a contradiction all count as NOT supported.
 
-Caveats (measured, see info.md section 11.5): the verifier is the same model family as the generator, so their mistakes
+Caveats (measured, see docs/case_study.md section 3.3): the verifier is the same model family as the generator, so their mistakes
 can be correlated, and there is no independent fallback verifier. On the 4 real human-labelled unsupported sentences it
 caught 2 and missed 2 (an unstated inference and a conflation). Anything unparseable returns None: the guard then marks the
 result lexical_only and the pipeline shows a warning.

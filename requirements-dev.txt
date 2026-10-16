@@ -4,6 +4,6 @@
 pytest==9.0.3
 pytest-cov==7.1.0
 
-# Evaluation (LLM-as-judge via Groq; see eval/ragas_metrics.py). DeepEval was dropped: info.md section 11.8.
+# Evaluation (LLM-as-judge via Groq; see eval/ragas_metrics.py). DeepEval was dropped: docs/case_study.md section 3.2.
 # ragas 0.4.3 needs a one-module compatibility stub with langchain-community >= 0.4 (handled in code; nothing to pin here).
 ragas==0.4.3

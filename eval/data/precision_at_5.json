@@ -1,0 +1,30 @@
+{
+ "dense": {
+  "precision_at_5": 0.15,
+  "n": 80,
+  "mean_gold_chunks": 1.0,
+  "max_possible": 0.2,
+  "median_latency_s": 0.35
+ },
+ "bm25": {
+  "precision_at_5": 0.18,
+  "n": 80,
+  "mean_gold_chunks": 1.0,
+  "max_possible": 0.2,
+  "median_latency_s": 0.16
+ },
+ "hybrid": {
+  "precision_at_5": 0.178,
+  "n": 80,
+  "mean_gold_chunks": 1.0,
+  "max_possible": 0.2,
+  "median_latency_s": 0.53
+ },
+ "hybrid+rerank": {
+  "precision_at_5": 0.183,
+  "n": 80,
+  "mean_gold_chunks": 1.0,
+  "max_possible": 0.2,
+  "median_latency_s": 1.11
+ }
+}

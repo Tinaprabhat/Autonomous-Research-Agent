@@ -7,7 +7,7 @@ When API_KEYS is empty, auth is OFF (local dev / tests) and the per-IP limiter a
 A client sends its key as `X-API-Key: <key>` or `Authorization: Bearer <key>`.
 
 Limits are per user, not per IP: a per-minute sliding window and a per-UTC-day query quota.
-Both are in memory (reset on restart; one worker) — see docs/known_limits.md.
+Both are in memory (reset on restart; one worker) — see docs/case_study.md section 5.
 """
 from __future__ import annotations
 

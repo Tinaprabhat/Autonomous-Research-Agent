@@ -5,6 +5,14 @@ from eval import generation as G
 from eval import ragas_metrics as rm
 
 
+@pytest.fixture(autouse=True)
+def _offline_api_key(monkeypatch):
+    """CI has no GROQ_API_KEY and the OpenAI client refuses to build without one; no test here makes a network call."""
+    from backend.app import config
+    if not config.GROQ_API_KEY:
+        monkeypatch.setattr(config, "GROQ_API_KEY", "test-key-not-real")
+
+
 class StubJudge:
     """Stands in for RagasJudge.raw(): records what each metric asked for."""
     def __init__(self, raw):
