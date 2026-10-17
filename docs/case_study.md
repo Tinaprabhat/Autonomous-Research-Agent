@@ -1,4 +1,4 @@
-# Case study: a citation-grounded research assistant on a $0 stack
+# Case study: a citation-grounded research assistant on free tiers
 
 *Problem, solution, results, and everything that went wrong on the way.* Measured figures come from this repository's own
 runs (2026-10-08 to 2026-10-16). Estimates are marked as estimates. The reference numbers live in `docs/info.md`; the weaknesses are listed in section 5 below.
@@ -24,7 +24,7 @@ A wrong answer with a real-looking `[3]` is worse than no answer, because the ci
 
 | Constraint | Consequence |
 |---|---|
-| $0 budget: Groq free tier, Qdrant Cloud free cluster, CPU-only containers | 8,000 tokens/min and 200,000 tokens/day **per model**; about 100 answered queries/day/model (estimate) |
+| Near-zero budget: Groq free tier, Qdrant Cloud free cluster, CPU-only containers, and a US$100 AWS free credit for the demo host | 8,000 tokens/min and 200,000 tokens/day **per model**; about 100 answered queries/day/model (estimate) |
 | Small, fixed corpus (99 papers, 19,116 chunks) | Cannot answer outside it; no admin flow for new papers |
 | No GPU | Small local models only (MiniLM embedder, MiniLM reranker, DeBERTa-base classifier) |
 | One owner doing the human labelling | 30 labelled answers; confidence intervals of roughly 4 to 35% |
@@ -81,7 +81,7 @@ Problems are in roughly the order we hit them. Each has the symptom, the cause, 
 | 5 | **A test wrote to the production vector database.** An early smoke test ran with `.env` pointing at the cloud cluster | Fixed structurally: an explicit local path can never resolve to a remote, and tests force local mode. The later live test is read-only by design | Make the dangerous mistake impossible, not just unlikely |
 | 6 | **Planned model and tooling did not exist as planned.** `llama-3.3-70b-versatile` returned 404 for our key; `guardrails-ai` Hub validators are not installable from PyPI | Defaults were verified against the account's real model list; the three guardrail checks were implemented locally with a Hugging Face classifier | Verify every planned dependency before building on it |
 | 7 | **Section labels were wrong.** Appendices were being labelled `Conclusion` (16% of chunks) | Back-matter heuristic: text after a long Conclusion becomes `Appendix` (Conclusion fell to 3.5%). Side effect: `Appendix` is now a catch-all, about 27% of chunks | A fix can move the error somewhere else; document where |
-| 8 | **Deployment detours.** Hugging Face Space files and a Render blueprint were added, then removed | The project is run locally (Docker, port-aware). Free hosts did not fit a 1.5 to 2 GB RAM, 3-minute-start service | Pick the host before tuning the memory profile |
+| 8 | **Deployment detours.** Hugging Face Space files and a Render blueprint were added, then removed | Free hosts did not fit a 1.5 to 2 GB RAM, 3-minute-start service. The container was deployed to AWS ECS (ap-southeast-2) instead, paid from a US$100 free credit | Pick the host before tuning the memory profile; "free" hosting rarely fits a model-heavy service |
 
 ### 3.2 The evaluation story: how we learned the numbers were wrong
 
@@ -200,6 +200,8 @@ Replaying the 30 labelled raw answers through the shipped guard (twice, identica
 | Supported sentences wrongly removed | 6 / 37 = 16% |
 | Does the "not sure" tag track correctness? | **No.** All four tagged answers were clean; no untagged error was flagged; guard-score AUROC 0.49 |
 
+(Note: 36 supported sentences were used for the NLI and stress-test analysis in section 3.3; the shipped-guard replay above covers 37.)
+
 Findings: **the guard did not measurably reduce the error rate**; the two runs disagreed on one case (a048), so the verifier is not deterministic;
 and a calibrated confidence label cannot be fitted on 3 to 5 erroneous answers.
 
@@ -223,6 +225,7 @@ Under real traffic some answers will carry the `lexical_only` warning.
 * `.env` held live keys that were visible in a working session. We advised rotating them, hardened `.gitignore`, and scanned the working tree and entire git
   history for the real values (0 hits) before pushing.
 * A Qdrant snapshot and a real **restore drill** passed (19,116 of 19,116 points identical; 20 of 20 queries returned the same top 5).
+* The demo is deployed on AWS ECS from the repository's Dockerfile. Image size, task size and ECS latency have not been measured yet.
 
 ---
 
@@ -240,14 +243,14 @@ Under real traffic some answers will carry the `lexical_only` warning.
 | Safety | Injection rejected before any retrieval or LLM call; credential-shaped output blocked; PII redacted (live-tested) |
 | Reliability | LLM down gives `unverified` with a warning; Qdrant down gives 503; backups restore verified |
 | Tests | 440 offline passed; 10 of 10 live; 16 failure-injection tests |
-| Cost | $0 |
+| Cost | LLM and vector database: $0 (free tiers); AWS ECS hosting covered by a US$100 free credit |
 
 ### 4.2 Where it falls short
 
 * **Faithfulness is not proven.** See section 3.4: 16.7% raw error vs 12 to 16% after the guard, intervals overlapping heavily.
 * **RAGAS says faithfulness 0.937 and hallucination 0.063**, but that judge flags only 2 of 5 known unfaithful answers (AUROC 0.63), so treat it as an optimistic indicator.
 * **Completeness 0.783, correctness 0.532 (a lower bound).**
-* **Latency.** Typical query about 9 to 13 s on a CPU laptop (LLM calls only 1.5 to 2 s of that; the rest is local CPU work and Qdrant Cloud round trips), with tails over 30 s. The earlier "8.6 s median" was measured with the retired NLI guard.
+* **Latency.** Typical query about 9 to 13 s on a CPU laptop (LLM calls only 1.5 to 2 s of that; the rest is local CPU work and Qdrant Cloud round trips), with tails over 30 s. The earlier "8.6 s median" was measured with the retired NLI guard. Latency on the deployed ECS task has not been measured.
 
 ---
 
@@ -268,8 +271,8 @@ The ones that matter most:
 | **Grounded is not on-topic** | "Capital of France" was answered "Paris" from an illustrative sentence in a paper |
 | **Injection defence is layered, not complete** | Paraphrased attacks can pass the regex; paper-text classifier is deliberately conservative (0.999) |
 | **Parsing** | Heuristic sections; maths and tables extract poorly; `Appendix` is a 27% catch-all; References dropped |
-| **Operations** | In-memory limits (one worker); static API keys; manual snapshots; no quantization; no admin flow for new corpora |
-| **Not measured** | Total ingestion time, clean-machine latency, the guarded pipeline on the other 50 answerable questions, human-judged relevance and completeness, any verifier model other than the primary |
+| **Operations** | In-memory limits (one worker); static API keys; manual snapshots; no quantization; no admin flow for new corpora; single ECS task funded by a US$100 credit |
+| **Not measured** | Total ingestion time, clean-machine latency, latency and image size on ECS, the guarded pipeline on the other 50 answerable questions, human-judged relevance and completeness, any verifier model other than the primary |
 
 ---
 
