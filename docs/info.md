@@ -33,7 +33,7 @@ send feedback.
 | Hybrid retrieval | Dense (embedding) search + keyword (BM25) search, fused, then re-ranked by a cross-encoder |
 | Safety layers | Prompt-injection screening of queries and of retrieved paper text; secrets blocked and personal data redacted in output |
 | Measured, not asserted | A 100-question golden set, human-labelled answer checks, and RAGAS metrics; the limits are documented, including where the guard does not help |
-| $0 stack | Free tiers only (Groq, Qdrant Cloud) and CPU-only containers |
+| Free-tier stack | Free LLM and vector-database tiers (Groq, Qdrant Cloud) and CPU-only containers; the AWS ECS demo host runs on a US$100 free-credit balance |
 
 **What it is not.** It is not shown to make answers more faithful than the raw model. In a human-labelled sample the guard fixed
 1 to 2 of 5 real errors and wrongly tagged 16% of correct answers (section 10.4). It is a filter for mechanical errors, not a
@@ -53,6 +53,7 @@ guarantee.
 | **Memory** | About 1.5 to 2 GB RAM at runtime (torch + three local models). Will not fit in 512 MB | Needs a 2 GB+ host. A low-memory host killed the local server once during this project |
 | **CPU only** | No GPU; local models are small (MiniLM embedder, MiniLM reranker, DeBERTa-base injection classifier) | Typical query about 9 to 13 s (section 3) |
 | **Free Qdrant Cloud** | One cluster, `papers` collection, 19,116 points | Cloud round trips add latency; outage returns 503 and `/health` "degraded" |
+| **Hosting credit** | The AWS ECS demo is paid from a US$100 free-credit balance | The public demo lasts only while the credit lasts |
 | **Evaluation judge** | Same provider and model family as the generator; free daily quota shared with the app | Judge scores are likely optimistic; the evaluation had to be paused for quota |
 | **Small human-labelled set** | 30 answers (5 unfaithful), one labeller | Error rates have intervals of roughly 4 to 35% |
 | **English only, one embedder** | 384-d `all-MiniLM-L6-v2` | Weak on maths, tables, non-English |
@@ -82,7 +83,7 @@ guarantee.
 | **Keyword search** | `rank-bm25` 0.2.2 (in memory) | Sparse half of hybrid |
 | **Backend / server** | FastAPI 0.141.1, uvicorn 0.32.1, Python 3.12 | |
 | **Frontend** | One static page, `frontend/Research_ui.html` (about 15.7 KB, no build step) | Served at `/` |
-| **Container** | Docker (`python:3.12-slim`, CPU torch 2.8.0, Tesseract, models baked in, port 7860 or `$PORT`, healthcheck) | The Docker daemon was not running when this report was written, so the image was not re-built today |
+| **Container** | Docker (`python:3.12-slim`, CPU torch 2.8.0, Tesseract, models baked in, port 7860 or `$PORT`, healthcheck) | Deployed on AWS ECS (ap-southeast-2) from this Dockerfile. Image size, ECS task size and ECS latency were not measured. The image was not re-built locally on 2026-10-16 (Docker daemon not running) |
 | **CI** | GitHub Actions: `tests` on PR/push, `eval-gate` (RAGAS) on backend/eval changes | |
 | **Backup** | Qdrant snapshot + restore drill **PASSED**: 19,116/19,116 points identical, 200 sampled points identical, 20/20 queries same top-5 (snapshot 22 s, restore 42 s) | `scripts/qdrant_backup.py` |
 | **Auth** | API keys (`X-API-Key` or Bearer), per-user per-minute and per-day limits | |
@@ -91,7 +92,7 @@ guarantee.
 | **Evaluation using** | Golden set (100 Qs); retrieval ablation; 30 human-labelled answers; **RAGAS** (faithfulness, hallucination, completeness, correctness); guard stress test (201 items) | Section 10 |
 | **Retrieval quality** | hybrid + rerank: recall@5 **0.912**, precision@5 **0.183** (max possible 0.2), MRR **0.856**, paper recall@5 **1.000** | 80 answerable questions |
 | **Latency (this laptop, CPU, live run 2026-10-15)** | Typical **9 to 13 s per query**; retrieval alone (no LLM) median 1.1 s; tail 33 s and more when Qdrant Cloud was slow | Section 3.1 |
-| **Cost** | $0 (free tiers) | |
+| **Cost** | LLM and vector database: $0 (free tiers). AWS ECS hosting: covered by a US$100 free credit | |
 | **Load time** | Pipeline build 25 s (this session; about 55 s earlier); full app start-up about 3 min | BM25 index is built from a Qdrant scroll at start |
 
 ### 3.1 Latency detail
@@ -110,7 +111,7 @@ from `data/query_log.jsonl`, the 5 most recent logged queries from the live run 
 The LLM calls (generate + verify) take about 1.5 to 2 s together. Most of the time is local CPU work (the injection classifier
 over the retrieved chunks, the cross-encoder) and the round trip to Qdrant Cloud (query 2: a 23.6 s retrieval, an outlier).
 Across all 10 logged non-rejected queries: p50 12.9 s, p95 48.9 s, max 57.5 s. Not measured: a clean, uncontended run of the
-full guarded pipeline, or latency on a 2-vCPU container (expect slower).
+full guarded pipeline, latency on the deployed AWS ECS task, or latency on a 2-vCPU container (expect slower).
 
 ---
 
@@ -128,8 +129,11 @@ full guarded pipeline, or latency on a 2-vCPU container (expect slower).
 | Primary category | cs.CL 40, cs.LG 24, cs.IR 13, cs.CV 9, cs.CR 8, cs.AI 3, stat.ML 1, cs.SD 1, cs.DB 1 |
 | Files | 99 PDFs (237 MB on disk); parsed chunk JSON 14.5 MB |
 | Chunks per paper | min 57, mean 193.1, max 756 |
-| Section labels (chunks) | Appendix 5,215 (a catch-all for back matter, about 27%) · Introduction 1,938 · Related Work 1,512 · Method 1,153 · Experiments 753 · Conclusion 667 · Discussion 665 · Acknowledgments 438 · Background 367 · Abstract 366 · Unknown 217 · Results 173 |
+| Section labels (chunks) | Appendix 5,215 (a catch-all for back matter, about 27%) · Introduction 1,938 · Related Work 1,512 · Method 1,153 · Experiments 753 · Conclusion 667 · Discussion 665 · Acknowledgments 438 · Background 367 · Abstract 366 · Unknown 217 · Results 173 (listed labels sum to 13,464 of 19,116 chunks; the remaining labels are not itemised here) |
 | Stored per chunk | `chunk_id`, `arxiv_id`, `version`, `title`, `author`, `category`, `published_date`, `section`, `page`, `char_start`, `char_end`, `used_ocr`, `text` |
+
+> Note: the breakdowns by published year, paper version and primary category each sum to 100, so they describe the 100 harvested papers.
+> Chunk counts and chunks per paper describe the 99 ingested papers.
 
 ---
 
@@ -261,7 +265,8 @@ is counted as a false refusal and tracked (`hedged_rate` in `/metrics`).
 ### 7.3 What it can and cannot do (measured)
 
 * Layer A removes cheap errors (wrong numbers, foreign names, wrong-chunk citations). In the synthetic stress test (201 items)
-  the shipped layers dropped 100% of the synthetic bad sentences in the sample; false drops of good sentences were 17%.
+  the shipped layers dropped all number swaps, foreign-claim conflations and wrong-chunk citations in the stress set (negation and
+  qualifier errors depend on the LLM check); false drops of good sentences were 17%.
 * Of the 4 real human-labelled unsupported sentences, the LLM check caught 2; it missed an unstated inference and a conflation
   of two uses of the same metric.
 * Embedding cosine was tested as a guard stage and removed (AUROC 0.45, chance).
@@ -386,7 +391,7 @@ relevance **0.933** (0.833 to 1.000), completeness **0.892** (0.767 to 0.992).
 | Check | Result |
 |---|---|
 | Raw (unguarded) answers with an unsupported claim, by human | **5 of 30 = 16.7%** (7.3 to 33.6%) |
-| RAGAS faithfulness on those raw answers | Scored below 1 for only **2 of the 5** unfaithful answers, and also for 3 of 25 faithful ones; AUROC **0.63** (0.42 to 0.87) |
+| RAGAS faithfulness on those raw answers | Scored below 1 for only **2 of the 5** unfaithful answers (it missed 3), and also for 3 of 25 faithful ones; AUROC **0.63** (0.42 to 0.87) |
 | After the shipped guard: error among answered | 4 of 25 = 16.0% or 3 of 25 = 12.0% (two identical replays; CIs about 4 to 35%) |
 | Answer rate | 25 of 30 = 83.3% (66.4 to 92.7%) |
 | False-refusal rate | 1 of 30 = 3.3% (0.6 to 16.7%) |
@@ -414,4 +419,4 @@ answers are faithful. The reliable results are the retrieval metrics and the hum
 Precision@k and recall@k at any k other than 5 (and precision beyond the structural ceiling); total chunking and ingestion time;
 latency of the guarded pipeline on an uncontended machine or a 2-vCPU container; the guarded pipeline over the other 50
 answerable golden questions; relevance and completeness judged by humans; a calibrated confidence label; any verifier other than
-the primary Groq model; Docker image size and build (the daemon was not running on 2026-10-16).
+the primary Groq model; Docker image size and build; ECS task size and latency on the deployed host.
