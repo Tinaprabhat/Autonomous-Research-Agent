@@ -4,7 +4,7 @@ Autonomous Research Agent v2: a citation-grounded Q&A system over 99 arXiv paper
 Numbers and measured results are in [`info.md`](info.md); the story of how the design got here is in [`case_study.md`](case_study.md).
 
 **Scope.** One FastAPI process, one worker, one Qdrant collection, a free LLM tier. API-key auth with per-user limits.
-The binding capacity limit is the Groq free tier (8,000 tokens/min and 200,000 tokens/day per model), not the code.
+Hosted on AWS ECS (US$100 free credit). The binding capacity limit is the Groq free tier (8,000 tokens/min and 200,000 tokens/day per model), not the code.
 
 ---
 
@@ -73,6 +73,7 @@ Six planes: ingestion (offline), serving (online), guard and guardrails (inside 
       D. OPERATIONS: JSONL query log (stage timings, tokens, cost) ─▶ GET /metrics (p50/p95,
          status counts, hedged_rate) · GET /health (ok | loading | degraded) · Qdrant outage ─▶ 503
          · backup/restore script · API-key auth + limits · Docker image (models baked in)
+         · deployed on AWS ECS (ap-southeast-2)
 
 ╔═══════════════════════════ E. EVALUATION & QUALITY  (offline) ═════════════════════════════╗
 ║  golden set (100 Qs: 80 answerable, 20 not) ─▶ retrieval ablation (recall@5, precision@5,  ║
@@ -171,5 +172,6 @@ are implemented locally in `safety/guardrails.py` with a local Hugging Face clas
 One container (`Dockerfile`): `python:3.12-slim`, CPU torch 2.8.0, Tesseract, non-root user, the three Hugging Face models baked in at build time and
 run offline (`HF_HUB_OFFLINE=1`), uvicorn serving the API and the static page on port 7860 (or `$PORT`), a `/health` healthcheck with a 180 s start period.
 Secrets arrive as environment variables: `GROQ_API_KEY`, `QDRANT_URL`, `QDRANT_API_KEY`, and optionally `API_KEYS` (turns auth on), `GUARD_ENTAILMENT`.
-Needs about 1.5 to 2 GB RAM and a start-up of 25 to 55 s (pipeline build) up to about 3 min (full app). Currently run locally; the Hugging Face Space and
-Render deployments were tried and removed from the repository. Single worker only: rate limits and quotas are in memory.
+Needs about 1.5 to 2 GB RAM and a start-up of 25 to 55 s (pipeline build) up to about 3 min (full app). Deployed on AWS ECS (ap-southeast-2) from this image,
+paid from a US$100 free credit; the Hugging Face Space and Render deployments were tried and removed from the repository. Image size, ECS task size and
+ECS latency are not yet measured. Single worker only, and a single ECS task: rate limits and quotas are in memory, and a redeploy means about three minutes of downtime.
